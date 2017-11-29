@@ -41,7 +41,8 @@
 Debug/*
 
 # vs folder
-/.vs
+.vs/
+.vs
 
 # Visual C++ cache files
 ipch/

@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "ConsoleUtils.h"
 
-namespace ConsoleHandler {
-  ConsoleUtils::ConsoleUtils()
+namespace console_handler
+{
+  console_utils::console_utils()
   {
   }
 
 
-  ConsoleUtils::~ConsoleUtils()
+  console_utils::~console_utils()
   {
   }
 }

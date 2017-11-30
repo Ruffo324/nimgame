@@ -144,10 +144,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleHandler.h" />
+    <ClInclude Include="ConsoleOutput.h" />
     <ClInclude Include="ConsoleUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleHandler.cpp" />
+    <ClCompile Include="ConsoleOutput.cpp" />
     <ClCompile Include="ConsoleUtils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

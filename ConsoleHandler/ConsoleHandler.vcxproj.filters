@@ -21,6 +21,9 @@
     <ClInclude Include="ConsoleUtils.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="ConsoleOutput.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -30,6 +33,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="ConsoleUtils.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleOutput.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

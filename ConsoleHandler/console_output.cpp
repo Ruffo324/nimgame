@@ -62,7 +62,7 @@ namespace console_handler
     print_line(print_str);
   }
 
-  void console_output::print_rectangle(const SHAPE_RECTANGLE rectangle, std::string color_string)
+  void console_output::print_rectangle(const SHAPE_RECTANGLE rectangle, std::string color_string, const char text_char)
   {
     const _COORD old_cursor_position = console_utils::get_console_cursor_position();
 
@@ -73,7 +73,7 @@ namespace console_handler
     // calculate rectangle length
     std::string length_pattern = "";
     for (int i = 0; i < lenght; i++)
-      length_pattern += " ";
+      length_pattern += text_char;
 
     // add color code braces if not given
     if (color_string.front() != '{')
@@ -91,5 +91,24 @@ namespace console_handler
     // reset to last cursor position
     console_utils::set_console_cursor_pos(old_cursor_position);
     print("");
+  }
+
+  void console_output::fill_background(const std::string color_string, const char text_char)
+  {
+    const _COORD old_console_cursor_postion = console_utils::get_console_cursor_position();
+    console_utils::set_console_cursor_pos({ 0,0 });
+    const int console_height = console_utils::get_console_height();
+    const int console_width = console_utils::get_console_width();
+
+    std::string line = color_string;
+    for (int i = 0; i < console_width; i++)
+      line += text_char;
+
+    // fill background
+    for (int i = 0; i < console_height; i++)
+      print_line(line);
+
+    // reset to old cursor position
+    console_utils::set_console_cursor_pos(old_console_cursor_postion);
   }
 }

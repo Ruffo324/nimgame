@@ -12,21 +12,30 @@ namespace console_handler
   int console_utils::get_console_width()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(console_utils::get_console_handler(), &buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
     return buffer_info.dwSize.X;
   }
 
   int console_utils::get_console_height()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(console_utils::get_console_handler(), &buffer_info);
-    return buffer_info.dwSize.Y;
+    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
+    return buffer_info.srWindow.Bottom;
+  }
+
+  void console_utils::set_console_buffer_size(int height, int width)
+  {
+    PCONSOLE_SCREEN_BUFFER_INFOEX buffer_info;
+    GetConsoleScreenBufferInfoEx(get_console_handler(), &buffer_info);
+    buffer_info.dwSize.Y = height;
+    buffer_info.dwSize.X = width;
+    SetConsoleScreenBufferInfoEx(get_console_handler(), buffer_info);
   }
 
   _COORD console_utils::get_console_cursor_position()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(console_utils::get_console_handler(), &buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
     return buffer_info.dwCursorPosition;
   }
 

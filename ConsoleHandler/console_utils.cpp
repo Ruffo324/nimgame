@@ -23,21 +23,15 @@ namespace console_handler
     return buffer_info.dwSize.Y;
   }
 
-  /**
-   * \brief Gets the correct text for the given console_type
-   * \param console_type The console type wich is searched.
-   * \return Text for the console_type
-   */
-  std::string console_utils::get_console_type_text(console_type type)
+  _COORD console_utils::get_console_cursor_position()
   {
-    switch (type)
-    {
-    case info:
-      return "INFO";
-    case menu:
-      return "MENU";
-    default:
-      return "????";
-    }
+    CONSOLE_SCREEN_BUFFER_INFO buffer_info;
+    GetConsoleScreenBufferInfo(console_utils::get_console_handler(), &buffer_info);
+    return buffer_info.dwCursorPosition;
+  }
+
+  void console_utils::set_console_cursor_pos(const _COORD cursor_position)
+  {
+    SetConsoleCursorPosition(get_console_handler(), cursor_position);
   }
 }

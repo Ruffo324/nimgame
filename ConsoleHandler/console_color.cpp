@@ -3,7 +3,6 @@
 #include <map>
 #include <cctype>
 #include "console_color.h"
-#include "COLOR_CODE_POS.h"
 #include <unordered_map>
 #include <deque>
 

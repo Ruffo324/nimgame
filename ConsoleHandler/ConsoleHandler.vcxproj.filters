@@ -13,17 +13,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Headerdateien\enums">
-      <UniqueIdentifier>{feb1bd3b-8cd3-4e5a-bef8-6f794e2a880f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\Models">
       <UniqueIdentifier>{052cc2d0-948f-47e0-b261-4ccaebd280c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Models\Shapes">
+      <UniqueIdentifier>{fad009f2-946d-42dc-bec7-a3be36061f10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="console_type.h">
-      <Filter>Headerdateien\enums</Filter>
-    </ClInclude>
     <ClInclude Include="COLOR_STRUCT.h">
       <Filter>Headerdateien\Models</Filter>
     </ClInclude>
@@ -41,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="console_handler.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SHAPE_RECTANGLE.h">
+      <Filter>Headerdateien\Models\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

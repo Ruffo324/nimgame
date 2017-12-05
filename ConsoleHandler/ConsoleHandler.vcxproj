@@ -147,9 +147,9 @@
     <ClInclude Include="console_color.h" />
     <ClInclude Include="console_handler.h" />
     <ClInclude Include="console_output.h" />
-    <ClInclude Include="console_type.h" />
     <ClInclude Include="console_utils.h" />
     <ClInclude Include="MENU_ITEM.h" />
+    <ClInclude Include="SHAPE_RECTANGLE.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="console_color.cpp" />

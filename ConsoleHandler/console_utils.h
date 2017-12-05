@@ -2,7 +2,6 @@
 #include "console_handler.h"
 #include <Windows.h>
 #include <string>
-#include "console_type.h"
 
 namespace console_handler
 {
@@ -10,9 +9,12 @@ namespace console_handler
   {
   public:
     // Console base functions
+    // get functions
     static CONSOLE_HANDLER_API HANDLE get_console_handler();
     static CONSOLE_HANDLER_API int get_console_width();
     static CONSOLE_HANDLER_API int get_console_height();
-    static CONSOLE_HANDLER_API std::string get_console_type_text(console_type type);
+    static CONSOLE_HANDLER_API _COORD get_console_cursor_position();
+    // set functions
+    static CONSOLE_HANDLER_API void set_console_cursor_pos(_COORD cursor_position);
   };
 }

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <Windows.h>
-#include "ConsoleUtils.h"
+#include "console_utils.h"
 
 namespace console_handler
 {
@@ -28,25 +28,16 @@ namespace console_handler
    * \param console_type The console type wich is searched.
    * \return Text for the console_type
    */
-  std::string console_utils::get_console_type_text(const console_types console_type)
+  std::string console_utils::get_console_type_text(console_type type)
   {
-    switch (console_type)
+    switch (type)
     {
-    info:
+    case info:
       return "INFO";
-    menu:
+    case menu:
       return "MENU";
     default:
       return "????";
     }
-  }
-
-  console_utils::console_utils()
-  {
-  }
-
-
-  console_utils::~console_utils()
-  {
   }
 }

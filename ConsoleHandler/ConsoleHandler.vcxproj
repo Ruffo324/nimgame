@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;CONSOLE_HANDLER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,17 +143,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ConsoleColor.h" />
-    <ClInclude Include="ConsoleHandler.h" />
-    <ClInclude Include="ConsoleOutput.h" />
-    <ClInclude Include="ConsoleTypes.h" />
-    <ClInclude Include="ConsoleUtils.h" />
+    <ClInclude Include="COLOR_STRUCT.h" />
+    <ClInclude Include="console_color.h" />
+    <ClInclude Include="console_handler.h" />
+    <ClInclude Include="console_output.h" />
+    <ClInclude Include="console_type.h" />
+    <ClInclude Include="console_utils.h" />
+    <ClInclude Include="MENU_ITEM.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleColor.cpp" />
-    <ClCompile Include="ConsoleHandler.cpp" />
-    <ClCompile Include="ConsoleOutput.cpp" />
-    <ClCompile Include="ConsoleUtils.cpp" />
+    <ClCompile Include="console_color.cpp" />
+    <ClCompile Include="console_handler.cpp" />
+    <ClCompile Include="console_output.cpp" />
+    <ClCompile Include="console_utils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

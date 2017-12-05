@@ -4,6 +4,9 @@
 #else
 #define CONSOLE_HANDLER_API __declspec(dllimport)
 #endif // CONSOLE_HANDLER_EXPORTS
+#include "ConsoleOutput.h";
+#include "ConsoleUtils.h";
+
 
 namespace console_handler
 {

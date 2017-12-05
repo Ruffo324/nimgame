@@ -1,2 +1,7 @@
-﻿  NimGame.cpp
-  NimGame.vcxproj -> F:\1_Programming\3_GitHub\NimGameFinal\nimgame\Debug\NimGame.exe
+﻿  stdafx.cpp
+  NimGame.cpp
+c:\#_files\1_programming\3_github\nimgamefinal\nimgame\consolehandler\consolehandler.h(7): warning C4067: Unerwartete Token nach Präprozessordirektive - Zeilenvorschub erwartet.
+c:\#_files\1_programming\3_github\nimgamefinal\nimgame\consolehandler\consolehandler.h(8): warning C4067: Unerwartete Token nach Präprozessordirektive - Zeilenvorschub erwartet.
+c:\#_files\1_programming\3_github\nimgamefinal\nimgame\consolehandler\consoleutils.h(2): warning C4067: Unerwartete Token nach Präprozessordirektive - Zeilenvorschub erwartet.
+c:\#_files\1_programming\3_github\nimgamefinal\nimgame\consolehandler\consoleutils.h(3): warning C4067: Unerwartete Token nach Präprozessordirektive - Zeilenvorschub erwartet.
+  NimGame.vcxproj -> C:\#_Files\1_Programming\3_GitHub\NimGameFinal\nimgame\Debug\NimGame.exe

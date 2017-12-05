@@ -143,11 +143,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ConsoleColor.h" />
     <ClInclude Include="ConsoleHandler.h" />
     <ClInclude Include="ConsoleOutput.h" />
+    <ClInclude Include="ConsoleTypes.h" />
     <ClInclude Include="ConsoleUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConsoleColor.cpp" />
     <ClCompile Include="ConsoleHandler.cpp" />
     <ClCompile Include="ConsoleOutput.cpp" />
     <ClCompile Include="ConsoleUtils.cpp" />

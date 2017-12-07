@@ -26,12 +26,12 @@ namespace console_handler
         if (message[i] == '}')
         {
           color_code_parse = false;
-          color_codes.insert(std::make_pair(color_code_position, current_color_code));
+          color_codes.insert(make_pair(color_code_position, current_color_code));
           continue;
         }
 
         // color code contains invalid char -> throw exception
-        if (!std::isalnum(message[i]) && message[i] != '_' && message[i] != '#' && message[i] != ';')
+        if (!isalnum(message[i]) && message[i] != '_' && message[i] != '#' && message[i] != ';')
           throw "Invalid char in color code! Parsed string: " + message;
 
         // add char to color code
@@ -44,7 +44,6 @@ namespace console_handler
         color_code_parse = true;
         color_code_position = i;
         current_color_code = "";
-        continue;
       }
     }
 
@@ -62,14 +61,14 @@ namespace console_handler
     int offset = 0;
     for (auto const& color_code : color_codes)
     {
-      const bool background = std::strstr(color_code.second.c_str(), "_");
+      const bool background = strstr(color_code.second.c_str(), "_");
       std::string ascii_color_code = color_code_to_ascii(color_code.second, background ? last_foreground : last_background);
 
       message = message.substr(0, color_code.first + offset) +
         ascii_color_code +
         message.substr(color_code.first + color_code.second.length()  + 1 + offset + 1);
 
-      offset += (ascii_color_code.length() - (color_code.second.length() + 2)) ;
+      offset += int(ascii_color_code.length()) - (int(color_code.second.length()) + 2);
 
       if (color_code.second == ";")
       {

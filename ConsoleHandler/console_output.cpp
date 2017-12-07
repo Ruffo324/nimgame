@@ -116,27 +116,21 @@ namespace console_handler
     console_utils::set_console_cursor_pos(old_console_cursor_postion);
   }
 
-  int console_output::draw_menu(std::vector<MENU_ITEM> menu_items)
+  int console_output::draw_menu(std::vector<MENU_ITEM> menu_items, const int window_margin,
+                                const int margin_between_boxes, const int boxes_per_row)
   {
-    //TODO: Make setable
-    const int window_margin = 10;
-    const int space_between_boxes = 5;
-    const int boxes_per_row = 3;
-
     const int console_width = console_utils::get_console_width();
 
     std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
 
     // Calculate box side lenght:
-    // console_width 
+    // (console_width 
     // - (2 x window_margin [left & right])
-    // - boxes per row - 1 [spaces only] * space_between_boxes
-    // divide by boxes_per_row
-    // = box side lenght
-
-    int box_side_length = (console_width
-      - 2 * window_margin
-      - (boxes_per_row - 1) * space_between_boxes)
+    // - boxes per row - 1 [spaces only] * margin_between_boxes)
+    // divide result by boxes_per_row = box side lenght
+    const int box_side_length = (console_width
+        - 2 * window_margin
+        - (boxes_per_row - 1) * margin_between_boxes)
       / boxes_per_row;
 
 
@@ -154,11 +148,11 @@ namespace console_handler
       item_rectangle.item_rectangle.left.X =
         window_margin
         + current_row_index * box_side_length
-        + current_row_index * space_between_boxes;
+        + current_row_index * margin_between_boxes;
       item_rectangle.item_rectangle.left.Y =
         window_margin
         + current_row * box_side_length
-        + current_row * space_between_boxes;
+        + current_row * margin_between_boxes;
 
       // item rectangle.rigth 
       item_rectangle.item_rectangle.right.X =

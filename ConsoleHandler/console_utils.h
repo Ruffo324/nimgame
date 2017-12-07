@@ -20,5 +20,7 @@ namespace console_handler
     static CONSOLE_HANDLER_API void set_console_window_size(int height, int width);
     static CONSOLE_HANDLER_API void set_console_buffer_size(int height, int width);
     static CONSOLE_HANDLER_API void set_console_buffer_to_window_size();
+
+    static CONSOLE_HANDLER_API void set_console_raster_font(int height, int width);
   };
 }

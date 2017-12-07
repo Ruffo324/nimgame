@@ -117,12 +117,14 @@ namespace console_handler
   {
     const int margin = 10;
     const int space_between_boxes = 5;
+
     int console_width = console_utils::get_console_width();
 
 
     std::vector<SHAPE_RECTANGLE> menu_item_boxes;
     int box_width = 0;
     int boxes_per_row = 1;
+
 
     for (int i = 1; i < menu_items.size(); i++)
     {

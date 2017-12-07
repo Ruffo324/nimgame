@@ -3,6 +3,7 @@
 #include "console_utils.h"
 #include "console_color.h"
 #include <Windows.h>
+#include <vector>
 
 namespace console_handler
 {
@@ -110,5 +111,56 @@ namespace console_handler
 
     // reset to old cursor position
     console_utils::set_console_cursor_pos(old_console_cursor_postion);
+  }
+
+  int console_output::draw_menu(std::vector<MENU_ITEM> menu_items)
+  {
+    const int margin = 10;
+    const int space_between_boxes = 5;
+    int console_width = console_utils::get_console_width();
+
+
+    std::vector<SHAPE_RECTANGLE> menu_item_boxes;
+    int box_width = 0;
+    int boxes_per_row = 1;
+
+    for (int i = 1; i < menu_items.size(); i++)
+    {
+      box_width = (console_width - (2 * margin)) / i;
+      if (i - (space_between_boxes * (i - 1)) > 0)
+        boxes_per_row = i - 1;
+      else
+        break;
+    }
+
+    int current_row = 0;
+    int current_collum = 0;
+    // calculate boxes
+    for (int i = 0; i < menu_items.size(); i++)
+    {
+      // Calculate current collum
+      if ((i + 1 / boxes_per_row) % 2 != 0)
+        current_collum++;
+      else
+        current_collum = 0;
+
+      SHAPE_RECTANGLE menu_item_box = {
+        {
+          margin + (box_width * current_row) == 0 ? 0 : space_between_boxes,
+          margin + (box_width * current_collum) == 0 ? 0 : space_between_boxes
+        } };
+      menu_item_box.right = { short(menu_item_box.left.X + box_width), short(menu_item_box.left.Y + box_width )};
+      menu_item_boxes.push_back(menu_item_box);
+
+      if ((i + 1 / boxes_per_row) % 2 == 0)
+        current_row++;
+    }
+
+    // draw boxes
+    for (int i = 0; i < menu_item_boxes.size(); i++)
+    {
+      print_rectangle(menu_item_boxes[i], "{_#d86711}");
+    }
+    return 1;
   }
 }

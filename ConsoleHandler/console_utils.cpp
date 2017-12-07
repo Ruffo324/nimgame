@@ -20,16 +20,23 @@ namespace console_handler
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
     GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
-    return buffer_info.srWindow.Bottom;
+    return buffer_info.dwSize.Y;
   }
 
-  void console_utils::set_console_buffer_size(int height, int width)
+  void console_utils::set_console_buffer_size(const int height, const int width)
   {
-    PCONSOLE_SCREEN_BUFFER_INFOEX buffer_info;
-    GetConsoleScreenBufferInfoEx(get_console_handler(), &buffer_info);
-    buffer_info.dwSize.Y = height;
-    buffer_info.dwSize.X = width;
-    SetConsoleScreenBufferInfoEx(get_console_handler(), buffer_info);
+    const _COORD new_size = {width, height};
+    SetConsoleScreenBufferSize(get_console_handler(), new_size);
+  }
+
+  void console_utils::set_console_buffer_to_window_size()
+  {
+    //TODO: fix this shit
+    CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
+    GetConsoleScreenBufferInfo(get_console_handler(), &console_screen_buffer_info);
+
+    const _COORD new_size = { console_screen_buffer_info.dwMaximumWindowSize.X, console_screen_buffer_info.dwMaximumWindowSize.Y };
+    SetConsoleScreenBufferSize(get_console_handler(), new_size);
   }
 
   _COORD console_utils::get_console_cursor_position()
@@ -42,5 +49,15 @@ namespace console_handler
   void console_utils::set_console_cursor_pos(const _COORD cursor_position)
   {
     SetConsoleCursorPosition(get_console_handler(), cursor_position);
+  }
+
+  void console_utils::set_console_window_size(int height, int width)
+  {
+    CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
+    GetConsoleScreenBufferInfo(get_console_handler(), &console_screen_buffer_info);
+
+    console_screen_buffer_info.srWindow.Bottom = height;
+    console_screen_buffer_info.srWindow.Right = width;
+    SetConsoleWindowInfo(get_console_handler(), false, &console_screen_buffer_info.srWindow);
   }
 }

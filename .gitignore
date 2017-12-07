@@ -1,8 +1,8 @@
 # User-specific files
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
+#*.suo
+#*.user
+#*.userosscache
+#*.sln.docstates
 
 # Prerequisites
 *.d
@@ -39,10 +39,6 @@
 
 # Debug folder
 Debug/*
-
-# vs folder
-.vs/*
-/.vs/*
 
 # Visual C++ cache files
 ipch/

@@ -4,6 +4,7 @@
 #include "console_color.h"
 #include <Windows.h>
 #include <vector>
+#include "MENU_ITEM_RECTANGLE.h"
 
 namespace console_handler
 {
@@ -20,7 +21,7 @@ namespace console_handler
     out_message = console_color::parse_string_to_ascii_string(out_message);
     printf("%s", out_message.c_str());
   }
-  
+
   /**
    * \brief Resets the color at the cursor position
    */
@@ -69,7 +70,9 @@ namespace console_handler
 
     // calculate recangle props
     const int lenght = rectangle.right.X - rectangle.left.X;
-    const int height = rectangle.left.Y > rectangle.right.Y ? rectangle.left.Y - rectangle.right.Y : rectangle.right.Y - rectangle.left.Y;
+    const int height = rectangle.left.Y > rectangle.right.Y
+                         ? rectangle.left.Y - rectangle.right.Y
+                         : rectangle.right.Y - rectangle.left.Y;
 
     // calculate rectangle length
     std::string length_pattern = "";
@@ -83,9 +86,9 @@ namespace console_handler
       color_string += '}';
 
     // print rectangle
-    for(int i = 0; i < height; i++)
+    for (int i = 0; i < height; i++)
     {
-      console_utils::set_console_cursor_pos({ rectangle.left.X, rectangle.left.Y + short(i)});
+      console_utils::set_console_cursor_pos({rectangle.left.X, rectangle.left.Y + short(i)});
       print(color_string + length_pattern);
     }
 
@@ -97,7 +100,7 @@ namespace console_handler
   void console_output::fill_background(const std::string color_string, const char text_char)
   {
     const _COORD old_console_cursor_postion = console_utils::get_console_cursor_position();
-    console_utils::set_console_cursor_pos({ 0,0 });
+    console_utils::set_console_cursor_pos({0,0});
     const int console_height = console_utils::get_console_height();
     const int console_width = console_utils::get_console_width();
 
@@ -115,53 +118,78 @@ namespace console_handler
 
   int console_output::draw_menu(std::vector<MENU_ITEM> menu_items)
   {
-    const int margin = 10;
+    //TODO: Make setable
+    const int window_margin = 10;
     const int space_between_boxes = 5;
+    const int boxes_per_row = 3;
 
-    int console_width = console_utils::get_console_width();
+    const int console_width = console_utils::get_console_width();
 
+    std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
 
-    std::vector<SHAPE_RECTANGLE> menu_item_boxes;
-    int box_width = 0;
-    int boxes_per_row = 1;
+    // Calculate box side lenght:
+    // console_width 
+    // - (2 x window_margin [left & right])
+    // - boxes per row - 1 [spaces only] * space_between_boxes
+    // divide by boxes_per_row
+    // = box side lenght
 
+    int box_side_length = (console_width
+      - 2 * window_margin
+      - (boxes_per_row - 1) * space_between_boxes)
+      / boxes_per_row;
 
-    for (int i = 1; i < menu_items.size(); i++)
-    {
-      box_width = (console_width - (2 * margin)) / i;
-      if (i - (space_between_boxes * (i - 1)) > 0)
-        boxes_per_row = i - 1;
-      else
-        break;
-    }
 
     int current_row = 0;
-    int current_collum = 0;
-    // calculate boxes
+    int current_row_index = 0;
+
+    // calculate rectangles
     for (int i = 0; i < menu_items.size(); i++)
     {
-      // Calculate current collum
-      if ((i + 1 / boxes_per_row) % 2 != 0)
-        current_collum++;
-      else
-        current_collum = 0;
+      // create new item rectangle
+      MENU_ITEM_RECTANGLE item_rectangle;
+      item_rectangle.menu_item = menu_items[i];
 
-      SHAPE_RECTANGLE menu_item_box = {
-        {
-          margin + (box_width * current_row) == 0 ? 0 : space_between_boxes,
-          margin + (box_width * current_collum) == 0 ? 0 : space_between_boxes
-        } };
-      menu_item_box.right = { short(menu_item_box.left.X + box_width), short(menu_item_box.left.Y + box_width )};
-      menu_item_boxes.push_back(menu_item_box);
+      // item rectangle.left
+      item_rectangle.item_rectangle.left.X =
+        window_margin
+        + current_row_index * box_side_length
+        + current_row_index * space_between_boxes;
+      item_rectangle.item_rectangle.left.Y =
+        window_margin
+        + current_row * box_side_length
+        + current_row * space_between_boxes;
 
-      if ((i + 1 / boxes_per_row) % 2 == 0)
+      // item rectangle.rigth 
+      item_rectangle.item_rectangle.right.X =
+        item_rectangle.item_rectangle.left.X + box_side_length;
+      item_rectangle.item_rectangle.right.Y =
+        item_rectangle.item_rectangle.left.Y + box_side_length;
+
+      // position in menu
+      item_rectangle.menu_row = current_row;
+      item_rectangle.menu_row_index = current_row_index;
+
+      // add to vector
+      menu_item_rectangles.push_back(item_rectangle);
+
+      // next row index
+      current_row_index++;
+
+      // Begin a new row?
+      if ((i + 1) % boxes_per_row == 0)
+      {
         current_row++;
+        current_row_index = 0;
+      }
     }
 
     // draw boxes
-    for (int i = 0; i < menu_item_boxes.size(); i++)
+    // TODO: think how auslagerung 
+    for (int i = 0; i < menu_item_rectangles.size(); i++)
     {
-      print_rectangle(menu_item_boxes[i], "{_#d86711}");
+      print_rectangle(menu_item_rectangles[i].item_rectangle,
+                      menu_item_rectangles[i].menu_item.item_background);
     }
     return 1;
   }

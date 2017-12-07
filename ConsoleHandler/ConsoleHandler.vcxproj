@@ -149,6 +149,7 @@
     <ClInclude Include="console_output.h" />
     <ClInclude Include="console_utils.h" />
     <ClInclude Include="MENU_ITEM.h" />
+    <ClInclude Include="MENU_ITEM_RECTANGLE.h" />
     <ClInclude Include="SHAPE_RECTANGLE.h" />
   </ItemGroup>
   <ItemGroup>

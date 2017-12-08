@@ -179,11 +179,51 @@ namespace console_handler
     }
 
     // draw boxes
-    // TODO: think how auslagerung 
     for (int i = 0; i < menu_item_rectangles.size(); i++)
     {
+      // print rectangle background
       print_rectangle(menu_item_rectangles[i].item_rectangle,
                       menu_item_rectangles[i].menu_item.item_background);
+
+      // cut item caption to fit into menu box
+      std::vector<std::string> caption_fitting_rows;
+      std::string caption = menu_item_rectangles[i].menu_item.caption;
+      do
+      {
+        // cut caption to fit between box
+        std::string fitting_row_caption = "";
+        if (caption.length() > box_side_length - 2)
+        {
+          fitting_row_caption = caption.substr(0, box_side_length - 2);
+          caption = caption.substr(box_side_length - 2);
+        }
+        else
+        {
+          fitting_row_caption = caption;
+          caption = "";
+        }
+
+        caption_fitting_rows.push_back(fitting_row_caption);
+      }
+      while (caption.length() != 0);
+
+      // Draw box with caption
+      for (int a = 0; a < caption_fitting_rows.size(); a++)
+      {
+        // Get rectangle bottom y
+        const int rectangle_y =
+          menu_item_rectangles[i].item_rectangle.left.Y > menu_item_rectangles[i].item_rectangle.right.Y
+            ? menu_item_rectangles[i].item_rectangle.left.Y
+            : menu_item_rectangles[i].item_rectangle.right.Y;
+
+
+        console_utils::set_console_cursor_pos({
+          short(menu_item_rectangles[i].item_rectangle.left.X + 1),
+          short(rectangle_y - 2 - (caption_fitting_rows.size() - a))
+        });
+        // write text
+        print(menu_item_rectangles[i].menu_item.item_background + caption_fitting_rows[a]);
+      }
     }
     return 1;
   }

@@ -10,6 +10,6 @@ namespace console_handler
   class console_handler_core
   {
   public:
-    static CONSOLE_HANDLER_API void prepare_console();
+    static CONSOLE_HANDLER_API void prepare_console(int font_size = 8);
   };
 }

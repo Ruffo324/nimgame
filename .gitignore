@@ -70,6 +70,7 @@ ipch/
 *.tmp
 *.tmp_proj
 *.log
+*.tlog
 *.vspscc
 *.vssscc
 .builds
@@ -77,3 +78,4 @@ ipch/
 *.svclog
 *.scc
 *.tlog
+*.lastbuildstate

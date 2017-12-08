@@ -76,3 +76,4 @@ ipch/
 *.pidb
 *.svclog
 *.scc
+*.tlog

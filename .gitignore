@@ -1,7 +1,7 @@
 # User-specific files
 #*.suo
 #*.user
-#*.userosscache
+*.userosscache
 #*.sln.docstates
 
 # Prerequisites
@@ -70,7 +70,6 @@ ipch/
 *.tmp
 *.tmp_proj
 *.log
-*.tlog
 *.vspscc
 *.vssscc
 .builds

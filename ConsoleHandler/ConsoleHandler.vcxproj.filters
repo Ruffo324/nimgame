@@ -45,6 +45,9 @@
     <ClInclude Include="MENU_ITEM_RECTANGLE.h">
       <Filter>Headerdateien\Models</Filter>
     </ClInclude>
+    <ClInclude Include="console_input.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +63,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="console_color.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="console_input.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

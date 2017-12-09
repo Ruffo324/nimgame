@@ -4,7 +4,7 @@
 
 namespace console_handler
 {
-  HANDLE console_utils::get_console_handler()
+  HANDLE console_utils::get_console_handle()
   {
     return GetStdHandle(STD_OUTPUT_HANDLE);
   }
@@ -12,31 +12,28 @@ namespace console_handler
   int console_utils::get_console_width()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handle(), &buffer_info);
     return buffer_info.dwSize.X;
   }
 
   int console_utils::get_console_height()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handle(), &buffer_info);
     return buffer_info.dwSize.Y;
   }
 
   void console_utils::set_console_buffer_size(const int height, const int width)
   {
     const _COORD new_size = {short(width), short(height)};
-    SetConsoleScreenBufferSize(get_console_handler(), new_size);
+    SetConsoleScreenBufferSize(get_console_handle(), new_size);
   }
 
   void console_utils::set_console_buffer_to_window_size()
   {
-    //TODO: fix this shit
-    CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handler(), &console_screen_buffer_info);
-
-    const _COORD new_size = { console_screen_buffer_info.dwMaximumWindowSize.X, console_screen_buffer_info.dwMaximumWindowSize.Y };
-    SetConsoleScreenBufferSize(get_console_handler(), new_size);
+    RECT r;
+    GetWindowRect(GetConsoleWindow(), &r);
+    set_console_buffer_size(abs(r.bottom-r.top), abs(r.right-r.left));
   }
 
   /**
@@ -57,33 +54,63 @@ namespace console_handler
 
     // apply font to the console with fallback to alternative font
     wcscpy_s(console_font_infoex.FaceName, L"Consolas");
-    if(!SetCurrentConsoleFontEx(get_console_handler(), false, &console_font_infoex))
+    if (!SetCurrentConsoleFontEx(get_console_handle(), false, &console_font_infoex))
     {
       // change font to lucida console
       wcscpy_s(console_font_infoex.FaceName, L"Lucida Console");
-      SetCurrentConsoleFontEx(get_console_handler(), false, &console_font_infoex);
+      SetCurrentConsoleFontEx(get_console_handle(), false, &console_font_infoex);
     }
+  }
+
+  void console_utils::set_console_fullscreen()
+  {
+    ::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
+  }
+
+  void console_utils::set_console_position(const int top, const int left)
+  {
+    RECT r;
+    GetWindowRect(GetConsoleWindow(), &r);
+    MoveWindow(GetConsoleWindow(), left, top, r.right, r.bottom, TRUE);
+  }
+
+  void console_utils::set_console_size_fixed()
+  {
+    const HMENU hmenu = GetSystemMenu(GetConsoleWindow(), false);
+    DeleteMenu(hmenu, SC_MINIMIZE, MF_BYCOMMAND);
+    DeleteMenu(hmenu, SC_MAXIMIZE, MF_BYCOMMAND);
+    DeleteMenu(hmenu, SC_SIZE, MF_BYCOMMAND);
+  }
+
+  void console_utils::set_console_size(const int width, const int height, const bool also_buffer)
+  {
+    RECT r;
+    GetWindowRect(GetConsoleWindow(), &r);
+    MoveWindow(GetConsoleWindow(), r.left, r.top, width, height, TRUE);
+
+    if (also_buffer)
+      set_console_buffer_to_window_size();
   }
 
   _COORD console_utils::get_console_cursor_position()
   {
     CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handler(), &buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handle(), &buffer_info);
     return buffer_info.dwCursorPosition;
   }
 
   void console_utils::set_console_cursor_pos(const _COORD cursor_position)
   {
-    SetConsoleCursorPosition(get_console_handler(), cursor_position);
+    SetConsoleCursorPosition(get_console_handle(), cursor_position);
   }
 
   void console_utils::set_console_window_size(const int height, const int width)
   {
     CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handler(), &console_screen_buffer_info);
+    GetConsoleScreenBufferInfo(get_console_handle(), &console_screen_buffer_info);
 
     console_screen_buffer_info.srWindow.Bottom = height;
     console_screen_buffer_info.srWindow.Right = width;
-    SetConsoleWindowInfo(get_console_handler(), false, &console_screen_buffer_info.srWindow);
+    SetConsoleWindowInfo(get_console_handle(), false, &console_screen_buffer_info.srWindow);
   }
 }

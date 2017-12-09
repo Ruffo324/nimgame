@@ -49,6 +49,8 @@ namespace console_handler
     console_font_infoex.nFont = 0;
     console_font_infoex.dwFontSize.X = width;
     console_font_infoex.dwFontSize.Y = height;
+    font_size_height = height;
+    font_size_width = width;
     console_font_infoex.FontFamily = FF_DONTCARE;
     console_font_infoex.FontWeight = FW_NORMAL;
 

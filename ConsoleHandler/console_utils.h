@@ -8,6 +8,10 @@ namespace console_handler
   class console_utils
   {
   public:
+    // class variables
+    static CONSOLE_HANDLER_API int font_size_height;
+    static CONSOLE_HANDLER_API int font_size_width;
+
     // Console base functions
     // get functions
     static CONSOLE_HANDLER_API HANDLE get_console_handle();
@@ -26,7 +30,6 @@ namespace console_handler
     static CONSOLE_HANDLER_API void set_console_fullscreen();
     static CONSOLE_HANDLER_API void set_console_position(int top, int left);
     static CONSOLE_HANDLER_API void set_console_size(const int width, const int height, bool also_buffer = true);
-    static CONSOLE_HANDLER_API void set_console_size_fixed();
-    
+    static CONSOLE_HANDLER_API void set_console_size_fixed();    
   };
 }

@@ -1,37 +1,29 @@
-## Welcome to GitHub Pages
+## NimGame
+# About
+Console C++ school project at first (20.11.17 - 09.11.17). 
+The school task description specifies that the game NimGame should be programmed in C++ within about 2 months without an NPC and without further instructions. There are no limits to the actual implementation.
 
-You can use the [editor on GitHub](https://github.com/Ruffo324/nimgame/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+The simplest and nevertheless correct solution of the task looks like this:
+```Simplest solution (console output)
+1: | 
+2: | | | 
+3: | | | | |
+Player A:
+From which row would you like to take matches? (1-3)
+-> _
+....
 ```
+But since this solution would be implemented in 2-4 hours. I see the project as a good opportunity to get started in c++, and will implement the project with the idea of full modularity.
+So that I can program other 2d ASCII art games after the NimGame.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+In addition, I would like to try to get the most out of the console graphically.
+Means here that I use a raster font with the size 0x0, and so I can work directly with single "pixels".
 
-### Jekyll Themes
+Preview:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Ruffo324/nimgame/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+Furthermore, I have planned several opponent settings:
+Simple, Normal, Extreme & Learnable.
+Learning to learn means in this sense that the opponent gets better with every game played, as he remembers his mistakes. 
+In this case, however, the delivery time must still be observed.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.

@@ -20,7 +20,7 @@ In addition, I would like to try to get the most out of the console graphically.
 Means here that I use a raster font with the size 0x0, and so I can work directly with single "pixels".
 
 Preview (after first two weeks):
-![ConsoleUsePreview](Documentation\1_Screenshots\Menu_item_08.12.2017_Captions.jpg)
+![ConsoleUsePreview](nimgame/Documentation/1_Screenshots/Menu_item_08.12.2017_Captions.JPG)
 Format: ![Alt Text](url)
 
 

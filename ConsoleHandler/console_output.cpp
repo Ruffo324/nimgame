@@ -116,19 +116,22 @@ namespace console_handler
                                 const int margin_between_boxes, const int boxes_per_row)
   {
     std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
-
     // Calculate box side lenght:
     // (min(console width , console height)
     // - (2 x window_margin [left & right])
     // - boxes per row - 1 [spaces only] * margin_between_boxes)
     // divide result by boxes_per_row = box side lenght
-    const int box_side_length = 
-      (min(console_utils::get_console_width(), console_utils::get_console_height())
-       - 2 * window_margin
-        - (boxes_per_row - 1) * margin_between_boxes)
-      / boxes_per_row;
+    const int rest_console_width = console_utils::get_console_width() - 2 * window_margin - (boxes_per_row - 1) *
+      margin_between_boxes;
+    const int boxes_per_column = menu_items.size() / boxes_per_row;
+    const int rest_console_height = console_utils::get_console_height() - 2 * window_margin - (boxes_per_column - 1) *
+      margin_between_boxes;
+    const bool box_lenght_by_height = console_utils::get_console_height() < console_utils::get_console_width();
 
-
+    const int box_side_length = box_lenght_by_height ?
+      rest_console_height / boxes_per_column
+      : rest_console_width / boxes_per_row;
+        
     int current_row = 0;
     int current_row_index = 0;
 

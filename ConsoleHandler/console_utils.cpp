@@ -25,15 +25,20 @@ namespace console_handler
 
   void console_utils::set_console_buffer_size(const int height, const int width)
   {
-    const _COORD new_size = {short(width), short(height)};
-    SetConsoleScreenBufferSize(get_console_handle(), new_size);
+    const _COORD new_size = { short(width), short(height) };
+    if(!SetConsoleScreenBufferSize(get_console_handle(), new_size))
+    {
+      RECT r;
+
+      GetWindowRect(GetConsoleWindow(), &r);
+          }
   }
 
   void console_utils::set_console_buffer_to_window_size()
   {
     RECT r;
     GetWindowRect(GetConsoleWindow(), &r);
-    set_console_buffer_size(abs(r.bottom-r.top), abs(r.right-r.left));
+    set_console_buffer_size(abs(r.bottom - r.top), abs(r.right - r.left));
   }
 
   /**
@@ -49,17 +54,16 @@ namespace console_handler
     console_font_infoex.nFont = 0;
     console_font_infoex.dwFontSize.X = width;
     console_font_infoex.dwFontSize.Y = height;
-    font_size_height = height;
-    font_size_width = width;
-    console_font_infoex.FontFamily = FF_DONTCARE;
+    console_font_infoex.FontFamily = FW_DONTCARE;
     console_font_infoex.FontWeight = FW_NORMAL;
 
     // apply font to the console with fallback to alternative font
-    wcscpy_s(console_font_infoex.FaceName, L"Consolas");
+    wcscpy_s(console_font_infoex.FaceName, L"Lucida Console");
+   // wcscpy_s(console_font_infoex.FaceName, L"Terminal");
     if (!SetCurrentConsoleFontEx(get_console_handle(), false, &console_font_infoex))
     {
       // change font to lucida console
-      wcscpy_s(console_font_infoex.FaceName, L"Lucida Console");
+      wcscpy_s(console_font_infoex.FaceName, L"Consolas");
       SetCurrentConsoleFontEx(get_console_handle(), false, &console_font_infoex);
     }
   }
@@ -88,6 +92,7 @@ namespace console_handler
   {
     RECT r;
     GetWindowRect(GetConsoleWindow(), &r);
+    MoveWindow(GetConsoleWindow(), 0, 0, width, height, TRUE);
     MoveWindow(GetConsoleWindow(), r.left, r.top, width, height, TRUE);
 
     if (also_buffer)
@@ -113,6 +118,6 @@ namespace console_handler
 
     console_screen_buffer_info.srWindow.Bottom = height;
     console_screen_buffer_info.srWindow.Right = width;
-    SetConsoleWindowInfo(get_console_handle(), false, &console_screen_buffer_info.srWindow);
+    SetConsoleWindowInfo(get_console_handle(), true, &console_screen_buffer_info.srWindow);
   }
 }

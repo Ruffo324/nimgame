@@ -8,11 +8,6 @@ namespace console_handler
   class console_utils
   {
   public:
-    // class variables
-    static CONSOLE_HANDLER_API int font_size_height;
-    static CONSOLE_HANDLER_API int font_size_width;
-
-    // Console base functions
     // get functions
     static CONSOLE_HANDLER_API HANDLE get_console_handle();
     static CONSOLE_HANDLER_API int get_console_width();

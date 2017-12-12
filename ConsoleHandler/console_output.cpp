@@ -113,11 +113,11 @@ namespace console_handler
   }
 
   int console_output::draw_menu(std::vector<MENU_ITEM> menu_items, const int window_margin,
-                                const int margin_between_boxes, int boxes_per_row, 
+                                int margin_between_boxes, int boxes_per_row, 
                                 bool recalculate_per_row)
   {
     std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
-
+    margin_between_boxes *= console_utils::current_console_font_height;
     // Calculate box side lenght:
     // (min(console width , console height)
     // - (2 x window_margin [left & right])
@@ -126,7 +126,7 @@ namespace console_handler
     const int boxes_per_column = menu_items.size() / boxes_per_row;
 
     const int rest_console_width = console_utils::get_console_width() 
-    - 2 * window_margin - (boxes_per_row - 1) * margin_between_boxes;
+    - (2 * window_margin) * console_utils::current_console_font_height - (boxes_per_row - 1) * margin_between_boxes;
     const int rest_console_height = console_utils::get_console_height() - 
       2 * window_margin - (boxes_per_column - 1) * margin_between_boxes;
     const bool box_lenght_by_height = 
@@ -139,7 +139,6 @@ namespace console_handler
 
     if (box_side_length < 1)
       box_side_length = 5;
-
     if (recalculate_per_row)
     {
       int i = 0;
@@ -180,9 +179,9 @@ namespace console_handler
 
       // item rectangle.rigth 
       item_rectangle.item_rectangle.right.X =
-        item_rectangle.item_rectangle.left.X + box_side_length;
+        item_rectangle.item_rectangle.left.X + box_side_length * console_utils::current_console_font_height;
       item_rectangle.item_rectangle.right.Y =
-        item_rectangle.item_rectangle.left.Y + box_side_length;
+        item_rectangle.item_rectangle.left.Y + (box_side_length /** console_utils::current_console_font_height*/);
 
       // position in menu
       item_rectangle.menu_row = current_row;

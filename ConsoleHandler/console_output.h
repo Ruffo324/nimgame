@@ -7,19 +7,19 @@
 
 namespace console_handler
 {
-  class console_output
+  class CONSOLE_HANDLER_API console_output
   {
   public:
-    static CONSOLE_HANDLER_API void print(std::string message);
-    static CONSOLE_HANDLER_API void reset_color();
-    static CONSOLE_HANDLER_API void print_line(std::string message);
-    static CONSOLE_HANDLER_API void print_separatorline(std::string pattern);
-    static CONSOLE_HANDLER_API void print_rectangle(SHAPE_RECTANGLE square, std::string color_string,
+    static void print(std::string message);
+    static void reset_color();
+    static void print_line(std::string message);
+    static void print_separatorline(std::string pattern);
+    static void print_rectangle(SHAPE_RECTANGLE square, std::string color_string,
                                                     char text_char = ' ');
     // shapes
-    static CONSOLE_HANDLER_API void fill_background(std::string color_string, char text_char = ' ');
+    static void fill_background(std::string color_string, char text_char = ' ');
 
     // menu
-    static CONSOLE_HANDLER_API int draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
+    static int draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
   };
 }

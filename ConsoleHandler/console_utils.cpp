@@ -4,8 +4,8 @@
 
 namespace console_handler
 {
-  int console_utils::current_console_font_height_ = 0;
-  int console_utils::current_console_font_width_ = 0;
+  int console_utils::current_console_font_height = 1;
+  int console_utils::current_console_font_width = 1;
 
   HANDLE console_utils::get_console_handle()
   {
@@ -30,8 +30,8 @@ namespace console_handler
   {
     // Calculate buffer size with font-height.
     const _COORD new_size = {
-      short(width / int(current_console_font_width_)), 
-      short(height / int(current_console_font_height_))
+      short(width / int(current_console_font_width)), 
+      short(height / int(current_console_font_height))
     };
     SetConsoleScreenBufferSize(get_console_handle(), new_size);
   }
@@ -40,7 +40,21 @@ namespace console_handler
   {
     RECT r;
     GetWindowRect(GetConsoleWindow(), &r);
-    set_console_buffer_size(abs(r.bottom - r.top), abs(r.right - r.left));
+
+    _CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(get_console_handle(), &info);
+    int old_height_buffer = info.dwSize.Y;
+
+    int width = info.srWindow.Right - info.srWindow.Left + 1;
+    int height = info.srWindow.Bottom - info.srWindow.Top;
+    //TODO: Make this móre comfortable
+    for(int i = 0; info.dwSize.Y == old_height_buffer;  i++)
+    {
+      height++;
+      set_console_buffer_size(height, width);
+      GetConsoleScreenBufferInfo(get_console_handle(), &info);
+    }
+
   }
 
   /**
@@ -49,15 +63,18 @@ namespace console_handler
    * \param height The font height
    * \param width The font width
    */
-  void console_utils::set_console_raster_font(const int height, const int width)
+  void console_utils::set_console_raster_font(const int size)
   {
-    current_console_font_height_ = height < 2 ? 2 : height;
-    current_console_font_width_ = width;
+    current_console_font_height = (size * 2) -2;
+    if (current_console_font_height <= size) 
+      current_console_font_height = size * 2;
+
+    current_console_font_width = size;
     CONSOLE_FONT_INFOEX console_font_infoex;
     console_font_infoex.cbSize = sizeof console_font_infoex;
     console_font_infoex.nFont = 0;
-    console_font_infoex.dwFontSize.X = width;
-    console_font_infoex.dwFontSize.Y = height;
+    console_font_infoex.dwFontSize.X = current_console_font_width;
+    console_font_infoex.dwFontSize.Y = current_console_font_height;
     console_font_infoex.FontFamily = FW_DONTCARE;
     console_font_infoex.FontWeight = FW_NORMAL;
 
@@ -75,6 +92,7 @@ namespace console_handler
   void console_utils::set_console_fullscreen()
   {
     ::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
+    set_console_buffer_to_window_size();
   }
 
   void console_utils::set_console_position(const int top, const int left)
@@ -96,9 +114,8 @@ namespace console_handler
   {
     RECT r;
     GetWindowRect(GetConsoleWindow(), &r);
-    //MoveWindow(GetConsoleWindow(), 0, 0, width, height, TRUE);
+    ////MoveWindow(GetConsoleWindow(), 0, 0, width, height, TRUE);
     MoveWindow(GetConsoleWindow(), r.left, r.top, width, height, TRUE);
-
     if (also_buffer)
       set_console_buffer_to_window_size();
   }
@@ -113,15 +130,5 @@ namespace console_handler
   void console_utils::set_console_cursor_pos(const _COORD cursor_position)
   {
     SetConsoleCursorPosition(get_console_handle(), cursor_position);
-  }
-
-  void console_utils::set_console_window_size(const int height, const int width)
-  {
-    CONSOLE_SCREEN_BUFFER_INFO console_screen_buffer_info;
-    GetConsoleScreenBufferInfo(get_console_handle(), &console_screen_buffer_info);
-
-    console_screen_buffer_info.srWindow.Bottom = height;
-    console_screen_buffer_info.srWindow.Right = width;
-    SetConsoleWindowInfo(get_console_handle(), true, &console_screen_buffer_info.srWindow);
   }
 }

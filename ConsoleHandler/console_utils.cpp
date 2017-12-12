@@ -4,6 +4,9 @@
 
 namespace console_handler
 {
+  int console_utils::current_console_font_height_ = 0;
+  int console_utils::current_console_font_width_ = 0;
+
   HANDLE console_utils::get_console_handle()
   {
     return GetStdHandle(STD_OUTPUT_HANDLE);
@@ -25,13 +28,12 @@ namespace console_handler
 
   void console_utils::set_console_buffer_size(const int height, const int width)
   {
-    const _COORD new_size = { short(width), short(height) };
-    if(!SetConsoleScreenBufferSize(get_console_handle(), new_size))
-    {
-      RECT r;
-
-      GetWindowRect(GetConsoleWindow(), &r);
-          }
+    // Calculate buffer size with font-height.
+    const _COORD new_size = {
+      short(width / int(current_console_font_width_)), 
+      short(height / int(current_console_font_height_))
+    };
+    SetConsoleScreenBufferSize(get_console_handle(), new_size);
   }
 
   void console_utils::set_console_buffer_to_window_size()
@@ -49,6 +51,8 @@ namespace console_handler
    */
   void console_utils::set_console_raster_font(const int height, const int width)
   {
+    current_console_font_height_ = height < 2 ? 2 : height;
+    current_console_font_width_ = width;
     CONSOLE_FONT_INFOEX console_font_infoex;
     console_font_infoex.cbSize = sizeof console_font_infoex;
     console_font_infoex.nFont = 0;
@@ -59,7 +63,7 @@ namespace console_handler
 
     // apply font to the console with fallback to alternative font
     wcscpy_s(console_font_infoex.FaceName, L"Lucida Console");
-   // wcscpy_s(console_font_infoex.FaceName, L"Terminal");
+    // wcscpy_s(console_font_infoex.FaceName, L"Terminal");
     if (!SetCurrentConsoleFontEx(get_console_handle(), false, &console_font_infoex))
     {
       // change font to lucida console
@@ -92,7 +96,7 @@ namespace console_handler
   {
     RECT r;
     GetWindowRect(GetConsoleWindow(), &r);
-    MoveWindow(GetConsoleWindow(), 0, 0, width, height, TRUE);
+    //MoveWindow(GetConsoleWindow(), 0, 0, width, height, TRUE);
     MoveWindow(GetConsoleWindow(), r.left, r.top, width, height, TRUE);
 
     if (also_buffer)

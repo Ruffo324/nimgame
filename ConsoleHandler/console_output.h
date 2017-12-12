@@ -20,6 +20,6 @@ namespace console_handler
     static CONSOLE_HANDLER_API void fill_background(std::string color_string, char text_char = ' ');
 
     // menu
-    static CONSOLE_HANDLER_API int draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row);
+    static CONSOLE_HANDLER_API int draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
   };
 }

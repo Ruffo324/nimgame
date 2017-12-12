@@ -113,27 +113,53 @@ namespace console_handler
   }
 
   int console_output::draw_menu(std::vector<MENU_ITEM> menu_items, const int window_margin,
-                                const int margin_between_boxes, const int boxes_per_row)
+                                const int margin_between_boxes, int boxes_per_row, 
+                                bool recalculate_per_row)
   {
     std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
+
     // Calculate box side lenght:
     // (min(console width , console height)
     // - (2 x window_margin [left & right])
     // - boxes per row - 1 [spaces only] * margin_between_boxes)
     // divide result by boxes_per_row = box side lenght
-    const int rest_console_width = console_utils::get_console_width() - 2 * window_margin - (boxes_per_row - 1) *
-      margin_between_boxes;
     const int boxes_per_column = menu_items.size() / boxes_per_row;
-    const int rest_console_height = console_utils::get_console_height() - 2 * window_margin - (boxes_per_column - 1) *
-      margin_between_boxes;
-    const bool box_lenght_by_height = console_utils::get_console_height() < console_utils::get_console_width();
 
-    const int box_side_length = box_lenght_by_height ?
+    const int rest_console_width = console_utils::get_console_width() 
+    - 2 * window_margin - (boxes_per_row - 1) * margin_between_boxes;
+    const int rest_console_height = console_utils::get_console_height() - 
+      2 * window_margin - (boxes_per_column - 1) * margin_between_boxes;
+    const bool box_lenght_by_height = 
+      console_utils::get_console_height() < console_utils::get_console_width();
+
+    int box_side_length = 
+      box_lenght_by_height ?
       rest_console_height / boxes_per_column
       : rest_console_width / boxes_per_row;
-        
+
+    if (box_side_length < 1)
+      box_side_length = 5;
+
+    if (recalculate_per_row)
+    {
+      int i = 0;
+      do {
+        boxes_per_row = (rest_console_width / box_side_length) - i ;
+        i++;
+      } while (boxes_per_row * box_side_length + ((boxes_per_row - 1) * margin_between_boxes) > rest_console_width);
+    }
+
+    const int left_extra_margin =
+      box_lenght_by_height ? ((console_utils::get_console_width()
+        - (box_side_length * boxes_per_row) 
+        - ((boxes_per_row - 1) * margin_between_boxes)
+        - (2 * window_margin)) / 2) : 0;
+        //- (box_side_length * boxes_per_row) - (boxes_per_row - 1) * margin_between_boxes) : 0;
     int current_row = 0;
     int current_row_index = 0;
+
+
+
 
     // calculate rectangles
     for (int i = 0; i < menu_items.size(); i++)
@@ -144,7 +170,7 @@ namespace console_handler
 
       // item rectangle.left
       item_rectangle.item_rectangle.left.X =
-        window_margin
+        window_margin + left_extra_margin + 
         + current_row_index * box_side_length
         + current_row_index * margin_between_boxes;
       item_rectangle.item_rectangle.left.Y =

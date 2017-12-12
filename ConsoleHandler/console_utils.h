@@ -11,6 +11,7 @@ namespace console_handler
   public:
     static int current_console_font_height;
     static int current_console_font_width;
+    static bool fullscreen;
     // get functions
     static HANDLE get_console_handle();
     static int get_console_width();

@@ -6,6 +6,7 @@ namespace console_handler
 {
   int console_utils::current_console_font_height = 1;
   int console_utils::current_console_font_width = 1;
+  bool console_utils::fullscreen = false;
 
   HANDLE console_utils::get_console_handle()
   {
@@ -28,9 +29,11 @@ namespace console_handler
 
   void console_utils::set_console_buffer_size(const int height, const int width)
   {
+    //TODO: 
+    //https://msdn.microsoft.com/en-us/library/windows/desktop/ms724947(v=vs.85).aspx
     // Calculate buffer size with font-height.
     const _COORD new_size = {
-      short(width / int(current_console_font_width)), 
+      short(width / int(current_console_font_width)),
       short(height / int(current_console_font_height))
     };
     SetConsoleScreenBufferSize(get_console_handle(), new_size);
@@ -38,21 +41,32 @@ namespace console_handler
 
   void console_utils::set_console_buffer_to_window_size()
   {
-    RECT r;
-    GetWindowRect(GetConsoleWindow(), &r);
 
     _CONSOLE_SCREEN_BUFFER_INFO info;
     GetConsoleScreenBufferInfo(get_console_handle(), &info);
-    int old_height_buffer = info.dwSize.Y;
 
-    int width = info.srWindow.Right - info.srWindow.Left + 1;
-    int height = info.srWindow.Bottom - info.srWindow.Top;
-    //TODO: Make this móre comfortable
-    for(int i = 0; info.dwSize.Y == old_height_buffer;  i++)
+    if (fullscreen)
     {
-      height++;
-      set_console_buffer_size(height, width);
-      GetConsoleScreenBufferInfo(get_console_handle(), &info);
+      RECT r;
+      GetWindowRect(GetConsoleWindow(), &r);
+     // set_console_buffer_size(((r.bottom - r.top) / 2) - 9, ((r.right - r.left) / 2) - 8);
+      set_console_buffer_size(((r.bottom - r.top) - 1) / 2 , ((r.right - r.left) - 1) / 2);
+    }
+    else
+    {
+      RECT r;
+      GetWindowRect(GetConsoleWindow(), &r);
+
+      int old_height_buffer = info.dwSize.Y;
+      int width = info.srWindow.Right - info.srWindow.Left + 1;
+      int height = info.srWindow.Bottom - info.srWindow.Top;
+      //TODO: Make this móre comfortable
+      for (int i = 0; info.dwSize.Y == old_height_buffer; i++)
+      {
+        height++;
+        set_console_buffer_size(height, width);
+        GetConsoleScreenBufferInfo(get_console_handle(), &info);
+      }
     }
 
   }
@@ -65,9 +79,9 @@ namespace console_handler
    */
   void console_utils::set_console_raster_font(const int size)
   {
-    current_console_font_height = (size * 2) -2;
-    if (current_console_font_height <= size) 
-      current_console_font_height = size * 2;
+    current_console_font_height = 1;//(size * 2) -2;
+    //if (current_console_font_height <= size) 
+    //  current_console_font_height = size * 2;
 
     current_console_font_width = size;
     CONSOLE_FONT_INFOEX console_font_infoex;
@@ -92,6 +106,7 @@ namespace console_handler
   void console_utils::set_console_fullscreen()
   {
     ::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
+    fullscreen = true;
     set_console_buffer_to_window_size();
   }
 

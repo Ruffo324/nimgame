@@ -9,6 +9,10 @@ namespace console_handler
     std::string caption;
     std::string item_background;
     std::string ascii_icon;
+    char border_char;
+    std::string border_color_code;
+    int border_size;
+
     int length;
     int width;
   };

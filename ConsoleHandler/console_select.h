@@ -10,6 +10,9 @@ namespace console_handler
   {
   public:
     static MENU_ITEM_RECTANGLE select_menu_item(std::vector<MENU_ITEM_RECTANGLE> menu_items);
+  private:
+    static void draw_border_around_menu_item(const MENU_ITEM_RECTANGLE menu_item, char border_char, std::string border_color_code);
+
   };
 }
 

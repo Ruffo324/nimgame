@@ -146,7 +146,7 @@
     <ClInclude Include="COLOR_STRUCT.h" />
     <ClInclude Include="console_color.h" />
     <ClInclude Include="console_handler.h" />
-    <ClInclude Include="console_input.h" />
+    <ClInclude Include="console_select.h" />
     <ClInclude Include="console_output.h" />
     <ClInclude Include="console_utils.h" />
     <ClInclude Include="MENU_ITEM.h" />
@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClCompile Include="console_color.cpp" />
     <ClCompile Include="console_handler.cpp" />
-    <ClCompile Include="console_input.cpp" />
+    <ClCompile Include="console_select.cpp" />
     <ClCompile Include="console_output.cpp" />
     <ClCompile Include="console_utils.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -7,7 +7,6 @@ namespace console_handler
 {
   class CONSOLE_HANDLER_API console_utils
   {
-  private:
   public:
     static int current_console_font_height;
     static int current_console_font_width;

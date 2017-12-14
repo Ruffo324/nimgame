@@ -7,6 +7,8 @@
 
 namespace console_handler
 {
+  struct MENU_ITEM_RECTANGLE;
+
   class CONSOLE_HANDLER_API console_output
   {
   public:
@@ -20,6 +22,6 @@ namespace console_handler
     static void fill_background(std::string color_string, char text_char = ' ');
 
     // menu
-    static int draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
+    static std::vector<MENU_ITEM_RECTANGLE> draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
   };
 }

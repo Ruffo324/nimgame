@@ -1,6 +1,6 @@
 ## NimGame
 # About
-Console C++ school project at first (20.11.17 - 09.11.17). 
+Console C++ school project at first (20.11.17 - 09.01.18). 
 The school task description specifies that the game NimGame should be programmed in C++ within about 2 months without an NPC and without further instructions. There are no limits to the actual implementation.
 
 The simplest and nevertheless correct solution of the task looks like this:
@@ -17,7 +17,7 @@ But since this solution would be implemented in 2-4 hours. I see the project as 
 So that I can program other 2d ASCII art games after the NimGame.
 
 In addition, I would like to try to get the most out of the console graphically.
-Means here that I use a raster font with the size 0x0, and so I can work directly with single "pixels".
+Means here that I use a raster font with the size 1x1, and so I can work directly with single "pixels".
 
 Preview (after first two weeks):
 ![ConsoleUsePreview](https://raw.githubusercontent.com/Ruffo324/nimgame/master/Documentation/1_Screenshots/Menu_item_08.12.2017_Captions.JPG)

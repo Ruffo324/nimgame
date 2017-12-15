@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include "console_handler.h"
 
 namespace console_handler
 {

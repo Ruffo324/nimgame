@@ -18,7 +18,7 @@ namespace console_handler
   {
     std::string out_message = "{;}{#ffffff}" + message;
 
-    out_message = console_color::parse_string_to_ascii_string(out_message);
+    out_message = console_color::parse_string_to_ansi_string(out_message);
     printf("%s", out_message.c_str());
   }
 
@@ -40,7 +40,7 @@ namespace console_handler
   {
     std::string out_message = "{;}{#ffffff}" + message;
 
-    out_message = console_color::parse_string_to_ascii_string(out_message);
+    out_message = console_color::parse_string_to_ansi_string(out_message);
     printf("%s\n", out_message.c_str());
   }
 

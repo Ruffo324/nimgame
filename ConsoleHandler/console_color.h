@@ -5,12 +5,13 @@
 
 namespace console_handler
 {
-  class console_color
+  class CONSOLE_HANDLER_API console_color
   {
   public:
-    static CONSOLE_HANDLER_API std::string parse_string_to_ascii_string(std::string message);
-    static CONSOLE_HANDLER_API std::string color_code_to_ascii(std::string color_code, COLOR_STRUCT
-                                           last_color_struct);
+    static std::string parse_string_to_ansi_string(std::string message);
+    static std::string color_code_to_ansi(std::string color_code, COLOR_STRUCT
+                                          last_color_struct);
+    static std::string color_struct_to_ansi(COLOR_STRUCT color_struct, COLOR_STRUCT last_color_struct, bool background);
   private:
     static COLOR_STRUCT color_code_to_struct(std::string color_code);
   };

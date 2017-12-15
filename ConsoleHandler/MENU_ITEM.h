@@ -3,6 +3,7 @@
 
 namespace console_handler
 {
+  //TODO: add constructor
   struct MENU_ITEM
   {
     std::string caption;

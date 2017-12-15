@@ -73,9 +73,7 @@ namespace console_handler
 
   /**
    * \brief Sets the console to the "Consolas" (or Lucida Console if Consolas not given)
-   * font with the given font size
-   * \param height The font height
-   * \param width The font width
+   * \param size wanted font size
    */
   void console_utils::set_console_raster_font(const int size)
   {

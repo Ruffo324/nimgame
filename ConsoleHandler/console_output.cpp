@@ -16,7 +16,7 @@ namespace console_handler
    */
   void console_output::print(const std::string message)
   {
-    std::string out_message = "{;}{#ffffff}" + message;
+    std::string out_message = message;
 
     out_message = console_color::parse_string_to_ansi_string(out_message);
     printf("%s", out_message.c_str());

@@ -16,8 +16,8 @@ namespace console_handler
   std::string console_color::parse_string_to_ansi_string(std::string message)
   {
     std::map<int, std::string> color_codes;
-    // search for color codes
 
+    // search for color codes
     bool color_code_parse = false;
     int color_code_position = 0;
     std::string current_color_code = "";
@@ -52,15 +52,8 @@ namespace console_handler
     }
 
     // build color structs
-    COLOR_STRUCT last_foreground;
-    last_foreground.red = 255;
-    last_foreground.green = 255;
-    last_foreground.blue = 255;
-
-    COLOR_STRUCT last_background;
-    last_background.red = -1;
-    last_background.green = 0;
-    last_background.blue = 0;
+    COLOR_STRUCT last_foreground = COLOR_STRUCT(255, 255, 255);
+    COLOR_STRUCT last_background = COLOR_STRUCT(-1, 0, 0);
 
     // replace color codes with ascii
     int offset = 0;
@@ -122,7 +115,7 @@ namespace console_handler
    * \return Ansi color coded string
    */
   std::string console_color::color_struct_to_ansi(const COLOR_STRUCT color_struct,
-                                         const COLOR_STRUCT last_color_struct, const bool background)
+                                                  const COLOR_STRUCT last_color_struct, const bool background)
   {
     // Create ascii string
     std::string ansi_color_string = "\x1B[38;2;";
@@ -145,9 +138,9 @@ namespace console_handler
 
     //TODO: remove late if sure this isn't used
     //else if (last_color_struct.red != -1)
-      //ansi_color_string += ";48;2;" + std::to_string(last_color_struct.red) + ";" +
-        //std::to_string(last_color_struct.green) + ";" +
-        //std::to_string(last_color_struct.blue);
+    //ansi_color_string += ";48;2;" + std::to_string(last_color_struct.red) + ";" +
+    //std::to_string(last_color_struct.green) + ";" +
+    //std::to_string(last_color_struct.blue);
 
     return ansi_color_string + "m";
   }
@@ -169,7 +162,7 @@ namespace console_handler
       if (color_code[i] != '#' && color_code[i] != '_')
         clean_color_code += color_code[i];
 
-    COLOR_STRUCT parsed_color;
+    COLOR_STRUCT parsed_color = COLOR_STRUCT(0, 0, 0);
     sscanf_s(clean_color_code.c_str(), "%02x%02x%02x",
              &parsed_color.red, &parsed_color.green, &parsed_color.blue);
 

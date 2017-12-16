@@ -23,5 +23,7 @@ namespace console_handler
 
     // menu
     static std::vector<MENU_ITEM_RECTANGLE> draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
+  private:
+    static void internal_write(std::string message);
   };
 }

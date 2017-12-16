@@ -63,7 +63,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
       if (color_struct.same_color(last_color_struct))
         current_line += current_text_char;
       else if (transparent)
-        current_line += "{;}" + current_text_char;
+        current_line += console_color::color_code_to_ansi(";", COLOR_STRUCT(0,0,0)) + current_text_char;
       else
         current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) + current_text_char;
 

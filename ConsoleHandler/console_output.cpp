@@ -19,7 +19,7 @@ namespace console_handler
     std::string out_message = message;
 
     out_message = console_color::parse_string_to_ansi_string(out_message);
-    printf("%s", out_message.c_str());
+    internal_write(out_message);
   }
 
   /**
@@ -41,7 +41,8 @@ namespace console_handler
     std::string out_message = "{;}{#ffffff}" + message;
 
     out_message = console_color::parse_string_to_ansi_string(out_message);
-    printf("%s\n", out_message.c_str());
+    internal_write(out_message + "\n");
+    //printf("%s\n", out_message.c_str());
   }
 
   /**
@@ -112,7 +113,7 @@ namespace console_handler
       print_line(line);
   }
 
-  std::vector<MENU_ITEM_RECTANGLE> console_output::draw_menu(std::vector<MENU_ITEM> menu_items, 
+  std::vector<MENU_ITEM_RECTANGLE> console_output::draw_menu(std::vector<MENU_ITEM> menu_items,
                                                              const int window_margin,
                                                              int margin_between_boxes, int boxes_per_row,
                                                              bool recalculate_per_row)
@@ -211,5 +212,40 @@ namespace console_handler
                       menu_item_rectangles[i].menu_item.item_background);
     }
     return menu_item_rectangles;
+  }
+
+  void console_output::internal_write(std::string message)
+  {
+    const std::string reset_ansi_string = "\x1B[0m";
+    const std::string ansi_start_string = "\x1B[";
+    // save cursor position
+    _COORD current_cursor = console_utils::get_console_cursor_position();
+    std::string print_string = "";
+    bool reset_active = false;
+
+    for (int i = 0; i < message.length(); i++)
+    {
+      print_string += message[i];
+      if (reset_active && print_string.length() >= ansi_start_string.length())
+        if (print_string.substr(print_string.length() - ansi_start_string.length()) == ansi_start_string)
+        {
+          int cursor_steps = int(print_string.length() - ansi_start_string.length());
+          console_utils::set_console_cursor_pos({ current_cursor.X + short(cursor_steps), current_cursor.Y});
+          print_string = ansi_start_string;
+          reset_active = false;
+        }
+
+      if (print_string.length() >= reset_ansi_string.length())
+        if (print_string.substr(print_string.length() - reset_ansi_string.length()) == reset_ansi_string)
+        {
+          reset_active = true;
+          print_string = print_string.substr(0, print_string.length() - reset_ansi_string.length());
+          printf("%s", print_string.c_str());
+          current_cursor = console_utils::get_console_cursor_position();
+          print_string = "";
+        }
+    }
+    if (!reset_active && print_string.length() > 0)
+      printf("%s", print_string.c_str());
   }
 }

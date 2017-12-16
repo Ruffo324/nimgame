@@ -42,7 +42,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
   // parse bitmap line by line
   for (int current_height = 0; current_height < height; current_height++)
   {
-    std::string current_line;
+    std::string current_line = "";
 
     //TODO: Solution for last_color_struct
     COLOR_STRUCT last_color_struct = COLOR_STRUCT(0, 0, 0);
@@ -52,29 +52,24 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
     // and parse bitmap pixel by pixel per line
     for (int a = 0; a < width * 3; a += 3)
     {
-     // current_line = ""; // debug
       // data + x contains colors in B, G, R format
       const unsigned char tmp = data[a];
       COLOR_STRUCT color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
 
       const bool transparent = color_struct.same_color(transparent_color);
-      const char current_text_char = transparent ? ' ' : text_char;;
+      //TODO: retalkt with til
+      const std::string current_text_char = transparent ? " " : (text_char == ' ' ? " " : text_char + "");
 
       if (color_struct.same_color(last_color_struct))
         current_line += current_text_char;
       else if (transparent)
         current_line += "{;}" + current_text_char;
       else
-        current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) +
-          current_text_char;
+        current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) + current_text_char;
 
       // save last color_struct
       last_color_struct = transparent ? transparent_color : color_struct;
-      //console_output::print(current_line); // debug
-
     }
-
-    //console_output::print("\n"); // debug
 
     // push bitmap height line to text block
     return_ascii_block.text_block.push_back(current_line);

@@ -52,7 +52,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
     // and parse bitmap pixel by pixel per line
     for (int a = 0; a < width * 3; a += 3)
     {
-      current_line = ""; // debug
+     // current_line = ""; // debug
       // data + x contains colors in B, G, R format
       const unsigned char tmp = data[a];
       COLOR_STRUCT color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
@@ -70,11 +70,11 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
 
       // save last color_struct
       last_color_struct = transparent ? transparent_color : color_struct;
-      console_output::print(current_line); // debug
+      //console_output::print(current_line); // debug
 
     }
 
-    console_output::print("\n"); // debug
+    //console_output::print("\n"); // debug
 
     // push bitmap height line to text block
     return_ascii_block.text_block.push_back(current_line);
@@ -87,7 +87,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
 void console_handler::console_ascii::print_ascii_block(ASCII_BLOCK ascii_block)
 {
   _COORD current_cursor_position = console_utils::get_console_cursor_position();
-  for (int i = 0; i < ascii_block.text_block.size() - 1; i++)
+  for (int i = 0; i < ascii_block.text_block.size(); i++)
   {
     _COORD next_cursor_position = {current_cursor_position.X, current_cursor_position.Y + i};
     console_utils::set_console_cursor_pos(next_cursor_position);

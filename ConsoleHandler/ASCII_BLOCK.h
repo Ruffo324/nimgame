@@ -9,4 +9,5 @@ namespace console_handler
     char original_char;
     std::string icon_filename;
   };
+
 }

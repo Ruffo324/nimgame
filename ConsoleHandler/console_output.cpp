@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <vector>
 #include "MENU_ITEM_RECTANGLE.h"
+#include "console_ascii.h"
 
 namespace console_handler
 {
@@ -167,8 +168,7 @@ namespace console_handler
     for (int i = 0; i < menu_items.size(); i++)
     {
       // create new item rectangle
-      MENU_ITEM_RECTANGLE item_rectangle;
-      item_rectangle.menu_item = menu_items[i];
+      MENU_ITEM_RECTANGLE item_rectangle = MENU_ITEM_RECTANGLE(menu_items[i]);
 
       // item rectangle.left
       item_rectangle.item_rectangle.left.X =
@@ -210,6 +210,18 @@ namespace console_handler
       // print rectangle background
       print_rectangle(menu_item_rectangles[i].item_rectangle,
                       menu_item_rectangles[i].menu_item.item_background);
+
+      const int offset = menu_item_rectangles[i].menu_item.border_size + 10;
+      //print icon
+      const SIZE icon_size = {
+        box_side_length - (offset * 2),
+        box_side_length - (offset * 2)
+      };
+      console_utils::set_console_cursor_pos({
+        menu_item_rectangles[i].item_rectangle.left.X + short(offset),
+        menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
+      });
+      console_ascii::print_ascii_block(console_ascii::image_to_ascii_block("../Icons/Settings.bmp", icon_size));
     }
     return menu_item_rectangles;
   }
@@ -230,7 +242,7 @@ namespace console_handler
         if (print_string.substr(print_string.length() - ansi_start_string.length()) == ansi_start_string)
         {
           int cursor_steps = int(print_string.length() - ansi_start_string.length());
-          console_utils::set_console_cursor_pos({ current_cursor.X + short(cursor_steps), current_cursor.Y});
+          console_utils::set_console_cursor_pos({current_cursor.X + short(cursor_steps), current_cursor.Y});
           print_string = ansi_start_string;
           reset_active = false;
         }

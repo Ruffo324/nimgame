@@ -9,16 +9,17 @@
 console_handler::COLOR_STRUCT console_handler::console_ascii::transparent_color =
   console_handler::COLOR_STRUCT(255, 0, 255);
 
-console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename)
+console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, SIZE size)
 {
   // call base function with space text_char.
   // space text_char is background only
-  return image_to_ascii_block(filename, ' ');
+  return image_to_ascii_block(filename, ' ', size);
 }
 
-console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, char text_char)
+console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, char text_char, SIZE size)
 {
-  console_utils::set_console_cursor_pos({ 0,0 }); // debug
+  const int wanted_height = size.cy % 2 == 0 ? size.cy : size.cy + 1;
+  const int wanted_width = size.cx % 2 == 0 ? size.cx : size.cx + 1; //* 2;
 
   //TODO: Parameter as filestream o something like this
   FILE* file;
@@ -38,10 +39,12 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
   const bool background_color = text_char == ' ';
 
   ASCII_BLOCK return_ascii_block = ASCII_BLOCK();
+  return_ascii_block.icon_filename = filename;
 
   // parse bitmap line by line
   for (int current_height = 0; current_height < height; current_height++)
   {
+
     std::string current_line = "";
 
     //TODO: Solution for last_color_struct
@@ -49,14 +52,23 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
 
     fread(data, sizeof(unsigned char), row_padded, file);
 
+    // Simple "resize"
+    if (current_height % (height / wanted_height) != 0)
+      continue;
+
     // and parse bitmap pixel by pixel per line
     for (int a = 0; a < width * 3; a += 3)
     {
+      // Simple "resize"
+      if (a % ((width * 3) / wanted_width) != 0)
+        continue;
+
       // data + x contains colors in B, G, R format
       const unsigned char tmp = data[a];
       COLOR_STRUCT color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
 
       const bool transparent = color_struct.same_color(transparent_color);
+
       //TODO: retalkt with til
       const std::string current_text_char = transparent ? " " : (text_char == ' ' ? " " : text_char + "");
 

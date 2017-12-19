@@ -8,6 +8,19 @@ namespace console_handler
 {
   struct MENU_ITEM_RECTANGLE
   {
+    MENU_ITEM_RECTANGLE(const MENU_ITEM& menu_item, const SHAPE_RECTANGLE& item_rectangle,
+                        const int menu_row, const int menu_row_index)
+      : menu_item(menu_item),
+        item_rectangle(item_rectangle),
+        menu_row(menu_row),
+        menu_row_index(menu_row_index)
+    {
+    }
+
+    explicit MENU_ITEM_RECTANGLE(const MENU_ITEM& menu_item) : menu_item(menu_item)
+    {
+    }
+
     /**
      * \brief THe original menu_item that was drawed
      */

@@ -9,6 +9,12 @@
 console_handler::COLOR_STRUCT console_handler::console_ascii::transparent_color =
   console_handler::COLOR_STRUCT(255, 0, 255);
 
+/**
+ * \brief Overload for the image_to_ascii_block function
+ * \param filename The filename or path  of the wanted icon that should be printed
+ * \param size In wich size should the given icon be outputed? MUST BE LOWER THAN THE FILE SIZE!
+ * \return ASCII_BLOCK wich contains the text lines for the icon & the icon file path.
+ */
 console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, SIZE size)
 {
   // call base function with space text_char.
@@ -16,10 +22,18 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
   return image_to_ascii_block(filename, ' ', size);
 }
 
+/**
+ * \brief Translates a given filename to the ASCII_BLOCK struct.
+ * \param filename The filename or path of the wanted icon that should be printed
+ * \param text_char The text_char in wich char the icon should be printed
+ * \param size In wich size should the given icon be outputed? MUST BE LOWER THAN THE FILE SIZE!
+ * \return ASCII_BLOCK wich contains the text lines for the icon & the icon file path.
+ */
 console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, char text_char, SIZE size)
 {
+  // wanted height | wanted width not even = make it even.
   const int wanted_height = size.cy % 2 == 0 ? size.cy : size.cy + 1;
-  const int wanted_width = size.cx % 2 == 0 ? size.cx : size.cx + 1; //* 2;
+  const int wanted_width = size.cx % 2 == 0 ? size.cx : size.cx + 1;
 
   //TODO: Parameter as filestream o something like this
   FILE* file;
@@ -31,6 +45,10 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
 
   const int width = *reinterpret_cast<int*>(&info[18]);
   const int height = *reinterpret_cast<int*>(&info[22]);
+
+  // Throw exception if file size is bigger than wanted size
+  if (width > wanted_width || height > wanted_height)
+    throw "Wanted icon size is bigger than given icon size!";
 
   const int row_padded = (width * 3 + 3) & (~3);
   unsigned char* data = new unsigned char[row_padded];

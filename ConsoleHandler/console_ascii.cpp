@@ -47,7 +47,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
   const int height = *reinterpret_cast<int*>(&info[22]);
 
   // Throw exception if file size is bigger than wanted size
-  if (width > wanted_width || height > wanted_height)
+  if (width < wanted_width || height < wanted_height)
     throw "Wanted icon size is bigger than given icon size!";
 
   const int row_padded = (width * 3 + 3) & (~3);

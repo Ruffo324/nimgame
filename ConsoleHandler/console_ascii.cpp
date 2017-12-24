@@ -15,7 +15,7 @@ console_handler::COLOR_STRUCT console_handler::console_ascii::transparent_color 
  * \param size In wich size should the given icon be outputed? MUST BE LOWER THAN THE FILE SIZE!
  * \return ASCII_BLOCK wich contains the text lines for the icon & the icon file path.
  */
-console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, SIZE size)
+console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(const std::string filename, const SIZE size)
 {
   // call base function with space text_char.
   // space text_char is background only
@@ -30,7 +30,7 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
  * \return ASCII_BLOCK wich contains the text lines for the icon & the icon file path.
  */
 console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(
-  std::string filename, char text_char, SIZE size)
+  std::string filename, const char text_char, const SIZE size)
 {
   // wanted height | wanted width not even = make it even.
   const int wanted_width = size.cx % 2 == 0 ? size.cx : size.cx + 1;

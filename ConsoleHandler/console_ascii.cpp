@@ -29,11 +29,12 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
  * \param size In wich size should the given icon be outputed? MUST BE LOWER THAN THE FILE SIZE!
  * \return ASCII_BLOCK wich contains the text lines for the icon & the icon file path.
  */
-console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(std::string filename, char text_char, SIZE size)
+console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_block(
+  std::string filename, char text_char, SIZE size)
 {
   // wanted height | wanted width not even = make it even.
-  const int wanted_height = size.cy % 2 == 0 ? size.cy : size.cy + 1;
   const int wanted_width = size.cx % 2 == 0 ? size.cx : size.cx + 1;
+  const int wanted_height = size.cy % 2 == 0 ? size.cy : size.cy + 1;
 
   //TODO: Parameter as filestream o something like this
   FILE* file;
@@ -62,7 +63,6 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
   // parse bitmap line by line
   for (int current_height = 0; current_height < height; current_height++)
   {
-
     std::string current_line = "";
 
     //TODO: Solution for last_color_struct
@@ -93,9 +93,10 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
       if (color_struct.same_color(last_color_struct))
         current_line += current_text_char;
       else if (transparent)
-        current_line += console_color::color_code_to_ansi(";", COLOR_STRUCT(0,0,0)) + current_text_char;
+        current_line += console_color::color_code_to_ansi(";", COLOR_STRUCT(0, 0, 0)) + current_text_char;
       else
-        current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) + current_text_char;
+        current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) +
+          current_text_char;
 
       // save last color_struct
       last_color_struct = transparent ? transparent_color : color_struct;
@@ -111,10 +112,13 @@ console_handler::ASCII_BLOCK console_handler::console_ascii::image_to_ascii_bloc
 
 void console_handler::console_ascii::print_ascii_block(ASCII_BLOCK ascii_block)
 {
-  _COORD current_cursor_position = console_utils::get_console_cursor_position();
-  for (int i = 0; i < ascii_block.text_block.size(); i++)
+  const _COORD current_cursor_position = console_utils::get_console_cursor_position();
+  for (short i = 0; i < ascii_block.text_block.size(); i++)
   {
-    _COORD next_cursor_position = {current_cursor_position.X, current_cursor_position.Y + i};
+    const _COORD next_cursor_position = {
+      current_cursor_position.X,
+      current_cursor_position.Y + i
+    };
     console_utils::set_console_cursor_pos(next_cursor_position);
     console_output::print_line(ascii_block.text_block[i]);
   }

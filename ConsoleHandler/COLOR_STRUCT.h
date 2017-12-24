@@ -3,7 +3,7 @@
 
 namespace console_handler
 {
-  struct COLOR_STRUCT
+  struct CONSOLE_HANDLER_API COLOR_STRUCT
   {
     /**
      * \brief Value of the red color part

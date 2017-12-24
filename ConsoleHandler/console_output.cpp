@@ -211,11 +211,13 @@ namespace console_handler
       print_rectangle(menu_item_rectangles[i].item_rectangle,
                       menu_item_rectangles[i].menu_item.item_background);
 
+      //TODO: Adding  ascii caption and calculate text_height
+      const int text_height = 50;
       const int offset = menu_item_rectangles[i].menu_item.border_size + 10;
       //print icon
       const SIZE icon_size = {
         box_side_length - (offset * 2),
-        box_side_length - (offset * 2)
+        box_side_length - (offset * 2) + text_height
       };
       console_utils::set_console_cursor_pos({
         menu_item_rectangles[i].item_rectangle.left.X + short(offset),

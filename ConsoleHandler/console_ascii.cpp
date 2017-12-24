@@ -9,6 +9,12 @@
 console_handler::COLOR_STRUCT console_handler::console_ascii::transparent_color =
   console_handler::COLOR_STRUCT(255, 0, 255);
 
+console_handler::ASCII_BLOCK console_handler::console_ascii::create_ascii_char_text(char ascii_wanted_char, int height,
+  int width)
+{
+  return ASCII_BLOCK();
+}
+
 /**
  * \brief Overload for the image_to_ascii_block function
  * \param filename The filename or path  of the wanted icon that should be printed

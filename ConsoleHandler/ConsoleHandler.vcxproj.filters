@@ -19,6 +19,9 @@
     <Filter Include="Headerdateien\Models\Shapes">
       <UniqueIdentifier>{fad009f2-946d-42dc-bec7-a3be36061f10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Enums">
+      <UniqueIdentifier>{67f99352-c465-476c-b55a-8d27cb2d4d45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="COLOR_STRUCT.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="ASCII_BLOCK.h">
       <Filter>Headerdateien\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="ascii_block_type.h">
+      <Filter>Headerdateien\Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

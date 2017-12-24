@@ -116,8 +116,8 @@ namespace console_handler
 
   std::vector<MENU_ITEM_RECTANGLE> console_output::draw_menu(std::vector<MENU_ITEM> menu_items,
                                                              const int window_margin,
-                                                             int margin_between_boxes, int boxes_per_row,
-                                                             bool recalculate_per_row)
+                                                             const int margin_between_boxes, int boxes_per_row,
+                                                             const bool recalculate_per_row)
   {
     std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
     // Calculate box side lenght:

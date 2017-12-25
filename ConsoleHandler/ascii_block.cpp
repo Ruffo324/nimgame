@@ -3,6 +3,7 @@
 #include "console_color.h"
 #include "console_utils.h"
 #include "console_output.h"
+#include "console_bmp.h"
 
 namespace console_handler
 {
@@ -18,6 +19,13 @@ namespace console_handler
       ascii_block_size(size_value)
   {
     generate_text_lines();
+  }
+
+  ascii_block::ascii_block(const char text_char_value, SIZE size_value)
+    : original_char(text_char_value), text_char(' '), ascii_block_size(size_value)
+  {
+    console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
+    text_bitmap.write_text(original_char);
   }
 
   void ascii_block::print()
@@ -106,5 +114,10 @@ namespace console_handler
       text_lines.push_back(current_line);
     }
     fclose(file);
+  }
+
+  void ascii_block::char_bitmap_creation()
+  {
+
   }
 }

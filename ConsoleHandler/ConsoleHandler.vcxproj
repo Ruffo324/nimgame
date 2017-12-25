@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="ascii_block.h" />
     <ClInclude Include="COLOR_STRUCT.h" />
+    <ClInclude Include="console_bmp.h" />
     <ClInclude Include="console_color.h" />
     <ClInclude Include="console_handler.h" />
     <ClInclude Include="console_select.h" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ascii_block.cpp" />
+    <ClCompile Include="console_bmp.cpp" />
     <ClCompile Include="console_color.cpp" />
     <ClCompile Include="console_handler.cpp" />
     <ClCompile Include="console_select.cpp" />

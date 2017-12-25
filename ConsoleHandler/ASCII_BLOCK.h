@@ -28,7 +28,7 @@ namespace console_handler
     * \brief Only used if the original content was an text char.
     * \brief Contains the original text char.
     */
-    char original_char;
+    const char original_char;
 
     /**
      * \brief The fillup text_char.
@@ -62,5 +62,6 @@ namespace console_handler
     void print();
   private:
     void generate_text_lines();
+    void char_bitmap_creation();
   };
 }

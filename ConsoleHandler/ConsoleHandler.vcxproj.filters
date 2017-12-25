@@ -20,7 +20,10 @@
       <UniqueIdentifier>{fad009f2-946d-42dc-bec7-a3be36061f10}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headerdateien\Enums">
-      <UniqueIdentifier>{67f99352-c465-476c-b55a-8d27cb2d4d45}</UniqueIdentifier>
+      <UniqueIdentifier>{e2ea3926-443f-4c1e-9752-1457cbe5b6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Models">
+      <UniqueIdentifier>{382573d1-7a1d-44f2-b825-843550403c4e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,14 +54,11 @@
     <ClInclude Include="console_select.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="console_ascii.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="ASCII_BLOCK.h">
-      <Filter>Headerdateien\Models</Filter>
-    </ClInclude>
     <ClInclude Include="ascii_block_type.h">
       <Filter>Headerdateien\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ascii_block.h">
+      <Filter>Headerdateien\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,8 +80,8 @@
     <ClCompile Include="console_select.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="console_ascii.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="ascii_block.cpp">
+      <Filter>Quelldateien\Models</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

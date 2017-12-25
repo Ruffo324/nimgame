@@ -143,9 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ASCII_BLOCK.h" />
+    <ClInclude Include="ascii_block.h" />
     <ClInclude Include="COLOR_STRUCT.h" />
-    <ClInclude Include="console_ascii.h" />
     <ClInclude Include="console_color.h" />
     <ClInclude Include="console_handler.h" />
     <ClInclude Include="console_select.h" />
@@ -157,7 +156,7 @@
     <ClInclude Include="SHAPE_RECTANGLE.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="console_ascii.cpp" />
+    <ClCompile Include="ascii_block.cpp" />
     <ClCompile Include="console_color.cpp" />
     <ClCompile Include="console_handler.cpp" />
     <ClCompile Include="console_select.cpp" />

@@ -2,10 +2,12 @@
 #include "console_output.h"
 #include "console_utils.h"
 #include "console_color.h"
+#include "conio.h"
 #include <Windows.h>
 #include <vector>
 #include "MENU_ITEM_RECTANGLE.h"
 #include "console_ascii.h"
+#include <iostream>
 
 namespace console_handler
 {
@@ -223,7 +225,7 @@ namespace console_handler
         menu_item_rectangles[i].item_rectangle.left.X + short(offset),
         menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
       });
-      console_ascii::print_ascii_block(console_ascii::image_to_ascii_block("../Icons/Settings.bmp", icon_size));
+      ascii_block("../Icons/Settings.bmp", icon_size).print();
     }
     return menu_item_rectangles;
   }
@@ -243,7 +245,7 @@ namespace console_handler
       if (reset_active && print_string.length() >= ansi_start_string.length())
         if (print_string.substr(print_string.length() - ansi_start_string.length()) == ansi_start_string)
         {
-          int cursor_steps = int(print_string.length() - ansi_start_string.length());
+          const int cursor_steps = int(print_string.length() - ansi_start_string.length());
           console_utils::set_console_cursor_pos({current_cursor.X + short(cursor_steps), current_cursor.Y});
           print_string = ansi_start_string;
           reset_active = false;
@@ -255,11 +257,13 @@ namespace console_handler
           reset_active = true;
           print_string = print_string.substr(0, print_string.length() - reset_ansi_string.length());
           printf("%s", print_string.c_str());
+          _flushall();
           current_cursor = console_utils::get_console_cursor_position();
           print_string = "";
         }
     }
     if (!reset_active && print_string.length() > 0)
       printf("%s", print_string.c_str());
+    _flushall();
   }
 }

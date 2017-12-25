@@ -1,7 +1,6 @@
 #pragma once
 #include "console_handler.h"
 #include <Windows.h>
-#include <string>
 
 namespace console_handler
 {

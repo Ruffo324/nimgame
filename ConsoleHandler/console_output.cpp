@@ -2,12 +2,10 @@
 #include "console_output.h"
 #include "console_utils.h"
 #include "console_color.h"
-#include "conio.h"
 #include <Windows.h>
 #include <vector>
 #include "MENU_ITEM_RECTANGLE.h"
 #include "console_ascii.h"
-#include <iostream>
 
 namespace console_handler
 {
@@ -220,7 +218,7 @@ namespace console_handler
       const SIZE icon_size = {
         box_side_length - (offset * 2),
         box_side_length - ((offset * 2) + text_height)
-          };
+      };
       console_utils::set_console_cursor_pos({
         menu_item_rectangles[i].item_rectangle.left.X + short(offset),
         menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
@@ -262,8 +260,12 @@ namespace console_handler
           print_string = "";
         }
     }
+
+    // print rest
     if (!reset_active && print_string.length() > 0)
+    {
       printf("%s", print_string.c_str());
-    _flushall();
+      _flushall();
+    }
   }
 }

@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include "console_handler.h"
 #include "MENU_ITEM.h"
 #include "SHAPE_RECTANGLE.h"
 

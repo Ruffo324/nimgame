@@ -6,6 +6,9 @@
 #include "ascii_block_type.h"
 #include "COLOR_STRUCT.h"
 
+//TODO: fix warnings correctly
+#pragma warning( disable: 4251 )
+
 namespace console_handler
 {
   class CONSOLE_HANDLER_API ascii_block
@@ -19,14 +22,14 @@ namespace console_handler
     /**
      * \brief Textlines with color codes and fillup chars
      */
-    std::vector<std::string>  text_lines;
+    std::vector<std::string> text_lines;
 
     /**
     * \brief Only used if the original content was an text char.
     * \brief Contains the original text char.
     */
     char original_char;
-    
+
     /**
      * \brief The fillup text_char.
      * \brief Mostly space.

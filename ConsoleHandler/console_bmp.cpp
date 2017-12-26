@@ -155,16 +155,15 @@ namespace console_handler
     }
   }
 
-
-  HFONT console_bmp::getFont(const char* name, int size, bool italic = false, bool bold = false, bool underline = false,
-    bool strike_out = false)
+  HFONT console_bmp::getFont(const std::string name, int size, bool italic = false, bool bold = false, bool underline = false,
+    bool strike_out = false) const
   {
     LOGFONT lfont = { 0 };
 
     lfont.lfQuality = CLEARTYPE_QUALITY;
     lfont.lfCharSet = DEFAULT_CHARSET;
-
-    strncpy_s(wchar(lfont.lfFaceName, name, 31);
+    std::copy_n(name.c_str(), name.size() + 1 > LF_FACESIZE ? LF_FACESIZE : name.size() + 1,
+      lfont.lfFaceName);
     lfont.lfHeight = -size;
     if (italic) lfont.lfItalic = TRUE;
     if (bold) lfont.lfWeight = FW_BOLD;

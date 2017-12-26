@@ -20,7 +20,7 @@ namespace console_handler
     HBITMAP getHandle();
     COLORREF getPixel(int x, int y);
     void setPixel(int x, int y, COLORREF color);
-    HFONT getFont(const char* name, int size, bool italic, bool bold, bool underline, bool strike_out);
+    HFONT getFont(const std::string name, int size, bool italic, bool bold, bool underline, bool strike_out) const;
     console_bmp(std::string text);
     console_bmp(std::string text, SIZE size);
   };

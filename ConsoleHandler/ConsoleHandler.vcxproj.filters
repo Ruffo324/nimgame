@@ -63,6 +63,9 @@
     <ClInclude Include="console_bmp.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="console_ascii.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -87,6 +90,9 @@
       <Filter>Quelldateien\Models</Filter>
     </ClCompile>
     <ClCompile Include="console_bmp.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="console_ascii.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

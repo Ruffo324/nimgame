@@ -21,13 +21,21 @@ namespace console_handler
     generate_text_lines();
   }
 
-  ascii_block::ascii_block(const char text_char_value, SIZE size_value)
+  ascii_block::ascii_block(const char text_char_value, const SIZE size_value)
     : original_char(text_char_value), text_char(' '), ascii_block_size(size_value)
   {
     console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
     text_bitmap.write_text(original_char);
-    text_bitmap.save("../Icons/test.bmp");
 
+    // build bitmap path
+    bitmap_path = "../Icons/Chars/";
+    bitmap_path.push_back(original_char);
+    bitmap_path += "_";
+    bitmap_path += std::to_string(ascii_block_size.cx);
+    bitmap_path += +".bmp";
+    // save bitmap
+    text_bitmap.save(bitmap_path.c_str());
+    print(); //debug
   }
 
   void ascii_block::print()
@@ -120,6 +128,5 @@ namespace console_handler
 
   void ascii_block::char_bitmap_creation()
   {
-
   }
 }

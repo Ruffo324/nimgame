@@ -138,10 +138,10 @@ namespace console_handler
       return false;
     }
 
-    fout->write((const char *)&bfh, sizeof(BITMAPFILEHEADER));
-    fout->write((const char *)&bih, sizeof(BITMAPINFOHEADER));
-    fout->write((const char *)&rgbq, sizeof(RGBQUAD));
-    fout->write((const char *)this->data_[0], line_size * this->height);
+    fout->write(reinterpret_cast<const char *>(&bfh), sizeof(BITMAPFILEHEADER));
+    fout->write(reinterpret_cast<const char *>(&bih), sizeof(BITMAPINFOHEADER));
+    fout->write(reinterpret_cast<const char *>(&rgbq), sizeof(RGBQUAD));
+    fout->write(reinterpret_cast<const char *>(this->data_[0]), line_size * this->height);
 
     if (fout->fail() || fout->bad())
     {
@@ -155,9 +155,10 @@ namespace console_handler
     }
   }
 
-  HFONT console_bmp::getFont(const std::string name, int size, bool italic = false, bool bold = false,
-                             bool underline = false,
-                             bool strike_out = false) const
+  HFONT console_bmp::get_font(const std::string name, const int size,
+                             const bool italic = false, const bool bold = false,
+                             const bool underline = false,
+                             const bool strike_out = false) const
   {
     LOGFONT lfont = {0};
 
@@ -174,7 +175,7 @@ namespace console_handler
     return CreateFontIndirect(&lfont);
   }
 
-  void console_bmp::write_text(const char char_value)
+  void console_bmp::write_text(const char char_value) const
   {
     // create device context for painting
     const HDC hdc = CreateCompatibleDC(nullptr);
@@ -185,22 +186,22 @@ namespace console_handler
     // define rect for painting
     RECT rect = {0,0,this->width, this->height};
 
-    // draw white background
-    FillRect(hdc, &rect, WHITE_BRUSH);
+    // draw fuchsia background
+    const HBRUSH brush = CreateSolidBrush(RGB(255, 0, 255));
+    FillRect(hdc, &rect, brush);
 
     // create and select font
-    HFONT font = getFont("Consolas", 40, false, true, true);
-    HFONT font_old = (HFONT)SelectObject(hdc, font);
+    const HFONT font = get_font("Consolas", this->width, false, false, false);
+    const HFONT font_old = HFONT(SelectObject(hdc, font));
 
     // set text color and background mode
-    SetTextColor(hdc, RGB(255, 0, 128));
-    SetBkMode(hdc, TRANSPARENT);
+    SetTextColor(hdc, RGB(255, 255, 255));
+    SetBkMode(hdc, 0);
 
-    std::string s = "" + char_value;
-    const LPCWSTR a = LPCWSTR(s.c_str());
+    const LPCWSTR lpcwstr = LPCWSTR(&char_value);
 
     // draw centered text
-    DrawText(hdc, a, -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+    DrawText(hdc, lpcwstr, -1, &rect, DT_CENTER | DT_VCENTER);
 
     // replace DC bitmap and font by original one
     SelectObject(hdc, font_old);
@@ -211,9 +212,9 @@ namespace console_handler
     DeleteDC(hdc);
 
     // save image
-    this->save("test.bmp");
+    //this->save(f);
 
     // clean up
-   // delete this;
+    // delete this;
   }
 }

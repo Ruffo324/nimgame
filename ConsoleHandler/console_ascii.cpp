@@ -6,8 +6,7 @@
 #include "console_utils.h"
 #include "console_output.h"
 
-
-void console_handler::console_ascii::print_ascii_block(ascii_block ascii_block)
+namespace console_handler
 {
   
 }

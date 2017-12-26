@@ -8,7 +8,7 @@ namespace console_handler
   {
   public:
     console_bmp(int width, int height);
-    void write_text(const char char_value);
+    void write_text(const char char_value) const;
     bool save(const char* filename);
     ~console_bmp();
   private:
@@ -20,7 +20,7 @@ namespace console_handler
     HBITMAP getHandle();
     COLORREF getPixel(int x, int y);
     void setPixel(int x, int y, COLORREF color);
-    HFONT getFont(const std::string name, int size, bool italic, bool bold, bool underline, bool strike_out) const;
+    HFONT get_font(const std::string name, int size, bool italic, bool bold, bool underline, bool strike_out) const;
     console_bmp(std::string text);
     console_bmp(std::string text, SIZE size);
   };

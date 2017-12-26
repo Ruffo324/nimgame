@@ -11,7 +11,7 @@ namespace console_handler
   console_bmp::console_bmp(int width, int height)
   {
     int i, line_size;
-    BITMAPINFO bih = { 0 };
+    BITMAPINFO bih = {0};
     HDC hdc;
 
     if (width < 1 || height < 1)
@@ -98,9 +98,9 @@ namespace console_handler
   bool console_bmp::save(const char* filename)
   {
     std::ofstream* fout;
-    BITMAPFILEHEADER bfh = { 0 };
-    BITMAPINFOHEADER bih = { 0 };
-    RGBQUAD rgbq = { 0 };
+    BITMAPFILEHEADER bfh = {0};
+    BITMAPINFOHEADER bih = {0};
+    RGBQUAD rgbq = {0};
     int line_size;
 
     if (!filename)
@@ -155,16 +155,17 @@ namespace console_handler
     }
   }
 
-  HFONT console_bmp::getFont(const std::string name, int size, bool italic = false, bool bold = false, bool underline = false,
-    bool strike_out = false) const
+  HFONT console_bmp::getFont(const std::string name, int size, bool italic = false, bool bold = false,
+                             bool underline = false,
+                             bool strike_out = false) const
   {
-    LOGFONT lfont = { 0 };
+    LOGFONT lfont = {0};
 
     lfont.lfQuality = CLEARTYPE_QUALITY;
     lfont.lfCharSet = DEFAULT_CHARSET;
     std::copy_n(name.c_str(), name.size() + 1 > LF_FACESIZE ? LF_FACESIZE : name.size() + 1,
-      lfont.lfFaceName);
-    lfont.lfHeight = -size;
+                lfont.lfFaceName);
+    lfont.lfHeight = size;
     if (italic) lfont.lfItalic = TRUE;
     if (bold) lfont.lfWeight = FW_BOLD;
     if (underline) lfont.lfUnderline = TRUE;
@@ -176,27 +177,30 @@ namespace console_handler
   void console_bmp::write_text(const char char_value)
   {
     // create device context for painting
-    HDC hdc = CreateCompatibleDC(NULL);
+    const HDC hdc = CreateCompatibleDC(nullptr);
 
     // select bitmap into DC
     const HBITMAP hbm_old = static_cast<HBITMAP>(SelectObject(hdc, this->bitmap_handle));
 
     // define rect for painting
-    RECT rect = { 0,0,this->width, this->height };
+    RECT rect = {0,0,this->width, this->height};
 
     // draw white background
     FillRect(hdc, &rect, WHITE_BRUSH);
 
     // create and select font
-    HFONT font = getFont("Arial Black", 40, false, true, true);
+    HFONT font = getFont("Consolas", 40, false, true, true);
     HFONT font_old = (HFONT)SelectObject(hdc, font);
 
     // set text color and background mode
     SetTextColor(hdc, RGB(255, 0, 128));
     SetBkMode(hdc, TRANSPARENT);
 
+    std::string s = "" + char_value;
+    const LPCWSTR a = LPCWSTR(s.c_str());
+
     // draw centered text
-    DrawText(hdc, reinterpret_cast<LPCWSTR>(char_value), -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+    DrawText(hdc, a, -1, &rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 
     // replace DC bitmap and font by original one
     SelectObject(hdc, font_old);
@@ -210,6 +214,6 @@ namespace console_handler
     this->save("test.bmp");
 
     // clean up
-    delete this;
+   // delete this;
   }
 }

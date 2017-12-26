@@ -26,6 +26,8 @@ namespace console_handler
   {
     console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
     text_bitmap.write_text(original_char);
+    text_bitmap.save("../Icons/test.bmp");
+
   }
 
   void ascii_block::print()

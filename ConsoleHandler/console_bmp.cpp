@@ -53,6 +53,7 @@ namespace console_handler
     else
       line_size = 3 * width;
 
+    // Write bitmap data
     for (i = 1; i < height; i++)
       this->data_[i] = &this->data_[0][line_size * i];
   }
@@ -63,39 +64,7 @@ namespace console_handler
     delete[] this->data_;
   }
 
-  COLORREF console_bmp::getPixel(int x, int y)
-  {
-    if (x < 0 || x >= this->width)
-    {
-      throw new std::invalid_argument("x value out of bounds.");
-    }
-
-    if (y < 0 || y >= this->height)
-    {
-      throw new std::invalid_argument("y value out of bounds.");
-    }
-
-    return RGB(this->data_[y][3 * x + 2], this->data_[y][3 * x + 1], this->data_[y][3 * x]);
-  }
-
-  void console_bmp::setPixel(int x, int y, COLORREF color)
-  {
-    if (x < 0 || x >= this->width)
-    {
-      throw new std::invalid_argument("x value out of bounds.");
-    }
-
-    if (y < 0 || y >= this->height)
-    {
-      throw new std::invalid_argument("y value out of bounds.");
-    }
-
-    this->data_[y][3 * x] = GetBValue(color);
-    this->data_[y][3 * x + 1] = GetGValue(color);
-    this->data_[y][3 * x + 2] = GetRValue(color);
-  }
-
-  bool console_bmp::save(const char* filename)
+  bool console_bmp::save(const char* filename) const
   {
     std::ofstream* fout;
     BITMAPFILEHEADER bfh = {0};

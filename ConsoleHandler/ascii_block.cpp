@@ -21,8 +21,9 @@ namespace console_handler
     generate_text_lines();
   }
 
-  ascii_block::ascii_block(const char text_char_value, const SIZE size_value)
-    : original_char(text_char_value), text_char(' '), ascii_block_size(size_value)
+  ascii_block::ascii_block(const char text_char_value, const int font_size_value)
+    : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
+      ascii_block_size({font_size_value, font_size_value})
   {
     console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
     text_bitmap.write_text(original_char);
@@ -33,9 +34,13 @@ namespace console_handler
     bitmap_path += "_";
     bitmap_path += std::to_string(ascii_block_size.cx);
     bitmap_path += +".bmp";
+
     // save bitmap
     text_bitmap.save(bitmap_path.c_str());
-    print(); //debug
+
+    generate_text_lines();
+    // clean up
+    //delete &text_bitmap;
   }
 
   void ascii_block::print()
@@ -54,9 +59,8 @@ namespace console_handler
 
   void ascii_block::generate_text_lines()
   {
-    // wanted height | wanted width not even = make it even.
-    const int wanted_width = ascii_block_size.cx % 2 == 0 ? ascii_block_size.cx : ascii_block_size.cx + 1;
-    const int wanted_height = ascii_block_size.cy % 2 == 0 ? ascii_block_size.cy : ascii_block_size.cy + 1;
+    const int wanted_width = ascii_block_size.cx;// % 2 == 0 ? ascii_block_size.cx : ascii_block_size.cx + 1;
+    const int wanted_height = ascii_block_size.cy;// % 2 == 0 ? ascii_block_size.cy : ascii_block_size.cy + 1;
 
     FILE* file;
     //TODO: adding error handling
@@ -100,8 +104,12 @@ namespace console_handler
         if (a % ((width * 3) / wanted_width) != 0)
           continue;
 
-        // data + x contains colors in B, G, R format
-        COLOR_STRUCT color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
+        COLOR_STRUCT color_struct = COLOR_STRUCT(0, 0, 0);
+        // data + x contains colors in B, G, R format or RBG format
+        if (this->ascii_block_type == ascii_block_type::text_char)
+          color_struct = COLOR_STRUCT(int(data[a + 1]), int(data[a + 2]), int(data[a]));
+        else
+          color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
 
         const bool transparent = color_struct.same_color(transparent_color);
 
@@ -124,9 +132,5 @@ namespace console_handler
       text_lines.push_back(current_line);
     }
     fclose(file);
-  }
-
-  void ascii_block::char_bitmap_creation()
-  {
   }
 }

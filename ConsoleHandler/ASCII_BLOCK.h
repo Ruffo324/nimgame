@@ -56,12 +56,11 @@ namespace console_handler
     // Constructors
     ascii_block(std::string bitmap_path_value, SIZE size_value);
     ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value);
-    ascii_block(char text_char, SIZE size);
+    ascii_block(char text_char, int font_size);
 
     // Functions
     void print();
   private:
     void generate_text_lines();
-    void char_bitmap_creation();
   };
 }

@@ -6,6 +6,7 @@
 #include <vector>
 #include "MENU_ITEM_RECTANGLE.h"
 #include "console_ascii.h"
+#include "ascii_block_list.h"
 
 namespace console_handler
 {
@@ -212,8 +213,16 @@ namespace console_handler
                       menu_item_rectangles[i].menu_item.item_background);
 
       //TODO: Adding  ascii caption and calculate text_height
-      const int text_height = 30;
+      // print text
       const int offset = menu_item_rectangles[i].menu_item.border_size + 10;
+      const int text_height = offset;
+      console_utils::set_console_cursor_pos({
+        menu_item_rectangles[i].item_rectangle.left.X,
+        menu_item_rectangles[i].item_rectangle.right.Y - short(text_height)
+        });
+      ascii_block_list(menu_item_rectangles[i].menu_item.caption, text_height).print();
+
+
       //print icon
       const SIZE icon_size = {
         box_side_length - (offset * 2),

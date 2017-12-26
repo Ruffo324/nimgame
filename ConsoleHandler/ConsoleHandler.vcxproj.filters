@@ -63,8 +63,8 @@
     <ClInclude Include="console_bmp.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="console_ascii.h">
-      <Filter>Headerdateien</Filter>
+    <ClInclude Include="ascii_block_list.h">
+      <Filter>Headerdateien\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,8 +92,8 @@
     <ClCompile Include="console_bmp.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="console_ascii.cpp">
-      <Filter>Quelldateien</Filter>
+    <ClCompile Include="ascii_block_list.cpp">
+      <Filter>Quelldateien\Models</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

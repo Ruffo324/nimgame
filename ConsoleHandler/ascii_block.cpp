@@ -98,6 +98,8 @@ namespace console_handler
     // space text_char is background color
     const bool background_color = text_char == ' ';
 
+    const bool is_text_char = this->ascii_block_type == ascii_block_type::text_char;
+    
     // parse bitmap line by line
     for (int current_height = 0; current_height < height; current_height++)
     {
@@ -112,8 +114,9 @@ namespace console_handler
       if (current_height % (height / wanted_height) != 0)
         continue;
 
+      const int offset_left_right = (is_text_char ? int(width / 5) : 0) * 3;
       // and parse bitmap pixel by pixel per line
-      for (int a = 0; a < width * 3; a += 3)
+      for (int a = 0 + offset_left_right; a < (width * 3) + offset_left_right; a += 3)
       {
         // Simple "resize"
         if (a % ((width * 3) / wanted_width) != 0)
@@ -121,7 +124,7 @@ namespace console_handler
 
         COLOR_STRUCT color_struct = COLOR_STRUCT(0, 0, 0);
         // data + x contains colors in B, G, R format or RBG format
-        if (this->ascii_block_type == ascii_block_type::text_char)
+        if(is_text_char)
           color_struct = COLOR_STRUCT(int(data[a + 1]), int(data[a + 2]), int(data[a]));
         else
           color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));

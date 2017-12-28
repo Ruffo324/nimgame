@@ -12,7 +12,5 @@ namespace console_handler
     static std::string color_code_to_ansi(std::string color_code, COLOR_STRUCT
                                           last_color_struct);
     static std::string color_struct_to_ansi(COLOR_STRUCT color_struct, COLOR_STRUCT last_color_struct, bool background);
-  private:
-    static COLOR_STRUCT color_code_to_struct(std::string color_code);
   };
 }

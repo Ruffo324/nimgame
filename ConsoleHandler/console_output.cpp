@@ -219,8 +219,9 @@ namespace console_handler
       console_utils::set_console_cursor_pos({
         menu_item_rectangles[i].item_rectangle.left.X,
         menu_item_rectangles[i].item_rectangle.right.Y - short(text_height)
-        });
-      ascii_block_list(menu_item_rectangles[i].menu_item.caption, text_height).print();
+      });
+      ascii_block_list(menu_item_rectangles[i].menu_item.caption, text_height,
+                       COLOR_STRUCT(menu_item_rectangles[i].menu_item.caption_foreground_color_code)).print();
 
 
       //print icon
@@ -232,7 +233,7 @@ namespace console_handler
         menu_item_rectangles[i].item_rectangle.left.X + short(offset),
         menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
       });
-      ascii_block("../Icons/Settings.bmp", icon_size).print();
+      ascii_block("../Icons/Settings.bmp", icon_size, COLOR_STRUCT(menu_item_rectangles[i].menu_item.icon_foreground_color_code)).print();
     }
     return menu_item_rectangles;
   }

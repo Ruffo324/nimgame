@@ -78,3 +78,4 @@ ipch/
 *.scc
 *.tlog
 *.lastbuildstate
+_ReSharper.Caches/

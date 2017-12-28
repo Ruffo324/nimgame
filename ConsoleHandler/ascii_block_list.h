@@ -27,11 +27,17 @@ namespace console_handler
     int font_size;
 
     /**
+    * \brief If not given, the color of the bitmap used. (Placeholder Color_struct)
+    * \brief Forground color for the parsed bitmap.
+    */
+    COLOR_STRUCT foreground_color;
+
+    /**
      * \brief Creates a new ascii block list.
      * \param string_value The text-string
      * \param font_size_value The wanted font size
      */
-    ascii_block_list(std::string string_value, int font_size_value);
+    ascii_block_list(std::string string_value, int font_size_value, const COLOR_STRUCT foreground_color_value);
     void print();
   };
 }

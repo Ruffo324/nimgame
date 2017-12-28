@@ -52,12 +52,19 @@ namespace console_handler
     */
     SIZE ascii_block_size;
 
+    /**
+     * \brief If not given, the color of the bitmap used. (Placeholder Color_struct)
+     * \brief Forground color for the parsed bitmap.
+     */
+    COLOR_STRUCT foreground_color;
+
 
     // Constructors
     ascii_block(std::string bitmap_path_value, SIZE size_value);
     ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value);
-    ascii_block(char text_char, int font_size);
-
+    ascii_block(std::string bitmap_path_value, SIZE size_value, COLOR_STRUCT foreground_color_value);
+    ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value, COLOR_STRUCT foreground_color_value);
+    ascii_block(char text_char, int font_size, COLOR_STRUCT foreground_color_value);
     // Functions
     void print();
   private:

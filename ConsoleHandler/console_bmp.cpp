@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
+#include "COLOR_STRUCT.h"
 
 namespace console_handler
 {

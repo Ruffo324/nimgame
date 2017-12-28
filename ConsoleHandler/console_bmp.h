@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <xstring>
+#include "COLOR_STRUCT.h"
 
 namespace console_handler
 {

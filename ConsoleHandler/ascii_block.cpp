@@ -9,21 +9,36 @@ namespace console_handler
 {
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value)
     : original_char(0), text_char(' '), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value)
+    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
-
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value, const char text_char_value)
     : original_char(0), text_char(text_char_value), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value)
+    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
 
-  ascii_block::ascii_block(const char text_char_value, const int font_size_value)
+  ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value,
+                           const COLOR_STRUCT foreground_color_value)
+    : original_char(0), text_char(' '), bitmap_path(bitmap_path_value), ascii_block_type(icon),
+      ascii_block_size(size_value), foreground_color(foreground_color_value)
+  {
+    generate_text_lines();
+  }
+
+  ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value,
+                           const char text_char_value, const COLOR_STRUCT foreground_color_value)
+    : original_char(0), text_char(text_char_value), bitmap_path(bitmap_path_value), ascii_block_type(icon),
+      ascii_block_size(size_value), foreground_color(foreground_color_value)
+  {
+    generate_text_lines();
+  }
+
+  ascii_block::ascii_block(const char text_char_value, const int font_size_value, const COLOR_STRUCT foreground_color_value)
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
-      ascii_block_size({font_size_value, font_size_value})
+      ascii_block_size({font_size_value, font_size_value}), foreground_color(foreground_color_value)
   {
     console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
     text_bitmap.write_text(original_char);
@@ -112,6 +127,10 @@ namespace console_handler
           color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
 
         const bool transparent = color_struct.same_color(transparent_color);
+
+        // Foreground color given & not transparent -> use foreground color
+        if (!transparent && !foreground_color.placeholder)
+          color_struct = foreground_color;
 
         //TODO: retalkt with til
         const std::string current_text_char = transparent ? " " : (text_char == ' ' ? " " : text_char + "");

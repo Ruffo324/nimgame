@@ -1,5 +1,7 @@
 #pragma once
+#include "stdafx.h"
 #include "console_handler.h"
+#include <fstream>
 
 namespace console_handler
 {
@@ -20,11 +22,64 @@ namespace console_handler
     */
     int blue;
 
+    /**
+     * \brief Means: Each color value is -1.
+     * \brief Is this color struct an placeholder color?
+     */
+    bool placeholder;
+
+    /**
+     * \brief Creates an new color struct.
+     * \param red_value Red value. (0-255)
+     * \param green_value Green value. (0-255)
+     * \param blue_value Blue value. (0-255)
+     */
     COLOR_STRUCT(const int red_value, const int green_value, const int blue_value)
-      : red(red_value), green(green_value), blue(blue_value)
+      : red(red_value), green(green_value), blue(blue_value), placeholder(false)
     {
     }
 
+    /**
+     * \brief Creates an new placeholder color_struct, or an color struct with 0, 0, 0
+     * \param placeholder_value If true, colorstruct is placeholder (-1,-1,-1), else (0,0,0)
+     */
+    explicit COLOR_STRUCT(const bool placeholder_value)
+      : red(0), green(0), blue(0), placeholder(placeholder_value)
+    {
+      if (placeholder)
+      {
+        red = -1;
+        green = -1;
+        blue = -1;
+      }
+    }
+
+
+    /**
+     * \brief Creates a new color_struct from a color_code string
+     * \param color_code_string The color_code string that should be translated
+     */
+    explicit COLOR_STRUCT(std::string color_code_string)
+      : red(0), green(0), blue(0), placeholder(false)
+    {
+      //Remove braces if given
+      if (color_code_string[0] == '{' && color_code_string[color_code_string.length()] == '}')
+        color_code_string = color_code_string.substr(1, color_code_string.length() - 1);
+
+        // Not valid hex string -> throw exception;
+      if (color_code_string[0] != '#' && color_code_string[1] != '#')
+        throw std::invalid_argument("Color code must start with a #!");
+
+      // Parse clean color code
+      std::string clean_color_code;
+      for (unsigned int i = 0; i < color_code_string.length(); i++)
+        if (color_code_string[i] != '#' && color_code_string[i] != '_')
+          clean_color_code += color_code_string[i];
+
+      // Parse colors from hex code
+      sscanf_s(clean_color_code.c_str(), "%02x%02x%02x",
+        &red, &green, &blue);
+    }
 
     /**
      * \brief Compares this color_struct with an other color struct.

@@ -80,9 +80,9 @@ namespace console_handler
       else
       {
         if (background)
-          last_background = color_code_to_struct(color_code.second);
+          last_background = COLOR_STRUCT(color_code.second);
         else
-          last_foreground = color_code_to_struct(color_code.second);
+          last_foreground = COLOR_STRUCT(color_code.second);
       }
     }
 
@@ -90,6 +90,7 @@ namespace console_handler
   }
 
   /**
+   * //TODO: Move to COLOR_STRUCT
    * \brief Translates a color code to the wanted ansi color code
    * \param color_code The color code wich should be translated
    * \param last_color_struct Last back/foreground color struct. Used for background/foreground combinations
@@ -101,7 +102,7 @@ namespace console_handler
     if (color_code == ";")
       return "\x1B[0m";
 
-    const COLOR_STRUCT parsed_color = color_code_to_struct(color_code);
+    const COLOR_STRUCT parsed_color = COLOR_STRUCT(color_code);
     const bool background = color_code[0] == '_';
 
     return color_struct_to_ansi(parsed_color, last_color_struct, background);
@@ -143,29 +144,5 @@ namespace console_handler
     //std::to_string(last_color_struct.blue);
 
     return ansi_color_string + "m";
-  }
-
-  /**
-  * \brief Translates an hex color code to an color struct
-  * \param color_code The hex string wich should be translated
-  * \return color struct for the given hex code
-  */
-  COLOR_STRUCT console_color::color_code_to_struct(std::string color_code)
-  {
-    // Not valid hex string -> throw exception;
-    if (color_code[0] != '#' && color_code[1] != '#')
-      throw "Color code must start with a #!";
-
-    // Parse clean color code
-    std::string clean_color_code;
-    for (unsigned int i = 0; i < color_code.length(); i++)
-      if (color_code[i] != '#' && color_code[i] != '_')
-        clean_color_code += color_code[i];
-
-    COLOR_STRUCT parsed_color = COLOR_STRUCT(0, 0, 0);
-    sscanf_s(clean_color_code.c_str(), "%02x%02x%02x",
-             &parsed_color.red, &parsed_color.green, &parsed_color.blue);
-
-    return parsed_color;
   }
 }

@@ -2,9 +2,10 @@
 #include <string>
 #include <vector>
 #include "ascii_block.h"
+#include "console_handler.h"
 
 //TODO: fix warnings correctly
-#pragma warning( disable: 4251 )
+#pragma warning(disable: 4251)
 
 namespace console_handler
 {

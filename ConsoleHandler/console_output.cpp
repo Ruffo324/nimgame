@@ -217,13 +217,12 @@ namespace console_handler
       const int offset = menu_item_rectangles[i].menu_item.border_size + 10;
       const int text_height = offset;
       console_utils::set_console_cursor_pos({
-        menu_item_rectangles[i].item_rectangle.left.X,
-        menu_item_rectangles[i].item_rectangle.right.Y - short(text_height)
+        menu_item_rectangles[i].item_rectangle.left.X + short(menu_item_rectangles[i].menu_item.border_size * 2),
+        menu_item_rectangles[i].item_rectangle.right.Y - short(text_height + (text_height / 2))
       });
       ascii_block_list(menu_item_rectangles[i].menu_item.caption, text_height,
                        COLOR_STRUCT(menu_item_rectangles[i].menu_item.caption_foreground_color_code)).print();
-
-
+      
       //print icon
       const SIZE icon_size = {
         box_side_length - (offset * 2),

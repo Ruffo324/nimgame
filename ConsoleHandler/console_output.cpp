@@ -40,7 +40,7 @@ namespace console_handler
   */
   void console_output::print_line(const std::string message)
   {
-    std::string out_message = "{;}{#ffffff}" + message;
+    std::string out_message = "{;}" + message;
 
     out_message = console_color::parse_string_to_ansi_string(out_message);
     internal_write(out_message + "\n");
@@ -233,7 +233,8 @@ namespace console_handler
         menu_item_rectangles[i].item_rectangle.left.X + short(offset),
         menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
       });
-      ascii_block("../Icons/Settings.bmp", icon_size, COLOR_STRUCT(menu_item_rectangles[i].menu_item.icon_foreground_color_code)).print();
+      const COLOR_STRUCT icon_color_struct = COLOR_STRUCT(menu_item_rectangles[i].menu_item.icon_foreground_color_code);
+      ascii_block("../Icons/Settings.bmp", icon_size, icon_color_struct).print();
     }
     return menu_item_rectangles;
   }

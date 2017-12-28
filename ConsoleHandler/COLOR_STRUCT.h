@@ -62,23 +62,22 @@ namespace console_handler
     explicit COLOR_STRUCT(std::string color_code_string)
       : red(0), green(0), blue(0), placeholder(false)
     {
-      //Remove braces if given
-      if (color_code_string[0] == '{' && color_code_string[color_code_string.length()] == '}')
-        color_code_string = color_code_string.substr(1, color_code_string.length() - 1);
-
-        // Not valid hex string -> throw exception;
-      if (color_code_string[0] != '#' && color_code_string[1] != '#')
+      // Not valid hex string -> throw exception;
+      if (color_code_string[0] != '#' && color_code_string[1] != '#' && color_code_string[2] != '#')
         throw std::invalid_argument("Color code must start with a #!");
 
       // Parse clean color code
       std::string clean_color_code;
       for (unsigned int i = 0; i < color_code_string.length(); i++)
-        if (color_code_string[i] != '#' && color_code_string[i] != '_')
+      {
+        if (color_code_string[i] != '#' && color_code_string[i] != '_'
+          && color_code_string[i] != '{' && color_code_string[i] != '}')
           clean_color_code += color_code_string[i];
+      }
 
       // Parse colors from hex code
       sscanf_s(clean_color_code.c_str(), "%02x%02x%02x",
-        &red, &green, &blue);
+               &red, &green, &blue);
     }
 
     /**
@@ -88,7 +87,10 @@ namespace console_handler
      */
     bool same_color(const COLOR_STRUCT compare_with) const
     {
-      return compare_with.red == red && compare_with.green == green && compare_with.blue == blue;
+      return compare_with.red == red
+        && compare_with.green == green
+        && compare_with.blue == blue
+        && compare_with.placeholder == placeholder;
     };
   };
 }

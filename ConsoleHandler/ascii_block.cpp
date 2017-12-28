@@ -104,7 +104,7 @@ namespace console_handler
       std::string current_line = "";
 
       //TODO: Solution for last_color_struct
-      COLOR_STRUCT last_color_struct = COLOR_STRUCT(0, 0, 0);
+      COLOR_STRUCT last_color_struct = COLOR_STRUCT(true);
 
       fread(data, sizeof(unsigned char), row_padded, file);
 
@@ -140,7 +140,7 @@ namespace console_handler
         else if (transparent)
           current_line += console_color::color_code_to_ansi(";", COLOR_STRUCT(0, 0, 0)) + current_text_char;
         else
-          current_line += console_color::color_struct_to_ansi(color_struct, COLOR_STRUCT(0, 0, 0), background_color) +
+          current_line += console_color::color_struct_to_ansi(color_struct, color_struct, background_color) +
             current_text_char;
 
         // save last color_struct

@@ -80,3 +80,4 @@ ipch/
 *.lastbuildstate
 _ReSharper.Caches/
 *.enc
+*.idb

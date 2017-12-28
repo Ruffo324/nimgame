@@ -81,3 +81,4 @@ ipch/
 _ReSharper.Caches/
 *.enc
 *.idb
+enc_temp_folder/

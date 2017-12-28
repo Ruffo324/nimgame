@@ -9,13 +9,14 @@ namespace console_handler
 {
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value)
     : original_char(0), text_char(' '), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
+      ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
+
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value, const char text_char_value)
     : original_char(0), text_char(text_char_value), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
+      ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
@@ -36,7 +37,8 @@ namespace console_handler
     generate_text_lines();
   }
 
-  ascii_block::ascii_block(const char text_char_value, const int font_size_value, const COLOR_STRUCT foreground_color_value)
+  ascii_block::ascii_block(const char text_char_value, const int font_size_value,
+                           const COLOR_STRUCT foreground_color_value)
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
       ascii_block_size({font_size_value, font_size_value}), foreground_color(foreground_color_value)
   {
@@ -99,7 +101,9 @@ namespace console_handler
     const bool background_color = text_char == ' ';
 
     const bool is_text_char = this->ascii_block_type == ascii_block_type::text_char;
-    
+
+    const int end_height = is_text_char ? 0 : height;
+
     // parse bitmap line by line
     for (int current_height = 0; current_height < height; current_height++)
     {
@@ -116,7 +120,7 @@ namespace console_handler
 
       const int offset_left_right = (is_text_char ? int(width / 5) : 0) * 3;
       // and parse bitmap pixel by pixel per line
-      for (int a = 0 + offset_left_right; a < (width * 3) + offset_left_right; a += 3)
+      for (int a = 0 + offset_left_right; a < (width * 3 - offset_left_right); a += 3)
       {
         // Simple "resize"
         if (a % ((width * 3) / wanted_width) != 0)
@@ -124,7 +128,7 @@ namespace console_handler
 
         COLOR_STRUCT color_struct = COLOR_STRUCT(0, 0, 0);
         // data + x contains colors in B, G, R format or RBG format
-        if(is_text_char)
+        if (is_text_char)
           color_struct = COLOR_STRUCT(int(data[a + 1]), int(data[a + 2]), int(data[a]));
         else
           color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
@@ -151,7 +155,10 @@ namespace console_handler
       }
 
       // push bitmap height line to text block
-      text_lines.push_back(current_line);
+      if (is_text_char)
+        text_lines.insert(text_lines.begin(), current_line);
+      else
+        text_lines.push_back(current_line);
     }
     fclose(file);
   }

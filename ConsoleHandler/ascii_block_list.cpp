@@ -17,7 +17,7 @@ namespace console_handler
     for (int i = 0; i < ascii_blocks.size(); i++)
     {
       console_utils::set_console_cursor_pos({
-        current_cursor_position.X + short((font_size * i)),
+        current_cursor_position.X + short((int(font_size / 2) * i)),
         current_cursor_position.Y
       });
       ascii_blocks[i].print();

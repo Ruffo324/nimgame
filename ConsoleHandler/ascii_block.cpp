@@ -63,10 +63,16 @@ namespace console_handler
   void ascii_block::draw()
   {
     const _COORD current_cursor_position = console_utils::get_console_cursor_position();
+
+    // Icons can get manually sized lower
+    short center_offset = 0;
+    if(this->ascii_block_type != ascii_block_type::text_char )
+      center_offset = short((ascii_block_size.cx - real_width_) / 2);
+
     for (short i = 0; i < text_lines.size(); i++)
     {
       const _COORD next_cursor_position = {
-        current_cursor_position.X + short((ascii_block_size.cx - real_width_) / 2),
+        current_cursor_position.X + center_offset,
         current_cursor_position.Y + i
       };
       console_utils::set_console_cursor_pos(next_cursor_position);

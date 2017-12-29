@@ -58,6 +58,8 @@ namespace console_handler
      */
     COLOR_STRUCT foreground_color;
 
+    // Functions
+    void draw();
 
     // Constructors
     ascii_block(std::string bitmap_path_value, SIZE size_value);
@@ -65,9 +67,8 @@ namespace console_handler
     ascii_block(std::string bitmap_path_value, SIZE size_value, COLOR_STRUCT foreground_color_value);
     ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value, COLOR_STRUCT foreground_color_value);
     ascii_block(char text_char, int font_size, COLOR_STRUCT foreground_color_value);
-    // Functions
-    void draw();
   private:
     void generate_text_lines();
+    int real_width_;
   };
 }

@@ -66,11 +66,12 @@ namespace console_handler
     for (short i = 0; i < text_lines.size(); i++)
     {
       const _COORD next_cursor_position = {
-        current_cursor_position.X,
+        current_cursor_position.X + short((ascii_block_size.cx - real_width_) / 2),
         current_cursor_position.Y + i
       };
       console_utils::set_console_cursor_pos(next_cursor_position);
-      console_output::print_line(text_lines[i]);
+      if (text_lines[i] != "")
+        console_output::print_line(text_lines[i]);
     }
   }
 
@@ -92,7 +93,7 @@ namespace console_handler
     const int width = *reinterpret_cast<int*>(&info[18]);
     const int height = *reinterpret_cast<int*>(&info[22]);
 
-    if(!is_text_char)
+    if (!is_text_char)
     {
       while (int(round(double(width) / double(wanted_width))) == 2)
         wanted_width--;
@@ -114,6 +115,7 @@ namespace console_handler
     // parse bitmap line by line
     for (int current_height = 0; current_height < height; current_height++)
     {
+      bool transparent_only = true;
       std::string current_line = "";
 
       //TODO: Solution for last_color_struct
@@ -127,10 +129,11 @@ namespace console_handler
 
       const int offset_left_right = (is_text_char ? int((wanted_width / 4)) : 0) * 3;
       // and parse bitmap pixel by pixel per line
+      int line_content_width = 0;
       for (int a = 0 + offset_left_right; a < (width * 3 - offset_left_right); a += 3)
       {
         // Simple "resize"
-        if (int(a/3) % int(round(double(width) / double(wanted_width))) != 0)
+        if (int(a / 3) % int(round(double(width) / double(wanted_width))) != 0)
           continue;
 
         COLOR_STRUCT color_struct = COLOR_STRUCT(0, 0, 0);
@@ -141,6 +144,8 @@ namespace console_handler
           color_struct = COLOR_STRUCT(int(data[a + 2]), int(data[a + 1]), int(data[a]));
 
         const bool transparent = color_struct.same_color(transparent_color);
+        if (!transparent && transparent_only)
+          transparent_only = false;
 
         // Foreground color given & not transparent -> use foreground color
         if (!transparent && !foreground_color.placeholder)
@@ -159,11 +164,18 @@ namespace console_handler
 
         // save last color_struct
         last_color_struct = transparent ? transparent_color : color_struct;
+
+        if (!transparent || !transparent_only)
+          line_content_width++;
       }
+      // 
+      real_width_ = real_width_ < line_content_width ? line_content_width : real_width_;
 
       // push bitmap height line to text block
       if (is_text_char)
-        text_lines.insert(text_lines.begin(), current_line);
+      {
+        text_lines.insert(text_lines.begin(), transparent_only ? "" : current_line);
+      }
       else
         text_lines.push_back(current_line);
     }

@@ -60,7 +60,7 @@ namespace console_handler
     //delete &text_bitmap;
   }
 
-  void ascii_block::print()
+  void ascii_block::draw()
   {
     const _COORD current_cursor_position = console_utils::get_console_cursor_position();
     for (short i = 0; i < text_lines.size(); i++)

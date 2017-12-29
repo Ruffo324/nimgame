@@ -39,6 +39,6 @@ namespace console_handler
      * \param font_size_value The wanted font size
      */
     ascii_block_list(std::string string_value, int font_size_value, const COLOR_STRUCT foreground_color_value);
-    void print();
+    void draw();
   };
 }

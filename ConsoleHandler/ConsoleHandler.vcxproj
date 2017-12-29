@@ -153,9 +153,10 @@
     <ClInclude Include="console_output.h" />
     <ClInclude Include="console_utils.h" />
     <ClInclude Include="ascii_block_type.h" />
-    <ClInclude Include="MENU_ITEM.h" />
-    <ClInclude Include="MENU_ITEM_RECTANGLE.h" />
-    <ClInclude Include="SHAPE_RECTANGLE.h" />
+    <ClInclude Include="dynamic_menu.h" />
+    <ClInclude Include="menu_item.h" />
+    <ClInclude Include="menu_item_rectangle.h" />
+    <ClInclude Include="shape_rectangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ascii_block.cpp" />
@@ -166,6 +167,10 @@
     <ClCompile Include="console_select.cpp" />
     <ClCompile Include="console_output.cpp" />
     <ClCompile Include="console_utils.cpp" />
+    <ClCompile Include="dynamic_menu.cpp" />
+    <ClCompile Include="menu_item.cpp" />
+    <ClCompile Include="menu_item_rectangle.cpp" />
+    <ClCompile Include="shape_rectangle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

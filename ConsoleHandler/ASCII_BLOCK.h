@@ -66,7 +66,7 @@ namespace console_handler
     ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value, COLOR_STRUCT foreground_color_value);
     ascii_block(char text_char, int font_size, COLOR_STRUCT foreground_color_value);
     // Functions
-    void print();
+    void draw();
   private:
     void generate_text_lines();
   };

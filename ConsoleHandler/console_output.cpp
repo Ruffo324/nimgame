@@ -4,7 +4,7 @@
 #include "console_color.h"
 #include <Windows.h>
 #include <vector>
-#include "MENU_ITEM_RECTANGLE.h"
+#include "menu_item_rectangle.h"
 #include "console_ascii.h"
 #include "ascii_block_list.h"
 
@@ -67,39 +67,6 @@ namespace console_handler
     print_line(print_str);
   }
 
-  void console_output::print_rectangle(const SHAPE_RECTANGLE rectangle, std::string color_string, const char text_char)
-  {
-    const _COORD old_cursor_position = console_utils::get_console_cursor_position();
-
-    // calculate recangle props
-    const int lenght = rectangle.right.X - rectangle.left.X;
-    const int height = rectangle.left.Y > rectangle.right.Y
-                         ? rectangle.left.Y - rectangle.right.Y
-                         : rectangle.right.Y - rectangle.left.Y;
-
-    // calculate rectangle length
-    std::string length_pattern = "";
-    for (int i = 0; i < lenght; i++)
-      length_pattern += text_char;
-
-    // add color code braces if not given
-    if (color_string.front() != '{')
-      color_string = '{' + color_string;
-    if (color_string.back() != '}')
-      color_string += '}';
-
-    // print rectangle
-    for (int i = 0; i < height; i++)
-    {
-      console_utils::set_console_cursor_pos({rectangle.left.X, rectangle.left.Y + short(i)});
-      print(color_string + length_pattern);
-    }
-
-    // reset to last cursor position
-    console_utils::set_console_cursor_pos(old_cursor_position);
-    print("");
-  }
-
   void console_output::fill_background(const std::string color_string, const char text_char)
   {
     console_utils::set_console_cursor_pos({0,0});
@@ -115,128 +82,6 @@ namespace console_handler
       print_line(line);
   }
 
-  std::vector<MENU_ITEM_RECTANGLE> console_output::draw_menu(std::vector<MENU_ITEM> menu_items,
-                                                             const int window_margin,
-                                                             const int margin_between_boxes, int boxes_per_row,
-                                                             const bool recalculate_per_row)
-  {
-    std::vector<MENU_ITEM_RECTANGLE> menu_item_rectangles;
-    // Calculate box side lenght:
-    // (min(console width , console height)
-    // - (2 x window_margin [left & right])
-    // - boxes per row - 1 [spaces only] * margin_between_boxes)
-    // divide result by boxes_per_row = box side lenght
-    const int boxes_per_column = int(menu_items.size()) / boxes_per_row;
-
-    const int rest_console_width = console_utils::get_console_width()
-      - (2 * window_margin) - (boxes_per_row - 1) * margin_between_boxes;
-    const int rest_console_height = console_utils::get_console_height() -
-      2 * window_margin - (boxes_per_column - 1) * margin_between_boxes;
-    const bool box_lenght_by_height =
-      console_utils::get_console_height() < console_utils::get_console_width();
-
-    int box_side_length =
-      box_lenght_by_height
-        ? rest_console_height / boxes_per_column
-        : rest_console_width / boxes_per_row;
-
-    if (box_side_length < 1)
-      box_side_length = 5;
-    if (recalculate_per_row)
-    {
-      int i = 0;
-      do
-      {
-        boxes_per_row = (rest_console_width / box_side_length) - i;
-        i++;
-      }
-      while (boxes_per_row * box_side_length + ((boxes_per_row - 1) * margin_between_boxes) > rest_console_width);
-    }
-
-    const int left_extra_margin =
-      box_lenght_by_height
-        ? ((console_utils::get_console_width()
-          - (box_side_length * boxes_per_row)
-          - ((boxes_per_row - 1) * margin_between_boxes)
-          - (2 * window_margin)) / 2)
-        : 0;
-    //- (box_side_length * boxes_per_row) - (boxes_per_row - 1) * margin_between_boxes) : 0;
-    int current_row = 0;
-    int current_row_index = 0;
-
-
-    // calculate rectangles
-    for (int i = 0; i < menu_items.size(); i++)
-    {
-      // create new item rectangle
-      MENU_ITEM_RECTANGLE item_rectangle = MENU_ITEM_RECTANGLE(menu_items[i]);
-
-      // item rectangle.left
-      item_rectangle.item_rectangle.left.X =
-        window_margin + left_extra_margin +
-        + current_row_index * box_side_length
-        + current_row_index * margin_between_boxes;
-      item_rectangle.item_rectangle.left.Y =
-        window_margin
-        + current_row * box_side_length
-        + current_row * margin_between_boxes;
-
-      // item rectangle.rigth 
-      item_rectangle.item_rectangle.right.X =
-        item_rectangle.item_rectangle.left.X + box_side_length;
-      item_rectangle.item_rectangle.right.Y =
-        item_rectangle.item_rectangle.left.Y + (box_side_length);
-
-      // position in menu
-      item_rectangle.menu_row = current_row;
-      item_rectangle.menu_row_index = current_row_index;
-
-      // add to vector
-      menu_item_rectangles.push_back(item_rectangle);
-
-      // next row index
-      current_row_index++;
-
-      // Begin a new row?
-      if ((i + 1) % boxes_per_row == 0)
-      {
-        current_row++;
-        current_row_index = 0;
-      }
-    }
-
-    // draw boxes
-    for (int i = 0; i < menu_item_rectangles.size(); i++)
-    {
-      // print rectangle background
-      print_rectangle(menu_item_rectangles[i].item_rectangle,
-                      menu_item_rectangles[i].menu_item.item_background);
-
-      //TODO: Adding  ascii caption and calculate text_height
-      // print text
-      const int offset = menu_item_rectangles[i].menu_item.border_size + 10;
-      const int text_height = offset;
-      console_utils::set_console_cursor_pos({
-        menu_item_rectangles[i].item_rectangle.left.X + short(menu_item_rectangles[i].menu_item.border_size * 2),
-        menu_item_rectangles[i].item_rectangle.right.Y - short(text_height + (text_height / 2))
-      });
-      ascii_block_list(menu_item_rectangles[i].menu_item.caption, text_height,
-                       COLOR_STRUCT(menu_item_rectangles[i].menu_item.caption_foreground_color_code)).print();
-      
-      //print icon
-      const SIZE icon_size = {
-        box_side_length - (offset * 2),
-        box_side_length - ((offset * 2) + text_height)
-      };
-      console_utils::set_console_cursor_pos({
-        menu_item_rectangles[i].item_rectangle.left.X + short(offset),
-        menu_item_rectangles[i].item_rectangle.left.Y + short(offset)
-      });
-      const COLOR_STRUCT icon_color_struct = COLOR_STRUCT(menu_item_rectangles[i].menu_item.icon_foreground_color_code);
-      ascii_block("../Icons/Settings.bmp", icon_size, icon_color_struct).print();
-    }
-    return menu_item_rectangles;
-  }
 
   void console_output::internal_write(std::string message)
   {

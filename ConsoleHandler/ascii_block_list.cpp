@@ -12,7 +12,7 @@ namespace console_handler
       ascii_blocks.push_back(ascii_block(original_string[i], font_size, foreground_color));
   }
 
-  void ascii_block_list::print()
+  void ascii_block_list::draw()
   {
     const COORD current_cursor_position = console_utils::get_console_cursor_position();
     for (int i = 0; i < ascii_blocks.size(); i++)
@@ -21,7 +21,7 @@ namespace console_handler
         current_cursor_position.X + short((int(font_size / 2) * i)),
         current_cursor_position.Y
       });
-      ascii_blocks[i].print();
+      ascii_blocks[i].draw();
     }
   }
 }

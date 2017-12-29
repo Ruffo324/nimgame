@@ -10,7 +10,7 @@ namespace console_handler
 {
   class console_utils;
 
-  MENU_ITEM_RECTANGLE console_select::select_menu_item(std::vector<MENU_ITEM_RECTANGLE> menu_items)
+  menu_item_rectangle console_select::select_menu_item(std::vector<menu_item_rectangle> menu_items)
   {
     int current_selected_index = -1;
     int last_selected_index = -1;
@@ -25,7 +25,7 @@ namespace console_handler
         if(last_selected_index != -1)
         draw_border_around_menu_item(menu_items[last_selected_index], ' ', menu_items[last_selected_index].menu_item.item_background);
 
-        const MENU_ITEM_RECTANGLE current_item = menu_items[current_selected_index];
+        const menu_item_rectangle current_item = menu_items[current_selected_index];
 
         // draw border
         draw_border_around_menu_item(current_item, current_item.menu_item.border_char, current_item.menu_item.border_color_code);
@@ -71,11 +71,11 @@ namespace console_handler
     return menu_items[0];
   }
 
-  void console_select::draw_border_around_menu_item(const MENU_ITEM_RECTANGLE menu_item, const char border_char, const std::string border_color_code)
+  void console_select::draw_border_around_menu_item(const menu_item_rectangle menu_item, const char border_char, const std::string border_color_code)
   {
     // calculate box properties
-    const int item_height = (menu_item.item_rectangle.right.Y - menu_item.item_rectangle.left.Y);
-    const int item_width = (menu_item.item_rectangle.right.X - menu_item.item_rectangle.left.X);
+    const int item_height = (menu_item.item_rectangle.get_right().Y - menu_item.item_rectangle.get_left().Y);
+    const int item_width = (menu_item.item_rectangle.get_right().X - menu_item.item_rectangle.get_left().X);
     
     std::string top_bottom_line = border_color_code;
     std::string border_left_right = border_color_code;
@@ -89,8 +89,8 @@ namespace console_handler
     for (int height = 0; height <= item_height; height++)
     {
       console_utils::set_console_cursor_pos({
-        short(menu_item.item_rectangle.left.X),
-        short(menu_item.item_rectangle.left.Y + short(height))
+        short(menu_item.item_rectangle.get_left().X),
+        short(menu_item.item_rectangle.get_left().Y + short(height))
         });
       
       for (int width = 0; width <= item_width; width++)
@@ -103,7 +103,7 @@ namespace console_handler
         if(width == 0 || width == item_width - menu_item.menu_item.border_size)
         {
           console_utils::set_console_cursor_pos(
-            { menu_item.item_rectangle.left.X + short(width), menu_item.item_rectangle.left.Y + short(height)});
+            { menu_item.item_rectangle.get_left().X + short(width), menu_item.item_rectangle.get_left().Y + short(height)});
           console_output::print(border_left_right);
         }
       }

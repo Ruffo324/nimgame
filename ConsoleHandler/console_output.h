@@ -2,12 +2,12 @@
 #include "console_handler.h"
 #include <string>
 #include "SHAPE_RECTANGLE.h"
-#include "MENU_ITEM.h"
+#include "menu_item.h"
 #include <vector>
 
 namespace console_handler
 {
-  struct MENU_ITEM_RECTANGLE;
+  struct menu_item_rectangle;
 
   class CONSOLE_HANDLER_API console_output
   {
@@ -16,13 +16,10 @@ namespace console_handler
     static void reset_color();
     static void print_line(std::string message);
     static void print_separatorline(std::string pattern);
-    static void print_rectangle(SHAPE_RECTANGLE square, std::string color_string,
-                                                    char text_char = ' ');
+
     // shapes
     static void fill_background(std::string color_string, char text_char = ' ');
 
-    // menu
-    static std::vector<MENU_ITEM_RECTANGLE> draw_menu(std::vector<MENU_ITEM> menu_items, int window_margin, int margin_between_boxes, int boxes_per_row, bool recalculate_per_row = false);
   private:
     static void internal_write(std::string message);
   };

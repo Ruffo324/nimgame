@@ -36,7 +36,7 @@ namespace console_handler
       });
       const SIZE icon_size = {
         item_side_length_ - ((offset * 2)),
-        item_side_length_ - ((offset * 2) + (text_width))
+        item_side_length_ - ((offset * 2))
       };
 
       ascii_block("../Icons/Settings.bmp", icon_size,

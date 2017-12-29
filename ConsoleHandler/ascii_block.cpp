@@ -41,7 +41,7 @@ namespace console_handler
   ascii_block::ascii_block(const char text_char_value, const int font_size_value,
                            const COLOR_STRUCT foreground_color_value)
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
-      ascii_block_size({font_size_value, font_size_value * 2}), foreground_color(foreground_color_value)
+      ascii_block_size({font_size_value, font_size_value}), foreground_color(foreground_color_value)
   {
     // build bitmap path
     bitmap_path = "../Icons/Chars/";
@@ -75,16 +75,22 @@ namespace console_handler
 
     // Icons can get manually sized lower
     short center_offset = 0;
+    short center_offset_top = 0;
     if (this->ascii_block_type != ascii_block_type::text_char)
+    {
       center_offset = short((ascii_block_size.cx - real_width_) / 2);
+      center_offset_top = short((ascii_block_size.cy - text_lines.size()) / 4);
+    }
 
     for (short i = 0; i < text_lines.size(); i++)
     {
       const _COORD next_cursor_position = {
         current_cursor_position.X + center_offset,
-        current_cursor_position.Y + i
+        current_cursor_position.Y + i + center_offset_top
       };
       console_utils::set_console_cursor_pos(next_cursor_position);
+
+      // Skip printing of empty lines
       if (text_lines[i] != "")
         console_output::print_line(text_lines[i]);
     }

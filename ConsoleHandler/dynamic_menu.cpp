@@ -18,26 +18,26 @@ namespace console_handler
 
       //TODO: add innerbox padding
       const int offset = items_[i].menu_item.border_size + 10;
-      const int text_height = offset;
+      const int text_width = round((item_side_length_ - (offset * 2)) / (items_[i].menu_item.caption.length() / 2));
       
       // print text
       console_utils::set_console_cursor_pos({
         items_[i].item_rectangle.get_left().X + short(items_[i].menu_item.border_size * 2),
-        items_[i].item_rectangle.get_right().Y - short(text_height + (text_height / 2))
+        items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].menu_item.border_size * 2)
       });
-      ascii_block_list(items_[i].menu_item.caption, text_height,
+      ascii_block_list(items_[i].menu_item.caption, text_width,
                        COLOR_STRUCT(items_[i].menu_item.caption_foreground_color_code)).draw();
 
-      //print icon
-      const SIZE icon_size = {
-        item_side_length_ - (offset * 2),
-        item_side_length_ - ((offset * 2) + text_height)
-      };
 
+      //print icon
       console_utils::set_console_cursor_pos({
         items_[i].item_rectangle.get_left().X + short(offset),
         items_[i].item_rectangle.get_left().Y + short(offset)
       });
+      const SIZE icon_size = {
+        item_side_length_ - ((offset * 2)),
+        item_side_length_ - ((offset * 2) + (text_width))
+      };
 
       ascii_block("../Icons/Settings.bmp", icon_size,
                   COLOR_STRUCT(items_[i].menu_item.icon_foreground_color_code)).draw();

@@ -40,7 +40,7 @@ namespace console_handler
   ascii_block::ascii_block(const char text_char_value, const int font_size_value,
                            const COLOR_STRUCT foreground_color_value)
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
-      ascii_block_size({font_size_value, font_size_value}), foreground_color(foreground_color_value)
+      ascii_block_size({font_size_value, font_size_value * 2}), foreground_color(foreground_color_value)
   {
     console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
     text_bitmap.write_text(original_char);
@@ -76,11 +76,13 @@ namespace console_handler
 
   void ascii_block::generate_text_lines()
   {
-    const int wanted_width = ascii_block_size.cx;// % 2 == 0 ? ascii_block_size.cx : ascii_block_size.cx + 1;
-    const int wanted_height = ascii_block_size.cy;// % 2 == 0 ? ascii_block_size.cy : ascii_block_size.cy + 1;
+    const bool is_text_char = this->ascii_block_type == ascii_block_type::text_char;
 
-    FILE* file;
+    int wanted_width = !is_text_char && (ascii_block_size.cx % 2) != 0 ? ascii_block_size.cx : ascii_block_size.cx - 1;
+    int wanted_height = !is_text_char && (ascii_block_size.cy % 2) != 0 ? ascii_block_size.cy : ascii_block_size.cy - 1;
+
     //TODO: adding error handling
+    FILE* file;
     errno_t file_errno = fopen_s(&file, bitmap_path.c_str(), "rb");
 
     // read the 54-byte header
@@ -90,19 +92,24 @@ namespace console_handler
     const int width = *reinterpret_cast<int*>(&info[18]);
     const int height = *reinterpret_cast<int*>(&info[22]);
 
+    if(!is_text_char)
+    {
+      while (int(round(double(width) / double(wanted_width))) == 2)
+        wanted_width--;
+
+      while (int(round(double(height) / double(wanted_height))) == 2)
+        wanted_height--;
+    }
+
     // Throw exception if file size is bigger than wanted size
     if (width < wanted_width || height < wanted_height)
-      throw "Wanted icon size is bigger than given icon size!";
+      throw std::invalid_argument("Wanted icon size is bigger than given icon size!");
 
     const int row_padded = (width * 3 + 3) & (~3);
     unsigned char* data = new unsigned char[row_padded];
 
     // space text_char is background color
     const bool background_color = text_char == ' ';
-
-    const bool is_text_char = this->ascii_block_type == ascii_block_type::text_char;
-
-    const int end_height = is_text_char ? 0 : height;
 
     // parse bitmap line by line
     for (int current_height = 0; current_height < height; current_height++)
@@ -115,7 +122,7 @@ namespace console_handler
       fread(data, sizeof(unsigned char), row_padded, file);
 
       // Simple "resize"
-      if (current_height % (height / wanted_height) != 0)
+      if (current_height % int(round(double(height) / double(wanted_height))) != 0)
         continue;
 
       const int offset_left_right = (is_text_char ? int((wanted_width / 4)) : 0) * 3;
@@ -123,7 +130,7 @@ namespace console_handler
       for (int a = 0 + offset_left_right; a < (width * 3 - offset_left_right); a += 3)
       {
         // Simple "resize"
-        if (a % ((width * 3) / wanted_width) != 0)
+        if (int(a/3) % int(round(double(width) / double(wanted_width))) != 0)
           continue;
 
         COLOR_STRUCT color_struct = COLOR_STRUCT(0, 0, 0);

@@ -25,8 +25,10 @@ namespace console_handler
         items_[i].item_rectangle.get_left().X + short(items_[i].menu_item.border_size * 2),
         items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].menu_item.border_size * 2)
       });
-      ascii_block_list(items_[i].menu_item.caption, text_width,
-                       COLOR_STRUCT(items_[i].menu_item.caption_foreground_color_code)).draw();
+      ascii_block_list caption_blocks = ascii_block_list(items_[i].menu_item.caption, text_width,
+                       COLOR_STRUCT(items_[i].menu_item.caption_foreground_color_code));
+      caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
+      caption_blocks.draw();
 
 
       //print icon

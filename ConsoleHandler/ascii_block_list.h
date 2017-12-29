@@ -39,6 +39,18 @@ namespace console_handler
      * \param font_size_value The wanted font size
      */
     ascii_block_list(std::string string_value, int font_size_value, const COLOR_STRUCT foreground_color_value);
+
+    /**
+     * \brief Toggles if the list should  be centered printed.
+     * \param center Should the list get centerd on next print?
+     * \param item_side_length The length of the box in where the list should get centered
+     */
+    void center_block_list(const bool center, const int item_side_length);
     void draw();
+
+  private: 
+    bool center_;
+    int item_side_length_;
+
   };
 }

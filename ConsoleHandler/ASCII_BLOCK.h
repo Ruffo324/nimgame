@@ -70,5 +70,6 @@ namespace console_handler
   private:
     void generate_text_lines();
     int real_width_;
+    bool bitmap_exists() const;
   };
 }

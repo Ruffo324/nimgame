@@ -4,6 +4,7 @@
 #include "console_utils.h"
 #include "console_output.h"
 #include "console_bmp.h"
+#include <filesystem>
 
 namespace console_handler
 {
@@ -42,18 +43,26 @@ namespace console_handler
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
       ascii_block_size({font_size_value, font_size_value * 2}), foreground_color(foreground_color_value)
   {
-    console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
-    text_bitmap.write_text(original_char);
-
     // build bitmap path
     bitmap_path = "../Icons/Chars/";
     bitmap_path.push_back(original_char);
+
+    if (IsCharUpper(original_char))
+      bitmap_path += "_UP";
+
     bitmap_path += "_";
     bitmap_path += std::to_string(ascii_block_size.cx);
     bitmap_path += +".bmp";
 
-    // save bitmap
-    text_bitmap.save(bitmap_path.c_str());
+    // Create bitmap if not existing
+    if (!bitmap_exists())
+    {
+      console_bmp text_bitmap = console_bmp(ascii_block_size.cx, ascii_block_size.cy);
+      text_bitmap.write_text(original_char);
+
+      // save bitmap
+      text_bitmap.save(bitmap_path.c_str());
+    }
 
     generate_text_lines();
     // clean up
@@ -66,7 +75,7 @@ namespace console_handler
 
     // Icons can get manually sized lower
     short center_offset = 0;
-    if(this->ascii_block_type != ascii_block_type::text_char )
+    if (this->ascii_block_type != ascii_block_type::text_char)
       center_offset = short((ascii_block_size.cx - real_width_) / 2);
 
     for (short i = 0; i < text_lines.size(); i++)
@@ -99,6 +108,8 @@ namespace console_handler
     const int width = *reinterpret_cast<int*>(&info[18]);
     const int height = *reinterpret_cast<int*>(&info[22]);
 
+    // Correct size for resize.. 
+    //TODO: make real resize
     if (!is_text_char)
     {
       while (int(round(double(width) / double(wanted_width))) == 2)
@@ -133,7 +144,11 @@ namespace console_handler
       if (current_height % int(round(double(height) / double(wanted_height))) != 0)
         continue;
 
-      const int offset_left_right = (is_text_char ? int((wanted_width / 4)) : 0) * 3;
+      // Bitmap offset course of space on created bitmaps with chars
+      int offset_left_right = (is_text_char ? int((wanted_width / 4)) : 0) * 3;
+      if (offset_left_right == 3)
+        offset_left_right += offset_left_right;
+
       // and parse bitmap pixel by pixel per line
       int line_content_width = 0;
       for (int a = 0 + offset_left_right; a < (width * 3 - offset_left_right); a += 3)
@@ -186,5 +201,11 @@ namespace console_handler
         text_lines.push_back(current_line);
     }
     fclose(file);
+  }
+
+  bool ascii_block::bitmap_exists() const
+  {
+    struct stat buffer;
+    return (stat(bitmap_path.c_str(), &buffer) == 0);
   }
 }

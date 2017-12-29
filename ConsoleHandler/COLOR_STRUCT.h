@@ -54,7 +54,6 @@ namespace console_handler
       }
     }
 
-
     /**
      * \brief Creates a new color_struct from a color_code string
      * \param color_code_string The color_code string that should be translated

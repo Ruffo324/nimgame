@@ -118,7 +118,7 @@ namespace console_handler
       if (current_height % (height / wanted_height) != 0)
         continue;
 
-      const int offset_left_right = (is_text_char ? int(width / 5) : 0) * 3;
+      const int offset_left_right = (is_text_char ? int((wanted_width / 4)) : 0) * 3;
       // and parse bitmap pixel by pixel per line
       for (int a = 0 + offset_left_right; a < (width * 3 - offset_left_right); a += 3)
       {

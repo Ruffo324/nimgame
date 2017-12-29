@@ -11,14 +11,16 @@ namespace console_handler
     // draw boxes
     for (int i = 0; i < items_.size(); i++)
     {
+ 
       // print rectangle background
       items_[i].item_rectangle.print();
 
-      //TODO: Adding  ascii caption and calculate text_height
-      // print text
+
+      //TODO: add innerbox padding
       const int offset = items_[i].menu_item.border_size + 10;
       const int text_height = offset;
-
+      
+      // print text
       console_utils::set_console_cursor_pos({
         items_[i].item_rectangle.get_left().X + short(items_[i].menu_item.border_size * 2),
         items_[i].item_rectangle.get_right().Y - short(text_height + (text_height / 2))
@@ -44,29 +46,22 @@ namespace console_handler
 
   void dynamic_menu::select()
   {
-
   }
 
   int dynamic_menu::calculate_side_length_automatic() const
   {
-    int console_height = console_utils::get_console_height() - window_margin_;
-    int console_width = console_utils::get_console_width() - window_margin_;
+    int console_height = console_utils::get_console_height() - (window_margin_ * 2);
+    int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
     int max_per_row = 0;
-    int side_length = 5;
+    int side_length = smalles_window_length / menu_items_.size();
 
-    for (int i = side_length; i < smalles_window_length; i++)
+    for (int i = smalles_window_length; i > 5; i--)
     {
       const int boxes_per_row = calculate_boxes_per_row(i);
-      if (menu_items_.size() % boxes_per_row == 0)
-      {
-        if (max_per_row < boxes_per_row && boxes_per_row != menu_items_.size())
-        {
-          max_per_row = boxes_per_row;
-          side_length = i;
-        }
-      }
+      if (boxes_per_row > 1)
+        return i;
     }
 
     return side_length;
@@ -74,17 +69,19 @@ namespace console_handler
 
   int dynamic_menu::calculate_boxes_per_row(const int item_side_lenght) const
   {
-    int console_height = console_utils::get_console_height() - window_margin_;
-    int console_width = console_utils::get_console_width() - window_margin_;
+    int console_height = console_utils::get_console_height() - (window_margin_ * 2);
+    int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
+    int max_per_row = -1;
     for (int i = 1; i < menu_items_.size(); i++)
     {
-      if (((item_side_lenght + margin_between_boxes_) * i) - margin_between_boxes_ > smalles_window_length)
-        return i--;
+      if ((((item_side_lenght + margin_between_boxes_) * i) - margin_between_boxes_) < console_width) 
+        if ((((item_side_lenght + margin_between_boxes_) * ceil(double(menu_items_.size()) / double(i))) - margin_between_boxes_) < console_height)
+          max_per_row = i;
     }
 
-    return 1;
+    return max_per_row;
   }
 
   void dynamic_menu::calculate_rectangles()

@@ -7,8 +7,6 @@
 
 namespace console_handler
 {
-  struct grid_item_rectangle;
-
   class CONSOLE_HANDLER_API console_output
   {
   public:

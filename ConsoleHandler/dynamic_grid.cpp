@@ -18,7 +18,7 @@ namespace console_handler
 
       //TODO: add innerbox padding
       const int offset = items_[i].grid_item.border_size + 10;
-      const int text_width = round((item_side_length_ - (offset * 2)) / (items_[i].grid_item.caption.length() / 2));
+      const int text_width = int(round((item_side_length_ - (offset * 2)) / (items_[i].grid_item.caption.length() / 2)));
       
       // print text
       console_utils::set_console_cursor_pos({
@@ -57,7 +57,7 @@ namespace console_handler
     const int smalles_window_length = min(console_height, console_width);
 
     int max_per_row = 0;
-    const int side_length = smalles_window_length / menu_items_.size();
+    const int side_length = smalles_window_length / int(menu_items_.size());
 
     for (int i = smalles_window_length; i > 5; i--)
     {

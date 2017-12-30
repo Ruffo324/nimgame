@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "dynamic_menu.h"
+#include "dynamic_grid.h"
 #include "console_utils.h"
 #include "COLOR_STRUCT.h"
 #include "ascii_block_list.h"
 
 namespace console_handler
 {
-  void dynamic_menu::draw()
+  void dynamic_grid::draw()
   {
     // draw boxes
     for (int i = 0; i < items_.size(); i++)
@@ -17,16 +17,16 @@ namespace console_handler
 
 
       //TODO: add innerbox padding
-      const int offset = items_[i].menu_item.border_size + 10;
-      const int text_width = round((item_side_length_ - (offset * 2)) / (items_[i].menu_item.caption.length() / 2));
+      const int offset = items_[i].grid_item.border_size + 10;
+      const int text_width = round((item_side_length_ - (offset * 2)) / (items_[i].grid_item.caption.length() / 2));
       
       // print text
       console_utils::set_console_cursor_pos({
-        items_[i].item_rectangle.get_left().X + short(items_[i].menu_item.border_size * 2),
-        items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].menu_item.border_size * 2)
+        items_[i].item_rectangle.get_left().X + short(items_[i].grid_item.border_size * 2),
+        items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].grid_item.border_size * 2)
       });
-      ascii_block_list caption_blocks = ascii_block_list(items_[i].menu_item.caption, text_width,
-                       COLOR_STRUCT(items_[i].menu_item.caption_foreground_color_code));
+      ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width,
+                       COLOR_STRUCT(items_[i].grid_item.caption_foreground_color_code));
       caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
       caption_blocks.draw();
 
@@ -42,22 +42,22 @@ namespace console_handler
       };
 
       ascii_block("../Icons/Settings.bmp", icon_size,
-                  COLOR_STRUCT(items_[i].menu_item.icon_foreground_color_code)).draw();
+                  COLOR_STRUCT(items_[i].grid_item.icon_foreground_color_code)).draw();
     }
   }
 
-  void dynamic_menu::select()
+  void dynamic_grid::select()
   {
   }
 
-  int dynamic_menu::calculate_side_length_automatic() const
+  int dynamic_grid::calculate_side_length_automatic() const
   {
     int console_height = console_utils::get_console_height() - (window_margin_ * 2);
     int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
     int max_per_row = 0;
-    int side_length = smalles_window_length / menu_items_.size();
+    const int side_length = smalles_window_length / menu_items_.size();
 
     for (int i = smalles_window_length; i > 5; i--)
     {
@@ -69,7 +69,7 @@ namespace console_handler
     return side_length;
   }
 
-  int dynamic_menu::calculate_boxes_per_row(const int item_side_lenght) const
+  int dynamic_grid::calculate_boxes_per_row(const int item_side_lenght) const
   {
     int console_height = console_utils::get_console_height() - (window_margin_ * 2);
     int console_width = console_utils::get_console_width() - (window_margin_ * 2);
@@ -86,7 +86,7 @@ namespace console_handler
     return max_per_row;
   }
 
-  void dynamic_menu::calculate_rectangles()
+  void dynamic_grid::calculate_rectangles()
   {
     items_.clear();
     int current_row = 0;
@@ -111,7 +111,7 @@ namespace console_handler
                         },
                         menu_items_[i].item_background, ' ');
       // add to items
-      items_.push_back(menu_item_rectangle(menu_items_[i], shape, current_row, current_row_index));
+      items_.push_back(grid_item_rectangle(menu_items_[i], shape, current_row, current_row_index));
 
       // next row index & next row
       current_row_index++;
@@ -125,7 +125,7 @@ namespace console_handler
   }
 
 
-  dynamic_menu::dynamic_menu(const std::vector<menu_item> menu_items, const int window_margin,
+  dynamic_grid::dynamic_grid(const std::vector<grid_item> menu_items, const int window_margin,
                              const int margin_between_boxes)
     : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes)
   {

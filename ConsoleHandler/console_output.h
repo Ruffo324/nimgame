@@ -2,12 +2,12 @@
 #include "console_handler.h"
 #include <string>
 #include "SHAPE_RECTANGLE.h"
-#include "menu_item.h"
+#include "grid_item.h"
 #include <vector>
 
 namespace console_handler
 {
-  struct menu_item_rectangle;
+  struct grid_item_rectangle;
 
   class CONSOLE_HANDLER_API console_output
   {

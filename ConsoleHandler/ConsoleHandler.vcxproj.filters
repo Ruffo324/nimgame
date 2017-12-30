@@ -25,14 +25,14 @@
     <Filter Include="Quelldateien\Models">
       <UniqueIdentifier>{382573d1-7a1d-44f2-b825-843550403c4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\Models\menu">
-      <UniqueIdentifier>{64dab614-9f22-42f5-b480-0a1d4a26f662}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Models\menu">
-      <UniqueIdentifier>{11c6dc9f-b23a-410f-bf9f-d999e4d02472}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Quelldateien\Models\Shapes">
       <UniqueIdentifier>{87b17332-eac9-40bc-b7ee-4e1fc2f976fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Models\dynamic_grid">
+      <UniqueIdentifier>{64dab614-9f22-42f5-b480-0a1d4a26f662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Models\dynamic_grid">
+      <UniqueIdentifier>{11c6dc9f-b23a-410f-bf9f-d999e4d02472}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,20 +63,20 @@
     <ClInclude Include="ascii_block_list.h">
       <Filter>Headerdateien\Models</Filter>
     </ClInclude>
-    <ClInclude Include="dynamic_menu.h">
-      <Filter>Headerdateien\Models\menu</Filter>
-    </ClInclude>
     <ClInclude Include="console_select.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="menu_item.h">
-      <Filter>Headerdateien\Models\menu</Filter>
-    </ClInclude>
-    <ClInclude Include="menu_item_rectangle.h">
-      <Filter>Headerdateien\Models\menu</Filter>
-    </ClInclude>
     <ClInclude Include="shape_rectangle.h">
       <Filter>Headerdateien\Models\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamic_grid.h">
+      <Filter>Headerdateien\Models\dynamic_grid</Filter>
+    </ClInclude>
+    <ClInclude Include="grid_item.h">
+      <Filter>Headerdateien\Models\dynamic_grid</Filter>
+    </ClInclude>
+    <ClInclude Include="grid_item_rectangle.h">
+      <Filter>Headerdateien\Models\dynamic_grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,17 +107,17 @@
     <ClCompile Include="ascii_block_list.cpp">
       <Filter>Quelldateien\Models</Filter>
     </ClCompile>
-    <ClCompile Include="menu_item.cpp">
-      <Filter>Quelldateien\Models\menu</Filter>
-    </ClCompile>
-    <ClCompile Include="dynamic_menu.cpp">
-      <Filter>Quelldateien\Models\menu</Filter>
-    </ClCompile>
-    <ClCompile Include="menu_item_rectangle.cpp">
-      <Filter>Quelldateien\Models\menu</Filter>
-    </ClCompile>
     <ClCompile Include="shape_rectangle.cpp">
       <Filter>Quelldateien\Models\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamic_grid.cpp">
+      <Filter>Quelldateien\Models\dynamic_grid</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_item.cpp">
+      <Filter>Quelldateien\Models\dynamic_grid</Filter>
+    </ClCompile>
+    <ClCompile Include="grid_item_rectangle.cpp">
+      <Filter>Quelldateien\Models\dynamic_grid</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

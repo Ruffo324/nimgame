@@ -10,7 +10,7 @@ namespace console_handler
 {
   class console_utils;
 
-  menu_item_rectangle console_select::select_menu_item(std::vector<menu_item_rectangle> menu_items)
+  grid_item_rectangle console_select::select_menu_item(std::vector<grid_item_rectangle> menu_items)
   {
     int current_selected_index = -1;
     int last_selected_index = -1;
@@ -23,12 +23,12 @@ namespace console_handler
       if (last_selected_index != current_selected_index) {
         // redraw last
         if(last_selected_index != -1)
-        draw_border_around_menu_item(menu_items[last_selected_index], ' ', menu_items[last_selected_index].menu_item.item_background);
+        draw_border_around_menu_item(menu_items[last_selected_index], ' ', menu_items[last_selected_index].grid_item.item_background);
 
-        const menu_item_rectangle current_item = menu_items[current_selected_index];
+        const grid_item_rectangle current_item = menu_items[current_selected_index];
 
         // draw border
-        draw_border_around_menu_item(current_item, current_item.menu_item.border_char, current_item.menu_item.border_color_code);
+        draw_border_around_menu_item(current_item, current_item.grid_item.border_char, current_item.grid_item.border_color_code);
       }
 
       input = _getch();
@@ -71,7 +71,7 @@ namespace console_handler
     return menu_items[0];
   }
 
-  void console_select::draw_border_around_menu_item(const menu_item_rectangle menu_item, const char border_char, const std::string border_color_code)
+  void console_select::draw_border_around_menu_item(const grid_item_rectangle menu_item, const char border_char, const std::string border_color_code)
   {
     // calculate box properties
     const int item_height = (menu_item.item_rectangle.get_right().Y - menu_item.item_rectangle.get_left().Y);
@@ -82,7 +82,7 @@ namespace console_handler
     for (int i = 0; i <= item_width; i++)
       top_bottom_line += border_char;
 
-    for (int i = 0; i <= menu_item.menu_item.border_size; i++)
+    for (int i = 0; i <= menu_item.grid_item.border_size; i++)
       border_left_right += border_char;
 
     // draw border
@@ -95,12 +95,12 @@ namespace console_handler
       
       for (int width = 0; width <= item_width; width++)
       {
-        if (height <= menu_item.menu_item.border_size || height >=  item_height - menu_item.menu_item.border_size)
+        if (height <= menu_item.grid_item.border_size || height >=  item_height - menu_item.grid_item.border_size)
         {
           console_output::print(top_bottom_line);
           break;
         }
-        if(width == 0 || width == item_width - menu_item.menu_item.border_size)
+        if(width == 0 || width == item_width - menu_item.grid_item.border_size)
         {
           console_utils::set_console_cursor_pos(
             { menu_item.item_rectangle.get_left().X + short(width), menu_item.item_rectangle.get_left().Y + short(height)});

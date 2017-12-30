@@ -153,9 +153,9 @@
     <ClInclude Include="console_output.h" />
     <ClInclude Include="console_utils.h" />
     <ClInclude Include="ascii_block_type.h" />
-    <ClInclude Include="dynamic_menu.h" />
-    <ClInclude Include="menu_item.h" />
-    <ClInclude Include="menu_item_rectangle.h" />
+    <ClInclude Include="dynamic_grid.h" />
+    <ClInclude Include="grid_item.h" />
+    <ClInclude Include="grid_item_rectangle.h" />
     <ClInclude Include="shape_rectangle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +167,9 @@
     <ClCompile Include="console_select.cpp" />
     <ClCompile Include="console_output.cpp" />
     <ClCompile Include="console_utils.cpp" />
-    <ClCompile Include="dynamic_menu.cpp" />
-    <ClCompile Include="menu_item.cpp" />
-    <ClCompile Include="menu_item_rectangle.cpp" />
+    <ClCompile Include="dynamic_grid.cpp" />
+    <ClCompile Include="grid_item.cpp" />
+    <ClCompile Include="grid_item_rectangle.cpp" />
     <ClCompile Include="shape_rectangle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

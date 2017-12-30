@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "menu_item.h"
+#include "grid_item.h"
 
 namespace console_handler
 {
-  menu_item::menu_item(const std::string caption_value, const std::string caption_foreground_color_code_value,
+  grid_item::grid_item(const std::string caption_value, const std::string caption_foreground_color_code_value,
                        const std::string item_background_value, const std::string icon_file_value,
                        const std::string icon_foreground_color_code_value, const char border_char_value,
                        const std::string border_color_code_value, const int border_size_value)

@@ -69,6 +69,11 @@ namespace console_handler
     //delete &text_bitmap;
   }
 
+  void ascii_block::add_padding(const int padding)
+  {
+    padding_ += padding;
+  }
+
   void ascii_block::draw()
   {
     const _COORD current_cursor_position = console_utils::get_console_cursor_position();
@@ -78,7 +83,7 @@ namespace console_handler
     short center_offset_top = 0;
     if (this->ascii_block_type != ascii_block_type::text_char)
     {
-      center_offset = short((ascii_block_size.cx - real_width_) / 2);
+      center_offset = short((ascii_block_size.cx - real_width_) / 2) + short(padding_ / 2);
       center_offset_top = short((ascii_block_size.cy - text_lines.size()) / 4);
     }
 

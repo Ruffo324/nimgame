@@ -39,6 +39,15 @@ namespace console_handler
     {
     }
 
+
+    /**
+     * \brief Creates black color_struct.
+     */
+    COLOR_STRUCT()
+      : red(0), green(0), blue(0), placeholder(false)
+    {
+    }
+
     /**
      * \brief Creates an new placeholder color_struct, or an color struct with 0, 0, 0
      * \param placeholder_value If true, colorstruct is placeholder (-1,-1,-1), else (0,0,0)

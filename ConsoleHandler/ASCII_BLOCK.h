@@ -67,9 +67,12 @@ namespace console_handler
     ascii_block(std::string bitmap_path_value, SIZE size_value, COLOR_STRUCT foreground_color_value);
     ascii_block(std::string bitmap_path_value, SIZE size_value, char text_char_value, COLOR_STRUCT foreground_color_value);
     ascii_block(char text_char, int font_size, COLOR_STRUCT foreground_color_value);
+
+    void add_padding(const int padding);
   private:
     void generate_text_lines();
     int real_width_;
     bool bitmap_exists() const;
+    int padding_ = 0;
   };
 }

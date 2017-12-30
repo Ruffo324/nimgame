@@ -39,6 +39,7 @@ namespace console_handler
      * \param font_size_value The wanted font size
      */
     ascii_block_list(std::string string_value, int font_size_value, const COLOR_STRUCT foreground_color_value);
+    ascii_block_list(std::string string_value, int font_size_value);
 
     /**
      * \brief Toggles if the list should  be centered printed.
@@ -51,6 +52,7 @@ namespace console_handler
   private: 
     bool center_;
     int item_side_length_;
+    void create_blocks();
 
   };
 }

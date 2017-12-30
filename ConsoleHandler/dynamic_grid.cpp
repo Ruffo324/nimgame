@@ -4,6 +4,7 @@
 #include "COLOR_STRUCT.h"
 #include "ascii_block_list.h"
 #include "console_color.h"
+#include <conio.h>
 
 namespace console_handler
 {
@@ -48,8 +49,71 @@ namespace console_handler
     }
   }
 
-  void dynamic_grid::select()
+  grid_item_rectangle dynamic_grid::select()
   {
+    int current_selected_index = -1;
+    int last_selected_index = -1;
+    char input = 0;
+    bool was_arrow_key = false;
+
+    // until enter
+    while (input != '\r')
+    {
+      if (last_selected_index != current_selected_index) {
+        // redraw last
+        if (last_selected_index != -1)
+        {
+          std::string original_background = items_[last_selected_index].grid_item.border_color_code;
+          items_[last_selected_index].grid_item.border_color_code = items_[last_selected_index].grid_item.item_background;
+          items_[last_selected_index].draw_border();
+          items_[last_selected_index].grid_item.border_color_code = original_background;
+        }
+
+        const grid_item_rectangle current_item = items_[current_selected_index];
+
+        // draw border
+        current_item.draw_border();
+        //draw_border_around_menu_item(current_item, current_item.grid_item.border_char, current_item.grid_item.border_color_code);
+      }
+
+      input = _getch();
+      if (input == -32)
+      {
+        was_arrow_key = true;
+        continue;
+      }
+      // remind last index
+      last_selected_index = current_selected_index;
+
+      if (was_arrow_key)
+        switch (input)
+        {
+          //  arrow rigth
+        case 'M':
+          current_selected_index++;
+          if (current_selected_index + 1 > int(items_.size()))
+            current_selected_index = 0;
+          break;
+          //  arrow left
+        case 'K':
+          current_selected_index--;
+          if (current_selected_index < 0)
+            current_selected_index = int(items_.size()) - 1;
+          break;
+          //  arrow up
+        case 'H':
+          break;
+          //  arrow down
+        case 'P':
+          break;
+        default:
+          // TODO: Hint with wrong key
+          break;
+        }
+
+      was_arrow_key = false;
+    }
+    return items_[0];
   }
 
 

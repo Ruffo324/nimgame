@@ -29,5 +29,7 @@ namespace console_handler
      * \brief The index of the item in the row
      */
     int grid_row_index;
+  
+    void draw_border() const;
   };
 }

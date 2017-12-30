@@ -63,9 +63,6 @@
     <ClInclude Include="ascii_block_list.h">
       <Filter>Headerdateien\Models</Filter>
     </ClInclude>
-    <ClInclude Include="console_select.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="shape_rectangle.h">
       <Filter>Headerdateien\Models\Shapes</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="console_color.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="console_select.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="ascii_block.cpp">

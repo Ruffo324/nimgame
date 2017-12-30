@@ -10,7 +10,7 @@ namespace console_handler
   {
   public:
     void CONSOLE_HANDLER_API draw();
-    void CONSOLE_HANDLER_API select();
+    grid_item_rectangle CONSOLE_HANDLER_API select();
 
     // Constructors
     CONSOLE_HANDLER_API dynamic_grid(std::vector<grid_item> menu_items, const int window_margin,

@@ -8,6 +8,8 @@
 
 namespace console_handler
 {
+  std::map<std::string, std::string> console_color::cached_translations_;
+
   /**
    * \brief Translates a color coded message string to a ansi color code.
    * \param message The message with the hexadecimal color codes
@@ -105,7 +107,16 @@ namespace console_handler
     const COLOR_STRUCT parsed_color = COLOR_STRUCT(color_code);
     const bool background = color_code[0] == '_';
 
-    return color_struct_to_ansi(parsed_color, last_color_struct, background);
+    // get ansii string from cache
+    const auto iter = cached_translations_.find(color_code);
+    if (iter != cached_translations_.end()) {
+      return iter->second;
+    }
+
+    // create ansii string, and save in cache
+    std::string ansii_string = color_struct_to_ansi(parsed_color, last_color_struct, background);
+    cached_translations_.insert(std::pair<std::string, std::string>(color_code, ansii_string));
+    return ansii_string;
   }
 
   /**

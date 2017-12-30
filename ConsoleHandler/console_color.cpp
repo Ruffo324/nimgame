@@ -109,7 +109,8 @@ namespace console_handler
 
     // get ansii string from cache
     const auto iter = cached_translations_.find(color_code);
-    if (iter != cached_translations_.end()) {
+    if (iter != cached_translations_.end())
+    {
       return iter->second;
     }
 
@@ -155,5 +156,34 @@ namespace console_handler
     //std::to_string(last_color_struct.blue);
 
     return ansi_color_string + "m";
+  }
+
+  std::string console_color::clean_string(std::string string_value)
+  {
+    bool color_code_parsing = false;
+
+    std::string clean_string = "";
+    // Parse chars and color_codes
+    for (int i = 0; i < string_value.length(); i++)
+    {
+      if (color_code_parsing)
+      {
+        if (string_value[i] == '}')
+        {
+          color_code_parsing = false;
+          continue;
+        }
+        continue;
+      }
+
+      if (string_value[i] == '{')
+      {
+        color_code_parsing = true;
+        continue;
+      }
+
+      clean_string += string_value[i];
+    }
+    return clean_string;
   }
 }

@@ -3,6 +3,7 @@
 #include "console_utils.h"
 #include "COLOR_STRUCT.h"
 #include "ascii_block_list.h"
+#include "console_color.h"
 
 namespace console_handler
 {
@@ -18,16 +19,14 @@ namespace console_handler
       //TODO: add innerbox padding
       const int offset = items_[i].grid_item.border_size + 10;
       const int text_width =
-        int(round((item_side_length_ - (offset * 2)) / (items_[i].grid_item.caption.length() / 2)));
+        int(round((item_side_length_ - (offset * 2)) / (console_color::clean_string(items_[i].grid_item.caption).length() / 2)));
 
       // print text
       console_utils::set_console_cursor_pos({
         items_[i].item_rectangle.get_left().X + short(items_[i].grid_item.border_size * 2),
         items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].grid_item.border_size * 2)
       });
-      ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width,
-                                                         COLOR_STRUCT(
-                                                           items_[i].grid_item.caption_foreground_color_code));
+      ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width);
       caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
       caption_blocks.draw();
 
@@ -60,7 +59,6 @@ namespace console_handler
     int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
-    int max_per_row = 0;
     const int side_length = smalles_window_length / int(menu_items_.size());
 
     for (int i = smalles_window_length; i > 5; i--)

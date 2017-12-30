@@ -13,6 +13,12 @@ namespace console_handler
     static CONSOLE_HANDLER_API std::string color_code_to_ansi(std::string color_code, COLOR_STRUCT
                                           last_color_struct);
     static CONSOLE_HANDLER_API std::string color_struct_to_ansi(COLOR_STRUCT color_struct, COLOR_STRUCT last_color_struct, bool background);
+    /**
+     * \brief Removes all color_codes from the given string
+     * \param string_value The string wich should be cleaned
+     * \return Cleaned string
+     */
+    static CONSOLE_HANDLER_API std::string clean_string(std::string string_value);
   private:
     static std::map<std::string, std::string> cached_translations_;
   };

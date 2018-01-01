@@ -20,7 +20,9 @@ namespace console_handler
       //TODO: add innerbox padding
       const int offset = items_[i].grid_item.border_size + 10;
       const int text_width =
-        int(round((item_side_length_ - (offset * 2)) / (console_color::clean_string(items_[i].grid_item.caption).length() / 2)));
+        int(round(
+          (item_side_length_ - (offset * 2)) / (console_color::clean_string(
+            items_[i].grid_item.caption).length() / 2)));
 
       // print text
       console_utils::set_console_cursor_pos({
@@ -43,7 +45,7 @@ namespace console_handler
       };
 
       ascii_block icon_block = ascii_block("../Icons/Settings.bmp", icon_size,
-                  COLOR_STRUCT(items_[i].grid_item.icon_foreground_color_code));
+                                           COLOR_STRUCT(items_[i].grid_item.icon_foreground_color_code));
       icon_block.add_padding(text_width);
       icon_block.draw();
     }
@@ -59,12 +61,14 @@ namespace console_handler
     // until enter
     while (input != '\r')
     {
-      if (last_selected_index != current_selected_index) {
+      if (last_selected_index != current_selected_index)
+      {
         // redraw last
         if (last_selected_index != -1)
         {
           std::string original_background = items_[last_selected_index].grid_item.border_color_code;
-          items_[last_selected_index].grid_item.border_color_code = items_[last_selected_index].grid_item.item_background;
+          items_[last_selected_index].grid_item.border_color_code = items_[last_selected_index].grid_item.
+                                                                                                item_background;
           items_[last_selected_index].draw_border();
           items_[last_selected_index].grid_item.border_color_code = original_background;
         }
@@ -113,6 +117,10 @@ namespace console_handler
 
       was_arrow_key = false;
     }
+    // Eval grid item function
+    if (current_selected_index != -1)
+      items_[current_selected_index].grid_item.run();
+
     return items_[0];
   }
 
@@ -165,7 +173,8 @@ namespace console_handler
       // rectangle left & right
       const _COORD left = {
         short(window_margin_ + current_row_index * item_side_length_ + current_row_index * margin_between_boxes_),
-        short(window_margin_ + caption_top_offset_ + current_row * item_side_length_ + current_row * margin_between_boxes_)
+        short(window_margin_ + caption_top_offset_ + current_row * item_side_length_ + current_row *
+          margin_between_boxes_)
       };
 
       // rectangle shape
@@ -218,7 +227,8 @@ namespace console_handler
                              const std::vector<grid_item> menu_items, const int window_margin,
                              const int margin_between_boxes)
     : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes),
-      caption_(grid_caption), caption_font_size_((console_utils::get_console_height() / 300) * caption_font_size), caption_top_offset_(caption_font_size_)
+      caption_(grid_caption), caption_font_size_((console_utils::get_console_height() / 300) * caption_font_size),
+      caption_top_offset_(caption_font_size_)
   {
     draw_caption();
     auto_sized_grid_init();

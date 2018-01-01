@@ -106,9 +106,25 @@ namespace console_handler
           break;
           //  arrow up
         case 'H':
+
+          current_selected_index -= boxes_per_row_;
+
+          if (current_selected_index < 0)
+          {
+            current_selected_index += boxes_per_row_;
+            current_selected_index = (int(items_.size()) - (int(items_.size()) % boxes_per_row_)) +
+              current_selected_index % boxes_per_row_;
+          }
           break;
           //  arrow down
         case 'P':
+          current_selected_index += boxes_per_row_;
+
+          if (current_selected_index > items_.size() || current_selected_index < 0)
+          {
+            current_selected_index -= boxes_per_row_;
+            current_selected_index = current_selected_index % boxes_per_row_;
+          }
           break;
         default:
           // TODO: Hint with wrong key

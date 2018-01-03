@@ -15,11 +15,11 @@ Means here that I use a raster font with the size 1x1, and so I can work directl
 
 # Preview / State of development
 After first two weeks:
-[ConsoleUsePreview](https://raw.githubusercontent.com/Ruffo324/nimgame/master/Documentation/1_Screenshots/Menu_item_08.12.2017_Captions.JPG)
+![ConsoleUsePreview](https://raw.githubusercontent.com/Ruffo324/nimgame/master/Documentation/1_Screenshots/Menu_item_08.12.2017_Captions.JPG)
 [Documentation/1_Screenshots/Menu_item_08.12.2017_Captions.JPG]
 
 30.12.2017, 10 Days before delivery time deadline:
-[DynamicGridScaling](https://raw.githubusercontent.com/Ruffo324/nimgame/master/Documentation/1_Screenshots/dynamic_grid_automatic_size_calculation_29.12.2017.png)
+![DynamicGridScaling](https://raw.githubusercontent.com/Ruffo324/nimgame/master/Documentation/1_Screenshots/dynamic_grid_automatic_size_calculation_29.12.2017.png)
 [Documentation/1_Screenshots/dynamic_grid_automatic_size_calculation_29.12.2017.png]
 
 # Planned for future

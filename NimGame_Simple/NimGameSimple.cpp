@@ -17,11 +17,6 @@ int main()
 
   // draw main menu
   main_menu::show_main_menu();
-
-  getchar();
-  getchar();
-  getchar();
-  getchar();
 }
 
 

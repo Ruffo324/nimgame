@@ -10,38 +10,38 @@ namespace console_handler
 {
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value)
     : original_char(0), text_char(' '), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
+    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
 
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value, const char text_char_value)
     : original_char(0), text_char(text_char_value), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
+    ascii_block_size(size_value), foreground_color(COLOR_STRUCT(true))
   {
     generate_text_lines();
   }
 
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value,
-                           const COLOR_STRUCT foreground_color_value)
+    const COLOR_STRUCT foreground_color_value)
     : original_char(0), text_char(' '), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value), foreground_color(foreground_color_value)
+    ascii_block_size(size_value), foreground_color(foreground_color_value)
   {
     generate_text_lines();
   }
 
   ascii_block::ascii_block(const std::string bitmap_path_value, const SIZE size_value,
-                           const char text_char_value, const COLOR_STRUCT foreground_color_value)
+    const char text_char_value, const COLOR_STRUCT foreground_color_value)
     : original_char(0), text_char(text_char_value), bitmap_path(bitmap_path_value), ascii_block_type(icon),
-      ascii_block_size(size_value), foreground_color(foreground_color_value)
+    ascii_block_size(size_value), foreground_color(foreground_color_value)
   {
     generate_text_lines();
   }
 
   ascii_block::ascii_block(const char text_char_value, const int font_size_value,
-                           const COLOR_STRUCT foreground_color_value)
+    const COLOR_STRUCT foreground_color_value)
     : original_char(text_char_value), text_char(' '), ascii_block_type(ascii_block_type::text_char),
-      ascii_block_size({font_size_value, font_size_value}), foreground_color(foreground_color_value)
+    ascii_block_size({ font_size_value, font_size_value }), foreground_color(foreground_color_value)
   {
     // build bitmap path
     bitmap_path = "../Icons/Chars/";
@@ -192,7 +192,7 @@ namespace console_handler
           current_line += console_color::color_code_to_ansi(";", COLOR_STRUCT(0, 0, 0)) + current_text_char;
         else
           current_line += console_color::color_struct_to_ansi(color_struct, color_struct, background_color) +
-            current_text_char;
+          current_text_char;
 
         // save last color_struct
         last_color_struct = transparent ? transparent_color : color_struct;
@@ -203,13 +203,7 @@ namespace console_handler
       // 
       real_width_ = real_width_ < line_content_width ? line_content_width : real_width_;
 
-      // push bitmap height line to text block
-      if (is_text_char)
-      {
-        text_lines.insert(text_lines.begin(), transparent_only ? "" : current_line);
-      }
-      else
-        text_lines.push_back(current_line);
+      text_lines.insert(text_lines.begin(), transparent_only ? "" : current_line);
     }
     fclose(file);
   }

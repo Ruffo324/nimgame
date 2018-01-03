@@ -19,7 +19,6 @@ namespace console_handler
     CONSOLE_HANDLER_API dynamic_grid(const std::string grid_caption, const int caption_font_size,
                                      std::vector<grid_item> menu_items, const int window_margin,
                                      const int margin_between_boxes);
-
   private:
     std::vector<grid_item_rectangle> items_;
     std::vector<grid_item> menu_items_;
@@ -29,6 +28,8 @@ namespace console_handler
 
     int window_margin_;
     int margin_between_boxes_;
+
+    int longest_caption_length_ = 5;
 
     // Caption
     std::string caption_;

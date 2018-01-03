@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\Sites">
+      <UniqueIdentifier>{72d20aa5-bc1e-4cdd-ac1c-782b08fb75cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Sites">
+      <UniqueIdentifier>{2525e86d-eaf3-4036-b008-1a9a6cdea9af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -21,6 +27,15 @@
     <ClInclude Include="targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Headerdateien\Sites</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Headerdateien\Sites</Filter>
+    </ClInclude>
+    <ClInclude Include="play.h">
+      <Filter>Headerdateien\Sites</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -28,6 +43,15 @@
     </ClCompile>
     <ClCompile Include="NimGame.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien\Sites</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Quelldateien\Sites</Filter>
+    </ClCompile>
+    <ClCompile Include="play.cpp">
+      <Filter>Quelldateien\Sites</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

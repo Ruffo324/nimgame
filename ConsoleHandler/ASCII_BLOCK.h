@@ -28,7 +28,7 @@ namespace console_handler
     * \brief Only used if the original content was an text char.
     * \brief Contains the original text char.
     */
-    const char original_char;
+    char original_char;
 
     /**
      * \brief The fillup text_char.

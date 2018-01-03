@@ -235,7 +235,7 @@ namespace console_handler
     // Get longest caption
     for (int i = 0; i < int(menu_items_.size()); i++)
       if (console_color::clean_string(menu_items_[i].caption).length() > longest_caption_length_)
-        longest_caption_length_ = console_color::clean_string(menu_items_[i].caption).length();
+        longest_caption_length_ = int(console_color::clean_string(menu_items_[i].caption).length());
   }
 
   void dynamic_grid::draw_caption() const
@@ -265,7 +265,7 @@ namespace console_handler
     const std::vector<grid_item> menu_items, const int window_margin,
     const int margin_between_boxes)
     : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes),
-    caption_(grid_caption), caption_font_size_((console_utils::get_console_height() / 300) * caption_font_size),
+    caption_(grid_caption), caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
     caption_top_offset_(caption_font_size_)
   {
     draw_caption();

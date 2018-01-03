@@ -22,14 +22,14 @@ namespace sites
 
       // Change names
       change_name_items.push_back(console_handler::grid_item([](void) { options::change_player_names(); }, "{#FFFFFF}Change", "{_#8c9eff}",
-        "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 5));
+        "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
       // Continue
       change_name_items.push_back(console_handler::grid_item([](void) { play::draw(); }, "{#FFFFFF}Continue", "{_#8c9eff}",
-        "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 5));
+        "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
       console_handler::dynamic_grid change_name_question =
-        console_handler::dynamic_grid("Default Playernames used. Statistic can't used.", 30, change_name_items, 10, 5);
+        console_handler::dynamic_grid("Default Playernames, statistic can't used.", 20, change_name_items, 10, 5);
       change_name_question.draw();
       change_name_question.select();
 
@@ -40,8 +40,8 @@ namespace sites
   {
     std::vector<console_handler::grid_item> menu_items;
 
-    for(int i= 0;i < 2; i++) // debug
-    { // debug
+   // for(int i= 0;i < 3; i++) // debug
+    //{ // debug
       
     // Play
     menu_items.push_back(console_handler::grid_item([](void) { start(); }, "{#FFFFFF}Play", "{_#8c9eff}",
@@ -55,7 +55,7 @@ namespace sites
     // Exit
     menu_items.push_back(console_handler::grid_item([](void) { /*TODO*/ }, "{#FFFFFF}Exit", "{_#8c9eff}",
       "../Icons/Exit.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
-    } // debug
+    //} // debug
 
 
     console_handler::dynamic_grid main_menu = console_handler::dynamic_grid("Nim Game!", 50, menu_items, 10, 5);

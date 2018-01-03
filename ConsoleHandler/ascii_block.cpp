@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "ascii_block.h"
 #include "console_color.h"
 #include "console_utils.h"

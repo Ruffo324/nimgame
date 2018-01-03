@@ -56,7 +56,7 @@ namespace console_handler
     const int console_witdh = console_utils::get_console_width();
     std::string print_str = "";
 
-    for (unsigned int i = 0; i < console_witdh / pattern.length(); i++)
+    for (unsigned int i = 0; i < console_witdh / console_color::clean_string(pattern).length(); i++)
       print_str += pattern;
 
     const _COORD cursor_pos = console_utils::get_console_cursor_position();
@@ -65,6 +65,16 @@ namespace console_handler
       print_str = "\n" + print_str;
 
     print_line(print_str);
+  }
+
+  void console_output::clear_screen()
+  {
+    _COORD cursor_position = console_utils::get_console_cursor_position();
+    console_utils::set_console_cursor_pos({0,0});
+
+    for(int i = 0; i < console_utils::get_console_height(); i++)
+      print_separatorline("{#FFFFFF} ");
+    console_utils::set_console_cursor_pos({ cursor_position.X, cursor_position.Y });
   }
 
   void console_output::fill_background(const std::string color_string, const char text_char)

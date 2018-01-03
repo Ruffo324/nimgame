@@ -14,6 +14,7 @@ namespace console_handler
     static void reset_color();
     static void print_line(std::string message);
     static void print_separatorline(std::string pattern);
+    static void clear_screen();
 
     // shapes
     static void fill_background(std::string color_string, char text_char = ' ');

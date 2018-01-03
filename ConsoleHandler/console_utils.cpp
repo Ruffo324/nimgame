@@ -77,7 +77,7 @@ namespace console_handler
    */
   void console_utils::set_console_raster_font(const int size)
   {
-    current_console_font_height = 1;//(size * 2) -2;
+    current_console_font_height = size;//(size * 2) -2;
     //if (current_console_font_height <= size) 
     //  current_console_font_height = size * 2;
 

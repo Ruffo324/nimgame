@@ -113,7 +113,13 @@ namespace console_handler
             // Undo first calc
             current_selected_index += boxes_per_row_;
 
-            current_selected_index = items_.size() - (current_selected_index % boxes_per_row_);
+            current_selected_index += boxes_per_row_;
+            if (current_selected_index > items_.size())
+            {
+              current_selected_index -= boxes_per_row_;
+              current_selected_index = current_selected_index % boxes_per_row_;
+            }
+
           }
           break;
           //  arrow down

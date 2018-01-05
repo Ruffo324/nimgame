@@ -44,6 +44,7 @@ namespace console_handler
      */
     void CONSOLE_HANDLER_API center_block_list(const bool center, const int item_side_length);
     void CONSOLE_HANDLER_API draw();
+    void CONSOLE_HANDLER_API input(std::string background_color_string);
 
   private: 
     bool center_;

@@ -45,7 +45,7 @@ namespace console_handler
   {
     // build bitmap path
     bitmap_path = "../Icons/Chars/";
-    bitmap_path.push_back(original_char);
+    bitmap_path += char_to_file_compatible_string(original_char);
 
     if (IsCharUpper(original_char))
       bitmap_path += "_UP";
@@ -212,5 +212,24 @@ namespace console_handler
   {
     struct stat buffer;
     return (stat(bitmap_path.c_str(), &buffer) == 0);
+  }
+
+  std::string ascii_block::char_to_file_compatible_string(const char incompatible_char)
+  {
+    std::string return_str = "";
+    switch (incompatible_char)
+    {
+    case '>':
+      return_str = "special_bigger";
+      break;
+    case '<':
+      return_str = "special_smaller";
+      break;
+    default:
+      return_str.push_back(incompatible_char);
+      break;
+    }
+
+    return return_str;
   }
 }

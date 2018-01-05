@@ -74,5 +74,6 @@ namespace console_handler
     int real_width_;
     bool bitmap_exists() const;
     int padding_ = 0;
+    static std::string char_to_file_compatible_string(char incompatible_char);
   };
 }

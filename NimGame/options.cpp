@@ -8,6 +8,7 @@ namespace sites
 {
   std::string options::name_player_a = "Player A";
   std::string options::name_player_b = "Player B";
+  std::vector<int> options::field_structure = { 1,2,3,4 };
 
   void options::draw()
   {
@@ -18,7 +19,7 @@ namespace sites
     const std::string site_background = "{_#FFFFFF}";
     const int font_size = 20;
     console_handler::console_output::fill_background(site_background);
-    console_handler::console_utils::set_console_cursor_pos({10, 10});
+    console_handler::console_utils::set_console_cursor_pos({ 10, 10 });
     _COORD console_cursor = console_handler::console_utils::get_console_cursor_position();
     // Player A
     console_handler::ascii_block_list text_a = console_handler::ascii_block_list("Name Player A", font_size);
@@ -28,7 +29,7 @@ namespace sites
     name_player_a = name_a.original_string;
 
     // Player B
-    console_handler::console_utils::set_console_cursor_pos({ console_cursor.X, console_cursor.Y + font_size* 2 });
+    console_handler::console_utils::set_console_cursor_pos({ console_cursor.X, console_cursor.Y + font_size * 2 });
     console_handler::ascii_block_list text_b = console_handler::ascii_block_list("Name Player B", font_size);
     text_b.draw();
     console_handler::ascii_block_list name_b = console_handler::ascii_block_list(font_size);

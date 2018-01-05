@@ -12,6 +12,9 @@ namespace console_handler
     void CONSOLE_HANDLER_API draw();
     grid_item_rectangle CONSOLE_HANDLER_API select();
 
+    void CONSOLE_HANDLER_API set_size_multiplicator(double multiplicator);
+    void CONSOLE_HANDLER_API recalculate_item_size();
+
     // Constructors
     CONSOLE_HANDLER_API dynamic_grid(std::vector<grid_item> menu_items, const int window_margin,
                                      const int margin_between_boxes);
@@ -19,6 +22,13 @@ namespace console_handler
     CONSOLE_HANDLER_API dynamic_grid(const std::string grid_caption, const int caption_font_size,
                                      std::vector<grid_item> menu_items, const int window_margin,
                                      const int margin_between_boxes);
+
+    CONSOLE_HANDLER_API dynamic_grid(const std::string grid_caption, const int caption_font_size,
+      std::vector<grid_item> menu_items, const int window_margin,
+      const int margin_between_boxes, const int boxes_per_row);
+
+    // Default empty constructor
+    CONSOLE_HANDLER_API dynamic_grid();
   private:
     std::vector<grid_item_rectangle> items_;
     std::vector<grid_item> menu_items_;
@@ -31,6 +41,8 @@ namespace console_handler
 
     int longest_caption_length_ = 5;
 
+    double size_multiplicator_ = 1;
+
     // Caption
     std::string caption_;
     int caption_font_size_;
@@ -42,7 +54,9 @@ namespace console_handler
 
     // caluclate functions
     int calculate_side_length_automatic() const;
+    int calculate_side_length(const int items_per_row) const;
     int calculate_boxes_per_row(int item_side_lenght) const;
     void calculate_rectangles();
+
   };
 }

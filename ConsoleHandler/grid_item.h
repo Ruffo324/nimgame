@@ -19,6 +19,16 @@ namespace console_handler
     int border_size;
 
 
+    /**
+     * \brief Is this item disabled and not visible
+     */
+    bool disabled = false;
+
+    /**
+     * \brief Is this item selectable
+     */
+    bool visible = true;
+
     int length;
     int width;
     void run() const;

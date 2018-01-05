@@ -13,25 +13,32 @@ namespace console_handler
     // draw boxes
     for (int i = 0; i < items_.size(); i++)
     {
+      // Item is not visible -> skip
+      if (!items_[i].grid_item.visible)
+        continue;
+
       // print rectangle background
       items_[i].item_rectangle.print();
 
 
       //TODO: add innerbox padding
       const int offset = items_[i].grid_item.border_size + 10;
-      const int text_width =
-        int(round(
-        (item_side_length_ - (offset * 2)) / (longest_caption_length_)));
 
-      // print text
-      console_utils::set_console_cursor_pos({
-        items_[i].item_rectangle.get_left().X + short(items_[i].grid_item.border_size * 2),
-        items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].grid_item.border_size * 2)
-        });
-      ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width);
-      caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
-      caption_blocks.draw();
+      // Calculate text width
+      int text_width = 0;
+      if (items_[i].grid_item.caption != "")
+      {
+        text_width = int(round((item_side_length_ - (offset * 2)) / (longest_caption_length_)));
 
+        // print text
+        console_utils::set_console_cursor_pos({
+          items_[i].item_rectangle.get_left().X + short(items_[i].grid_item.border_size * 2),
+          items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].grid_item.border_size * 2)
+          });
+        ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width);
+        caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
+        caption_blocks.draw();
+      }
 
       //print icon
       console_utils::set_console_cursor_pos({
@@ -148,6 +155,16 @@ namespace console_handler
     return items_[0];
   }
 
+  void dynamic_grid::set_size_multiplicator(const double multiplicator)
+  {
+    size_multiplicator_ = multiplicator;
+  }
+
+  void dynamic_grid::recalculate_item_size()
+  {
+    auto_sized_grid_init();
+  }
+
 
   int dynamic_grid::calculate_side_length_automatic() const
   {
@@ -155,24 +172,36 @@ namespace console_handler
     int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
-    const int side_length = smalles_window_length / int(menu_items_.size());
+    int side_length = smalles_window_length / int(menu_items_.size());
+    side_length = int(round(double(side_length) * size_multiplicator_));
+
 
     for (int i = smalles_window_length; i > 5; i--)
     {
-      const int boxes_per_row = calculate_boxes_per_row(i);
+      const int calculated_side_length = int(round(double(i) * size_multiplicator_));
+      const int boxes_per_row = calculate_boxes_per_row(calculated_side_length);
       if (boxes_per_row > 1)
       {
         if (menu_items_.size() % 2 == 0)
         {
           if (menu_items_.size() % boxes_per_row == 0)
-            return i;
+            return calculated_side_length;
         }
         else
-          return i;
+          return calculated_side_length;
       }
     }
 
     return side_length;
+  }
+
+  int dynamic_grid::calculate_side_length(const int items_per_row) const
+  {
+    int console_height = (console_utils::get_console_height() - (window_margin_ * 2)) - caption_top_offset_;
+    int console_width = console_utils::get_console_width() - (window_margin_ * 2);
+    const int smalles_window_length = min(console_height, console_width);
+
+    return (smalles_window_length - ((items_per_row * margin_between_boxes_) - margin_between_boxes_)) / (items_per_row);
   }
 
   int dynamic_grid::calculate_boxes_per_row(const int item_side_lenght) const
@@ -270,5 +299,21 @@ namespace console_handler
   {
     draw_caption();
     auto_sized_grid_init();
+  }
+
+  dynamic_grid::dynamic_grid(const std::string grid_caption, const int caption_font_size,
+    const std::vector<grid_item> menu_items, const int window_margin, const int margin_between_boxes, const int boxes_per_row)
+    : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes),
+    caption_(grid_caption), caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
+    caption_top_offset_(caption_font_size_), boxes_per_row_(boxes_per_row)
+  {
+    draw_caption();
+    item_side_length_ = calculate_side_length(boxes_per_row_);
+    calculate_rectangles();
+  }
+
+  dynamic_grid::dynamic_grid()
+  {
+
   }
 }

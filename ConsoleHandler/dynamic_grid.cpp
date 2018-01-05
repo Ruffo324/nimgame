@@ -100,15 +100,32 @@ namespace console_handler
         {
           //  arrow rigth
         case 'M':
-          current_selected_index++;
-          if (current_selected_index + 1 > int(items_.size()))
-            current_selected_index = 0;
+          do
+          {
+            current_selected_index++;
+            if (current_selected_index + 1 > int(items_.size()))
+            {
+              current_selected_index = 0;
+              while (items_[current_selected_index].grid_item.disabled)
+                current_selected_index++;
+            }
+          } while (items_[current_selected_index].grid_item.disabled);
           break;
           //  arrow left
         case 'K':
-          current_selected_index--;
+          do
+          {
+            current_selected_index--;
+            if (current_selected_index < 0)
+            {
+              current_selected_index = items_.size() - 1;
+              while (items_[current_selected_index].grid_item.disabled)
+                current_selected_index--;
+            }
+          } while (items_[current_selected_index].grid_item.disabled);
+          /*current_selected_index--;
           if (current_selected_index < 0)
-            current_selected_index = int(items_.size()) - 1;
+            current_selected_index = int(items_.size()) - 1;*/
           break;
           //  arrow up
         case 'H':
@@ -126,7 +143,6 @@ namespace console_handler
               current_selected_index -= boxes_per_row_;
               current_selected_index = current_selected_index % boxes_per_row_;
             }
-
           }
           break;
           //  arrow down
@@ -201,7 +217,8 @@ namespace console_handler
     int console_width = console_utils::get_console_width() - (window_margin_ * 2);
     const int smalles_window_length = min(console_height, console_width);
 
-    return (smalles_window_length - ((items_per_row * margin_between_boxes_) - margin_between_boxes_)) / (items_per_row);
+    return (smalles_window_length - ((items_per_row * margin_between_boxes_) - margin_between_boxes_)) / (items_per_row
+      );
   }
 
   int dynamic_grid::calculate_boxes_per_row(const int item_side_lenght) const
@@ -302,10 +319,12 @@ namespace console_handler
   }
 
   dynamic_grid::dynamic_grid(const std::string grid_caption, const int caption_font_size,
-    const std::vector<grid_item> menu_items, const int window_margin, const int margin_between_boxes, const int boxes_per_row)
-    : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes),
-    caption_(grid_caption), caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
-    caption_top_offset_(caption_font_size_), boxes_per_row_(boxes_per_row)
+    const std::vector<grid_item> menu_items, const int window_margin,
+    const int margin_between_boxes, const int boxes_per_row)
+    : menu_items_(menu_items), boxes_per_row_(boxes_per_row), window_margin_(window_margin),
+    margin_between_boxes_(margin_between_boxes), caption_(grid_caption),
+    caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
+    caption_top_offset_(caption_font_size_)
   {
     draw_caption();
     item_side_length_ = calculate_side_length(boxes_per_row_);
@@ -314,6 +333,5 @@ namespace console_handler
 
   dynamic_grid::dynamic_grid()
   {
-
   }
 }

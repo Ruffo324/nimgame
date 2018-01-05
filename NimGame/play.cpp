@@ -18,6 +18,7 @@ namespace sites
     console_handler::console_output::fill_background("{_#FFFFFF}");
     generate_field();
     current_session_field_.draw();
+    current_session_field_.select();
   }
 
   void play::generate_field()

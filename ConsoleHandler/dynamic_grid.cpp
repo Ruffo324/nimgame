@@ -58,7 +58,7 @@ namespace console_handler
     bool was_arrow_key = false;
 
     // until enter
-    while (input != '\r')
+    while (input != '\r' || current_selected_index == -1)
     {
       if (last_selected_index != current_selected_index)
       {

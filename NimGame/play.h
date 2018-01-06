@@ -7,6 +7,9 @@ namespace sites {
   public:
     static void gameplay();
     static void new_game();
+    static int current_selected_;
+    static int current_picked_;
+    static int current_remaining_;
   private:
     static console_handler::dynamic_grid current_session_field_;
     static void generate_field();

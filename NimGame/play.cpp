@@ -13,6 +13,9 @@ namespace sites
   std::string play::text_value_color_ = "{#E91E63}";
   std::string play::caption_color_ = "{#424242}";
   bool play::player_a_is_ = false;
+  int play::current_selected_ = 0;
+  int play::current_picked_ = 0;
+  int play::current_remaining_ = 0;
 
   _COORD play::current_player_cursor_pos_;
   _COORD play::selected_cursor_pos_;
@@ -24,6 +27,9 @@ namespace sites
 
   void play::gameplay()
   {
+    draw_picked(current_picked_, current_picked_);
+    draw_remaining(current_remaining_, current_remaining_);
+
     do {
       // Change player
       player_a_is_ = !player_a_is_;
@@ -31,12 +37,24 @@ namespace sites
       // Draw current player
       draw_current_player(player_a_is_ ? options::name_player_a : options::name_player_b, player_a_is_ ? options::name_player_b : options::name_player_a);
 
+      // draw selected to 0
+      draw_selected(0, current_selected_);
+      current_selected_ = 0;
+
       std::vector<int> selected_by_current_user =
-        current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#1976D2}", "{_#64B5F6}");
+        current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#1976D2}", "{_#64B5F6}", true);
 
       // disable items
       for (int i = 0; i < selected_by_current_user.size(); i++)
         current_session_field_.disable_item(selected_by_current_user[i], "{_#757575}", "{_#9E9E9E}");
+
+      // draw picked
+      current_picked_ += selected_by_current_user.size();
+      draw_picked(current_picked_, current_picked_ - selected_by_current_user.size());
+
+      // draw remaining
+      current_remaining_ -= selected_by_current_user.size();
+      draw_remaining(current_remaining_, current_remaining_ + selected_by_current_user.size());
 
 
     } while (!current_session_field_.all_items_disabled());
@@ -51,6 +69,9 @@ namespace sites
 
     // reset game variables
     player_a_is_ = false;
+    current_selected_ = 0;
+    current_picked_ = 0;
+    current_remaining_ = 0;
 
     generate_field();
     current_session_field_.draw();
@@ -62,6 +83,8 @@ namespace sites
   void play::generate_field()
   {
     std::vector<console_handler::grid_item> field_items;
+    int* current_selected_pointer = &current_selected_;
+    auto* draw_selected_pointer = &draw_selected;
 
     // Get max items per row given
     int max_items_per_row = 0;
@@ -82,8 +105,21 @@ namespace sites
         if (field_item > options::field_structure[row])
           disiabled_item = true;
 
+        // count all items
+        if (!disiabled_item)
+          current_remaining_++;
+
         console_handler::grid_item new_field_item =
-          console_handler::grid_item([]() {}, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
+          console_handler::grid_item(
+            [current_selected_pointer, draw_selected_pointer](bool selected) mutable -> void {
+          int old_selected = *current_selected_pointer;
+          if (selected)
+            *current_selected_pointer += 1;
+          else
+            *current_selected_pointer -= 1;
+
+              draw_selected_pointer(*current_selected_pointer, old_selected);
+        }, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
 
         new_field_item.disabled = disiabled_item;
         new_field_item.visible = !disiabled_item;
@@ -159,5 +195,44 @@ namespace sites
     console_handler::console_utils::set_console_cursor_pos(current_player_cursor_pos_);
     console_handler::ascii_block_list text_ascii_current = console_handler::ascii_block_list(text_value_color_ + current_player, font_size_);
     text_ascii_current.draw();
+  }
+
+  void play::draw_selected(const int selected, const int last_selected)
+  {
+    // remove last
+    console_handler::console_utils::set_console_cursor_pos(selected_cursor_pos_);
+    console_handler::ascii_block_list text_last = console_handler::ascii_block_list(background_color_ + std::to_string(last_selected), font_size_);
+    text_last.draw();
+
+    // write new
+    console_handler::console_utils::set_console_cursor_pos(selected_cursor_pos_);
+    console_handler::ascii_block_list text_current = console_handler::ascii_block_list(text_value_color_ + std::to_string(selected), font_size_);
+    text_current.draw();
+  }
+
+  void play::draw_remaining(const int remaining, const int last_remaining)
+  {
+    // remove last
+    console_handler::console_utils::set_console_cursor_pos(remaining_cursor_pos_);
+    console_handler::ascii_block_list text_last = console_handler::ascii_block_list(background_color_ + std::to_string(last_remaining), font_size_);
+    text_last.draw();
+
+    // write new
+    console_handler::console_utils::set_console_cursor_pos(remaining_cursor_pos_);
+    console_handler::ascii_block_list text_current = console_handler::ascii_block_list(text_value_color_ + std::to_string(remaining), font_size_);
+    text_current.draw();
+  }
+
+  void play::draw_picked(const int picked, const int last_picked)
+  {
+    // remove last
+    console_handler::console_utils::set_console_cursor_pos(picked_cursor_pos_);
+    console_handler::ascii_block_list text_last = console_handler::ascii_block_list(background_color_ + std::to_string(last_picked), font_size_);
+    text_last.draw();
+
+    // write new
+    console_handler::console_utils::set_console_cursor_pos(picked_cursor_pos_);
+    console_handler::ascii_block_list text_current = console_handler::ascii_block_list(text_value_color_ + std::to_string(picked), font_size_);
+    text_current.draw();
   }
 }

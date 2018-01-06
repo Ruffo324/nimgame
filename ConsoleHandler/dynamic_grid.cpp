@@ -223,7 +223,7 @@ namespace console_handler
   }
 
   std::vector<int> dynamic_grid::mark_and_select(const bool row_lock, const int max_items,
-    const std::string select_color, const std::string selected_color_icon)
+    const std::string select_color, const std::string selected_color_icon, const bool always_run_item_action)
   {
     std::vector<int> selected_indexes;
     bool confirmed = false;
@@ -259,6 +259,10 @@ namespace console_handler
         items_[selected].item_rectangle.change_color_string(select_color);
         draw_item(items_[selected]);
       }
+
+      // Run item action if wanted
+      if (always_run_item_action)
+        items_[selected].grid_item.run();
 
       last_index = selected;
 

@@ -46,7 +46,7 @@ namespace console_handler
      * \param selected_color_icon The icon color code for the selected items
      * \return list of the selected item indexes
      */
-    std::vector<int> CONSOLE_HANDLER_API mark_and_select(const bool row_lock = false, const int max_items = -1, const std::string select_color = "{_#B0BEC5}", const std::string selected_color_icon = "{_#CFD8DC}");
+    std::vector<int> CONSOLE_HANDLER_API mark_and_select(const bool row_lock = false, const int max_items = -1, const std::string select_color = "{_#B0BEC5}", const std::string selected_color_icon = "{_#CFD8DC}", const bool always_run_item_action = false);
 
     /**
      * \brief Sets the item size multiplicator

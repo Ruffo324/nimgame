@@ -5,10 +5,10 @@ namespace console_handler
 {
   void grid_item::run() const
   {
-    run_function();
+    run_function(selected);
   }
 
-  grid_item::grid_item(const std::function<void()> run_function_value, const std::string caption_value,
+  grid_item::grid_item(const std::function<void(bool selected)> run_function_value, const std::string caption_value,
                        const std::string item_background_value, const std::string icon_file_value,
                        const std::string icon_foreground_color_code_value, const char border_char_value,
                        const std::string border_color_code_value, const int border_size_value)

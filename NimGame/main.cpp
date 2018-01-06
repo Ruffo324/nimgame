@@ -21,11 +21,11 @@ namespace sites
       std::vector<console_handler::grid_item> change_name_items;
 
       // Change names
-      change_name_items.push_back(console_handler::grid_item([](void) { options::change_player_names(); play::new_game(); }, "{#FFFFFF}Change", "{_#8c9eff}",
+      change_name_items.push_back(console_handler::grid_item([](bool selected) { options::change_player_names(); play::new_game(); }, "{#FFFFFF}Change", "{_#8c9eff}",
         "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
       // Continue
-      change_name_items.push_back(console_handler::grid_item([](void) { play::new_game(); }, "{#FFFFFF}Continue", "{_#8c9eff}",
+      change_name_items.push_back(console_handler::grid_item([](bool selected) { play::new_game(); }, "{#FFFFFF}Continue", "{_#8c9eff}",
         "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
       // Draw question grid
@@ -46,16 +46,16 @@ namespace sites
     //{ // debug
       
     // Play
-    menu_items.push_back(console_handler::grid_item([](void) { start(); }, "{#FFFFFF}Play", "{_#8c9eff}",
+    menu_items.push_back(console_handler::grid_item([](bool selected) { start(); }, "{#FFFFFF}Play", "{_#8c9eff}",
       "../Icons/Play.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
     // Options
-    menu_items.push_back(console_handler::grid_item([](void) { options::draw(); }, "{#FFFFFF}Options", "{_#8c9eff}",
+    menu_items.push_back(console_handler::grid_item([](bool selected) { options::draw(); }, "{#FFFFFF}Options", "{_#8c9eff}",
       "../Icons/Settings.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
     // Stats
-    menu_items.push_back(console_handler::grid_item([](void) { options::draw(); }, "{#FFFFFF}Statistics", "{_#8c9eff}",
+    menu_items.push_back(console_handler::grid_item([](bool selected) { options::draw(); }, "{#FFFFFF}Statistics", "{_#8c9eff}",
       "../Icons/Stats.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
     // Exit
-    menu_items.push_back(console_handler::grid_item([](void) { /*TODO*/ }, "{#FFFFFF}Exit", "{_#8c9eff}",
+    menu_items.push_back(console_handler::grid_item([](bool selected) { /*TODO*/ }, "{#FFFFFF}Exit", "{_#8c9eff}",
       "../Icons/Exit.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
     //} // debug
 

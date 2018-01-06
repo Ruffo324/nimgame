@@ -215,11 +215,15 @@ namespace console_handler
 
     do
     {
-      int selected = select(false, true, [confirmed]() mutable -> void { confirmed = true; },
+      int selected = select(false, true, [&confirmed]() mutable -> void { confirmed = true; },
         row_lock && selected_indexes.size() > 0, last_index);
       // Contains? -> unmark
       if (find(selected_indexes.begin(), selected_indexes.end(), selected) != selected_indexes.end())
       {
+        // Item selected & enter -> break
+        if (confirmed)
+          break;
+
         const std::vector<int>::iterator position = find(selected_indexes.begin(), selected_indexes.end(), selected);
         selected_indexes.erase(position);
 
@@ -243,7 +247,7 @@ namespace console_handler
       last_index = selected;
 
       // Selected all in row -> confirmed
-      if (row_lock)
+      if (row_lock && !confirmed)
       {
         confirmed = true;
         for (int i = 0; i < items_.size(); i++)
@@ -260,7 +264,7 @@ namespace console_handler
 
     // unselect items
     for(int i = 0; i < selected_indexes.size(); i++)
-      items_[i].grid_item.selected = false;
+      items_[selected_indexes[i]].grid_item.selected = false;
 
     return selected_indexes;
   }

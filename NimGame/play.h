@@ -10,6 +10,7 @@ namespace sites {
   private:
     static console_handler::dynamic_grid current_session_field_;
     static void generate_field();
+    static void draw_statistics();
   };
 }
 

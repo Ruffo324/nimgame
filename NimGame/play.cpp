@@ -10,10 +10,13 @@ namespace sites
   void play::gameplay()
   {
     do {
-      std::vector<int> selected_by_current_user = current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#BBDEFB}", "{_#E3F2FD}");
+      std::vector<int> selected_by_current_user =
+        current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#1976D2}", "{_#64B5F6}");
+
       // disable items
       for (int i = 0; i < selected_by_current_user.size(); i++)
-        current_session_field_.disable_item(selected_by_current_user[i], "{_#F5F5F5}", "{_#EEEEEE}");
+        current_session_field_.disable_item(selected_by_current_user[i], "{_#757575}", "{_#9E9E9E}");
+
     } while (!current_session_field_.all_items_disabled());
 
     // Current player winns
@@ -24,6 +27,7 @@ namespace sites
     //TODO: Make pretty game-color design
     console_handler::console_output::fill_background("{_#FFFFFF}");
     generate_field();
+
     current_session_field_.draw();
     gameplay();
   }
@@ -44,8 +48,8 @@ namespace sites
     {
       for (int field_item = 1; field_item <= max_items_per_row; field_item++)
       {
-        //(currently) testing center boxes (MAKE THIS LATER @ME(CG))
         // THE TIME IS RUNNING AWAY!
+        // testing center boxes (MAKE THIS LATER @ME(CG))
 
         //if(max_items_per_row != options::field_structure[row])
         //{
@@ -63,12 +67,19 @@ namespace sites
         if (field_item > options::field_structure[row])
           disiabled_item = true;
 
-        console_handler::grid_item new_field_item = console_handler::grid_item([](void) {}, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
+        console_handler::grid_item new_field_item = 
+          console_handler::grid_item([](void) {}, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
+
         new_field_item.disabled = disiabled_item;
         new_field_item.visible = !disiabled_item;
         field_items.push_back(new_field_item);
       }
     }
     current_session_field_ = console_handler::dynamic_grid("Go!", 30, field_items, 10, 5, max_items_per_row);
+  }
+
+  void play::draw_statistics()
+  {
+
   }
 }

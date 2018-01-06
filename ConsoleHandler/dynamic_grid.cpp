@@ -73,7 +73,7 @@ namespace console_handler
   {
     const short x = (boxes_per_row_ * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
     const short y = ((items_.size() / boxes_per_row_)  * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
-    return { x, y};
+    return { x, y };
   }
 
   int dynamic_grid::select(const bool run_item_action, const bool space_forces_return,
@@ -86,8 +86,13 @@ namespace console_handler
     bool was_enter = false;
 
     // until enter
-    while (input != '\r' && (space_forces_return && input != ' ') || current_selected_index == -1)
+    while (input != '\r' || current_selected_index == -1)
     {
+      // Space allowed -> break;
+      if (space_forces_return && input == ' ')
+        break;
+
+      
       if (last_selected_index != current_selected_index)
       {
         // redraw last

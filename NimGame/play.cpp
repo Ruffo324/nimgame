@@ -9,6 +9,10 @@ namespace sites
 {
   // static variables
   console_handler::dynamic_grid play::current_session_field_;
+  std::string play::background_color_ = "{_#FFFFFF}";
+  std::string play::text_value_color_ = "{#E91E63}";
+  std::string play::caption_color_ = "{#424242}";
+  bool play::player_a_is_ = false;
 
   _COORD play::current_player_cursor_pos_;
   _COORD play::selected_cursor_pos_;
@@ -21,12 +25,19 @@ namespace sites
   void play::gameplay()
   {
     do {
+      // Change player
+      player_a_is_ = !player_a_is_;
+
+      // Draw current player
+      draw_current_player(player_a_is_ ? options::name_player_a : options::name_player_b, player_a_is_ ? options::name_player_b : options::name_player_a);
+
       std::vector<int> selected_by_current_user =
         current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#1976D2}", "{_#64B5F6}");
 
       // disable items
       for (int i = 0; i < selected_by_current_user.size(); i++)
         current_session_field_.disable_item(selected_by_current_user[i], "{_#757575}", "{_#9E9E9E}");
+
 
     } while (!current_session_field_.all_items_disabled());
 
@@ -36,7 +47,11 @@ namespace sites
   void play::new_game()
   {
     //TODO: Make pretty game-color design
-    console_handler::console_output::fill_background("{_#FFFFFF}");
+    console_handler::console_output::fill_background(background_color_);
+
+    // reset game variables
+    player_a_is_ = false;
+
     generate_field();
     current_session_field_.draw();
 
@@ -96,41 +111,53 @@ namespace sites
 
     // calculate font size from the free space
     font_size_ = free_space / 15;
-    const int caption_font_size = font_size_ * 1.5;
-    const std::string caption_color = "{#424242}";
+    const int caption_font_size = font_size_;
     console_handler::console_utils::set_console_cursor_pos(start_cord);
 
     // Current player caption
-    console_handler::ascii_block_list current_player_caption = console_handler::ascii_block_list(caption_color + "Current Player:", caption_font_size);
+    console_handler::ascii_block_list current_player_caption = console_handler::ascii_block_list(caption_color_ + "Current Player:", caption_font_size);
     current_player_caption.draw();
 
     // Remember player name position
-    current_player_cursor_pos_ = { start_cord.X, start_cord.Y + short(caption_font_size )};
+    current_player_cursor_pos_ = { console_handler::console_utils::get_console_cursor_position().X + short(caption_font_size), start_cord.Y }; //+ short(caption_font_size) };
 
     // Selected caption
     console_handler::console_utils::set_console_cursor_pos({ start_cord.X, start_cord.Y + short(3 * caption_font_size) });
-    console_handler::ascii_block_list selected_caption = console_handler::ascii_block_list(caption_color + "Selected:", caption_font_size);
+    console_handler::ascii_block_list selected_caption = console_handler::ascii_block_list(caption_color_ + "Selected:", caption_font_size);
     selected_caption.draw();
 
     // Remember selected position
     selected_cursor_pos_ = console_handler::console_utils::get_console_cursor_position();
-    selected_cursor_pos_ = {selected_cursor_pos_.X + short(caption_font_size), selected_cursor_pos_.Y - short(caption_font_size) };
+    selected_cursor_pos_ = { selected_cursor_pos_.X + short(caption_font_size), selected_cursor_pos_.Y - short(caption_font_size) };
 
     // Write picked and remaining caption
-    console_handler::console_utils::set_console_cursor_pos({ start_cord.X, start_cord.Y + short(6 * caption_font_size)});
-    console_handler::ascii_block_list picked_caption = console_handler::ascii_block_list(caption_color + "Picked:", caption_font_size);
+    console_handler::console_utils::set_console_cursor_pos({ start_cord.X, start_cord.Y + short(6 * caption_font_size) });
+    console_handler::ascii_block_list picked_caption = console_handler::ascii_block_list(caption_color_ + "Picked:", caption_font_size);
     picked_caption.draw();
 
     // Remember picked position
     picked_cursor_pos_ = console_handler::console_utils::get_console_cursor_position();
-    picked_cursor_pos_ = { picked_cursor_pos_.X + short(caption_font_size), picked_cursor_pos_.Y - short(caption_font_size)};
+    picked_cursor_pos_ = { picked_cursor_pos_.X + short(caption_font_size), picked_cursor_pos_.Y - short(caption_font_size) };
 
     console_handler::console_utils::set_console_cursor_pos({ start_cord.X, start_cord.Y + short(7 * caption_font_size) });
-    console_handler::ascii_block_list remaining_caption = console_handler::ascii_block_list(caption_color + "Remaining:", caption_font_size);
+    console_handler::ascii_block_list remaining_caption = console_handler::ascii_block_list(caption_color_ + "Remaining:", caption_font_size);
     remaining_caption.draw();
 
     // Remember remaining position
     remaining_cursor_pos_ = console_handler::console_utils::get_console_cursor_position();
     remaining_cursor_pos_ = { remaining_cursor_pos_.X + short(caption_font_size), remaining_cursor_pos_.Y - short(caption_font_size) };
+  }
+
+  void play::draw_current_player(const std::string current_player, const std::string last_player)
+  {
+    // remove last player name
+    console_handler::console_utils::set_console_cursor_pos(current_player_cursor_pos_);
+    console_handler::ascii_block_list text_ascii_last = console_handler::ascii_block_list(background_color_ + last_player, font_size_);
+    text_ascii_last.draw();
+
+    // write new player name
+    console_handler::console_utils::set_console_cursor_pos(current_player_cursor_pos_);
+    console_handler::ascii_block_list text_ascii_current = console_handler::ascii_block_list(text_value_color_ + current_player, font_size_);
+    text_ascii_current.draw();
   }
 }

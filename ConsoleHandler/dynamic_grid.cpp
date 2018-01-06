@@ -143,7 +143,7 @@ namespace console_handler
           if (current_selected_index >= items_.size())
           {
             current_selected_index -= boxes_per_row_;
-            current_selected_index = -1 + boxes_per_row_;
+            current_selected_index = current_selected_index % boxes_per_row_;
             while (items_[current_selected_index].grid_item.disabled)
             {
               current_selected_index--;
@@ -164,7 +164,7 @@ namespace console_handler
           }
           break;
         default:
-          // TODO: Hint with wrong key
+          //TODO: Hint with wrong key
           break;
         }
 

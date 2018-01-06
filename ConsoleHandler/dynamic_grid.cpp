@@ -123,9 +123,6 @@ namespace console_handler
                 current_selected_index--;
             }
           } while (items_[current_selected_index].grid_item.disabled);
-          /*current_selected_index--;
-          if (current_selected_index < 0)
-            current_selected_index = int(items_.size()) - 1;*/
           break;
           //  arrow up
         case 'H':
@@ -135,15 +132,12 @@ namespace console_handler
           if (current_selected_index < 0)
           {
             // Undo first calc
-            current_selected_index += boxes_per_row_;
-
-            current_selected_index += boxes_per_row_;
-            if (current_selected_index > items_.size())
-            {
-              current_selected_index -= boxes_per_row_;
-              current_selected_index = current_selected_index % boxes_per_row_;
-            }
+            //current_selected_index += boxes_per_row_;
+            current_selected_index = items_.size() - abs(current_selected_index);//items_.size() - current_selected_index;
           }
+
+          while (items_[current_selected_index].grid_item.disabled)
+            current_selected_index--;
           break;
           //  arrow down
         case 'P':

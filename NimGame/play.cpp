@@ -39,7 +39,7 @@ namespace sites
       {
         bool disiabled_item = false;
         if (field_item > options::field_structure[row])
-          disiabled_item = true;
+          disiabled_item = true;  // true (debug)
 
         console_handler::grid_item new_field_item = console_handler::grid_item([](void) {}, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
         new_field_item.disabled = disiabled_item;

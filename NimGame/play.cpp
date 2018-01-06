@@ -9,7 +9,14 @@ namespace sites
 
   void play::gameplay()
   {
+    do {
+      std::vector<int> selected_by_current_user = current_session_field_.mark_and_select(true, options::max_allowed_per_row, "{_#BBDEFB}", "{_#E3F2FD}");
+      // disable items
+      for (int i = 0; i < selected_by_current_user.size(); i++)
+        current_session_field_.disable_item(selected_by_current_user[i], "{_#F5F5F5}", "{_#EEEEEE}");
+    } while (!current_session_field_.all_items_disabled());
 
+    // Current player winns
   }
 
   void play::new_game()
@@ -18,7 +25,7 @@ namespace sites
     console_handler::console_output::fill_background("{_#FFFFFF}");
     generate_field();
     current_session_field_.draw();
-    std::vector<int> selected_by_current_user = current_session_field_.mark_and_select(true, options::max_allowed_per_row);
+    gameplay();
   }
 
   void play::generate_field()

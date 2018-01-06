@@ -24,6 +24,8 @@ namespace console_handler
     void CONSOLE_HANDLER_API set_size_multiplicator(double multiplicator);
     void CONSOLE_HANDLER_API recalculate_item_size();
 
+    void CONSOLE_HANDLER_API disable_item(int index, std::string disabled_background_color, std::string disabled_icon_color);
+
     // Constructors
     CONSOLE_HANDLER_API dynamic_grid(std::vector<grid_item> menu_items, const int window_margin,
       const int margin_between_boxes);
@@ -38,6 +40,12 @@ namespace console_handler
 
     // Default empty constructor
     CONSOLE_HANDLER_API dynamic_grid();
+    /**
+     * \brief Checks if all items are disabled
+     * \return true if alle items are disabled, false if not
+     */
+    bool CONSOLE_HANDLER_API all_items_disabled();
+
   private:
     std::vector<grid_item_rectangle> items_;
     std::vector<grid_item> menu_items_;

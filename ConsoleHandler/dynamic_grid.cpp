@@ -258,6 +258,9 @@ namespace console_handler
 
     } while (selected_indexes.size() == 0 || !confirmed && selected_indexes.size() < max_items);
 
+    // unselect items
+    for(int i = 0; i < selected_indexes.size(); i++)
+      items_[i].grid_item.selected = false;
 
     return selected_indexes;
   }
@@ -270,6 +273,16 @@ namespace console_handler
   void dynamic_grid::recalculate_item_size()
   {
     auto_sized_grid_init();
+  }
+
+  void dynamic_grid::disable_item(const int index, const std::string disabled_background_color, const std::string disabled_icon_color)
+  {
+    items_[index].grid_item.disabled = true;
+    items_[index].grid_item.icon_foreground_color_code = disabled_icon_color;
+    items_[index].grid_item.item_background = disabled_background_color;
+    items_[index].item_rectangle.change_color_string(disabled_background_color);
+
+    draw_item(items_[index]);
   }
 
 
@@ -424,5 +437,14 @@ namespace console_handler
 
   dynamic_grid::dynamic_grid()
   {
+  }
+
+  bool dynamic_grid::all_items_disabled()
+  {
+    for(int i = 0; i < items_.size(); i++)
+      if(!items_[i].grid_item.disabled)
+        return false;
+
+    return true;
   }
 }

@@ -11,6 +11,7 @@ namespace sites
     static std::string name_player_b;
     static std::vector<int> field_structure;
     static int max_allowed_per_row;
+    static int window_margin;
     static void draw();
     static void change_player_names();
 

@@ -225,6 +225,9 @@ namespace console_handler
     case '<':
       return_str = "special_smaller";
       break;
+    case ':':
+      return_str = "special_double_point";
+      break;
     default:
       return_str.push_back(incompatible_char);
       break;

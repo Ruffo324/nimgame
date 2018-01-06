@@ -144,4 +144,10 @@ namespace console_handler
   {
     SetConsoleCursorPosition(get_console_handle(), cursor_position);
   }
+
+  void console_utils::append_console_cursor_pos(const _COORD cursor_position)
+  {
+    const _COORD current_cursor_pos = get_console_cursor_position();
+    set_console_cursor_pos({ current_cursor_pos.X + cursor_position.X, current_cursor_pos.Y + cursor_position.Y });
+  }
 }

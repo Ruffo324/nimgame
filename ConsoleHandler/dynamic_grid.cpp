@@ -69,6 +69,13 @@ namespace console_handler
     return select(true, false);
   }
 
+  SIZE dynamic_grid::get_full_size() const
+  {
+    const short x = (boxes_per_row_ * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
+    const short y = ((items_.size() / boxes_per_row_)  * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
+    return { x, y};
+  }
+
   int dynamic_grid::select(const bool run_item_action, const bool space_forces_return,
     const std::function<void()> optional_enter_action, const bool row_lock, const int start_index)
   {
@@ -147,7 +154,11 @@ namespace console_handler
             current_selected_index = items_.size() - abs(current_selected_index);
 
           while (items_[current_selected_index].grid_item.disabled)
+          {
             current_selected_index--;
+            if (current_selected_index < 0)
+              current_selected_index = items_.size() - 1;
+          }
           break;
           //  arrow down
         case 'P':
@@ -263,7 +274,7 @@ namespace console_handler
     } while (selected_indexes.size() == 0 || !confirmed && selected_indexes.size() < max_items);
 
     // unselect items
-    for(int i = 0; i < selected_indexes.size(); i++)
+    for (int i = 0; i < selected_indexes.size(); i++)
       items_[selected_indexes[i]].grid_item.selected = false;
 
     return selected_indexes;
@@ -445,8 +456,8 @@ namespace console_handler
 
   bool dynamic_grid::all_items_disabled()
   {
-    for(int i = 0; i < items_.size(); i++)
-      if(!items_[i].grid_item.disabled)
+    for (int i = 0; i < items_.size(); i++)
+      if (!items_[i].grid_item.disabled)
         return false;
 
     return true;

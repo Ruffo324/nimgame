@@ -18,6 +18,7 @@ namespace console_handler
 
     // set functions
     static void set_console_cursor_pos(_COORD cursor_position);
+    static void append_console_cursor_pos(_COORD cursor_position);
     static void set_console_buffer_size(int height, int width);
     static void set_console_buffer_to_window_size();
 

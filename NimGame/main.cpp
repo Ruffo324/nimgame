@@ -40,6 +40,8 @@ namespace sites
 
   void main::draw()
   {
+    console_handler::console_output::fill_background("{_#FFFFFF}");
+
     std::vector<console_handler::grid_item> menu_items;
 
    // for(int i= 0;i < 3; i++) // debug

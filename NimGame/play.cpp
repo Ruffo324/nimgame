@@ -4,6 +4,7 @@
 #include "options.h"
 #include "console_utils.h"
 #include "ascii_block_list.h"
+#include "main.h"
 
 namespace sites
 {
@@ -60,6 +61,7 @@ namespace sites
     } while (!current_session_field_.all_items_disabled());
 
     // Current player winns
+    win_screen();
   }
 
   void play::new_game()
@@ -234,5 +236,28 @@ namespace sites
     console_handler::console_utils::set_console_cursor_pos(picked_cursor_pos_);
     console_handler::ascii_block_list text_current = console_handler::ascii_block_list(text_value_color_ + std::to_string(picked), font_size_);
     text_current.draw();
+  }
+
+  void play::win_screen()
+  {
+    console_handler::console_output::fill_background(background_color_);
+
+    std::vector<console_handler::grid_item> new_game_main_menu_items;
+
+    // Change names
+    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { new_game(); }, "{#FFFFFF}New Game", "{_#8c9eff}",
+      "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+
+    // Continue
+    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { main::draw(); }, "{#FFFFFF}Main Menu", "{_#8c9eff}",
+      "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+
+    // Draw question grid
+    console_handler::dynamic_grid change_name_question =
+      console_handler::dynamic_grid("Player > " + (player_a_is_ ? options::name_player_a : options::name_player_b) + " < won!", 20, new_game_main_menu_items, 10, 5);
+    change_name_question.set_size_multiplicator(0.5);
+    change_name_question.recalculate_item_size();
+    change_name_question.draw();
+    change_name_question.select();
   }
 }

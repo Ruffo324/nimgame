@@ -36,6 +36,6 @@ namespace sites
     text_b.draw();
     console_handler::ascii_block_list name_b = console_handler::ascii_block_list(font_size);
     name_b.input(site_background);
-    name_player_a = name_b.original_string;
+    name_player_b = name_b.original_string;
   }
 }

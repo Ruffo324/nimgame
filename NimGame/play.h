@@ -33,7 +33,8 @@ namespace sites {
     static _COORD remaining_cursor_pos_;
     static int font_size_;
 
-
+    // winning screen
+    static void win_screen();
   };
 }
 

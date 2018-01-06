@@ -10,7 +10,13 @@ namespace console_handler
   {
   public:
     void CONSOLE_HANDLER_API draw();
-    grid_item_rectangle CONSOLE_HANDLER_API select();
+    /**
+     * \brief Set the dynamic_grid in the select mode. 
+     * \brief In this(default) mode, the action of the selected item, would run on {ENTER}
+     */
+    int CONSOLE_HANDLER_API select();
+    int CONSOLE_HANDLER_API select(const bool run_item_action, const bool space_forces_return);
+    std::vector<int> CONSOLE_HANDLER_API mark_and_select(const bool row_lock = false);
 
     void CONSOLE_HANDLER_API set_size_multiplicator(double multiplicator);
     void CONSOLE_HANDLER_API recalculate_item_size();

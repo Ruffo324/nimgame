@@ -37,9 +37,24 @@ namespace sites
     {
       for (int field_item = 1; field_item <= max_items_per_row; field_item++)
       {
+        //(currently) testing center boxes (MAKE THIS LATER @ME(CG))
+        // THE TIME IS RUNNING AWAY!
+
+        //if(max_items_per_row != options::field_structure[row])
+        //{
+        //  if(max_items_per_row % options::field_structure[row] == 0)
+        //  {
+        //    if (field_item < max_items_per_row / options::field_structure[row] || field_i)
+        //    
+        //  }
+        //  else
+        //  {
+        //  }
+        //}
+
         bool disiabled_item = false;
         if (field_item > options::field_structure[row])
-          disiabled_item = true;  // true (debug)
+          disiabled_item = true;
 
         console_handler::grid_item new_field_item = console_handler::grid_item([](void) {}, "", "{_#FDD835}", "../Icons/FireMatch.bmp", "{_#D84315}", ' ', "{_#37474F}", 5);
         new_field_item.disabled = disiabled_item;

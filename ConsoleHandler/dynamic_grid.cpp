@@ -34,7 +34,7 @@ namespace console_handler
         console_utils::set_console_cursor_pos({
           items_[i].item_rectangle.get_left().X + short(items_[i].grid_item.border_size * 2),
           items_[i].item_rectangle.get_right().Y - short(text_width + items_[i].grid_item.border_size * 2)
-        });
+          });
         ascii_block_list caption_blocks = ascii_block_list(items_[i].grid_item.caption, text_width);
         caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
         caption_blocks.draw();
@@ -44,14 +44,14 @@ namespace console_handler
       console_utils::set_console_cursor_pos({
         items_[i].item_rectangle.get_left().X + short(offset),
         items_[i].item_rectangle.get_left().Y + short(offset)
-      });
+        });
       const SIZE icon_size = {
         item_side_length_ - ((offset * 2) + text_width * 2),
         item_side_length_ - ((offset * 2) + text_width * 2)
       };
 
       ascii_block icon_block = ascii_block(items_[i].grid_item.icon_file, icon_size,
-                                           COLOR_STRUCT(items_[i].grid_item.icon_foreground_color_code));
+        COLOR_STRUCT(items_[i].grid_item.icon_foreground_color_code));
       icon_block.add_padding(text_width);
       icon_block.draw();
     }
@@ -74,7 +74,7 @@ namespace console_handler
         {
           std::string original_background = items_[last_selected_index].grid_item.border_color_code;
           items_[last_selected_index].grid_item.border_color_code = items_[last_selected_index].grid_item.
-                                                                                                item_background;
+            item_background;
           items_[last_selected_index].draw_border();
           items_[last_selected_index].grid_item.border_color_code = original_background;
         }
@@ -109,8 +109,7 @@ namespace console_handler
               while (items_[current_selected_index].grid_item.disabled)
                 current_selected_index++;
             }
-          }
-          while (items_[current_selected_index].grid_item.disabled);
+          } while (items_[current_selected_index].grid_item.disabled);
           break;
           //  arrow left
         case 'K':
@@ -123,8 +122,7 @@ namespace console_handler
               while (items_[current_selected_index].grid_item.disabled)
                 current_selected_index--;
             }
-          }
-          while (items_[current_selected_index].grid_item.disabled);
+          } while (items_[current_selected_index].grid_item.disabled);
           break;
           //  arrow up
         case 'H':
@@ -146,17 +144,25 @@ namespace console_handler
 
           if (current_selected_index >= items_.size())
           {
-            // Undo first calc
             current_selected_index -= boxes_per_row_;
-            current_selected_index = (current_selected_index % boxes_per_row_);//items_.size() - current_selected_index;
-
+            current_selected_index = -1 + boxes_per_row_;
             while (items_[current_selected_index].grid_item.disabled)
+            {
               current_selected_index--;
+              if (current_selected_index < 0)
+                current_selected_index = items_.size() - 1;
+            }
           }
           else
           {
             while (items_[current_selected_index].grid_item.disabled)
+            {
               current_selected_index++;
+              if (current_selected_index + 1 > int(items_.size()))
+              {
+                current_selected_index = 0;
+              }
+            }
           }
           break;
         default:
@@ -220,7 +226,7 @@ namespace console_handler
     const int smalles_window_length = min(console_height, console_width);
 
     return (smalles_window_length - ((items_per_row * margin_between_boxes_) - margin_between_boxes_)) / (items_per_row
-    );
+      );
   }
 
   int dynamic_grid::calculate_boxes_per_row(const int item_side_lenght) const
@@ -260,12 +266,12 @@ namespace console_handler
       // rectangle shape
       const shape_rectangle shape =
         shape_rectangle(left,
-                        {
-                          // right
-                          left.X + short(item_side_length_),
-                          left.Y + short(item_side_length_)
-                        },
-                        menu_items_[i].item_background, ' ');
+          {
+            // right
+            left.X + short(item_side_length_),
+            left.Y + short(item_side_length_)
+          },
+          menu_items_[i].item_background, ' ');
       // add to items
       items_.push_back(grid_item_rectangle(menu_items_[i], shape, current_row, current_row_index));
 
@@ -290,7 +296,7 @@ namespace console_handler
   {
     ascii_block_list caption = ascii_block_list(caption_, caption_font_size_);
     caption.center_block_list(true, console_utils::get_console_width() - (window_margin_ * 2));
-    console_utils::set_console_cursor_pos({short(window_margin_), short(window_margin_)});
+    console_utils::set_console_cursor_pos({ short(window_margin_), short(window_margin_) });
     caption.draw();
   }
 
@@ -302,31 +308,31 @@ namespace console_handler
   }
 
   dynamic_grid::dynamic_grid(const std::vector<grid_item> menu_items, const int window_margin,
-                             const int margin_between_boxes)
+    const int margin_between_boxes)
     : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes), caption_(""),
-      caption_font_size_(0), caption_top_offset_(0)
+    caption_font_size_(0), caption_top_offset_(0)
   {
     auto_sized_grid_init();
   }
 
   dynamic_grid::dynamic_grid(const std::string grid_caption, const int caption_font_size,
-                             const std::vector<grid_item> menu_items, const int window_margin,
-                             const int margin_between_boxes)
+    const std::vector<grid_item> menu_items, const int window_margin,
+    const int margin_between_boxes)
     : menu_items_(menu_items), window_margin_(window_margin), margin_between_boxes_(margin_between_boxes),
-      caption_(grid_caption), caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
-      caption_top_offset_(caption_font_size_)
+    caption_(grid_caption), caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
+    caption_top_offset_(caption_font_size_)
   {
     draw_caption();
     auto_sized_grid_init();
   }
 
   dynamic_grid::dynamic_grid(const std::string grid_caption, const int caption_font_size,
-                             const std::vector<grid_item> menu_items, const int window_margin,
-                             const int margin_between_boxes, const int boxes_per_row)
+    const std::vector<grid_item> menu_items, const int window_margin,
+    const int margin_between_boxes, const int boxes_per_row)
     : menu_items_(menu_items), boxes_per_row_(boxes_per_row), window_margin_(window_margin),
-      margin_between_boxes_(margin_between_boxes), caption_(grid_caption),
-      caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
-      caption_top_offset_(caption_font_size_)
+    margin_between_boxes_(margin_between_boxes), caption_(grid_caption),
+    caption_font_size_(int(console_utils::get_console_height() / 300) * caption_font_size),
+    caption_top_offset_(caption_font_size_)
   {
     draw_caption();
     item_side_length_ = calculate_side_length(boxes_per_row_);

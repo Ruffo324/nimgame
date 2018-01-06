@@ -45,4 +45,9 @@ namespace console_handler
     : left_(left), right_(right), color_string_(color_string), text_char_(text_char)
   {
   }
+
+  void shape_rectangle::change_color_string(const std::string new_color_string)
+  {
+    color_string_ = new_color_string;
+  }
 }

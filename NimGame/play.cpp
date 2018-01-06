@@ -18,7 +18,7 @@ namespace sites
     console_handler::console_output::fill_background("{_#FFFFFF}");
     generate_field();
     current_session_field_.draw();
-    current_session_field_.select();
+    std::vector<int> selected_by_current_user = current_session_field_.mark_and_select(true, options::max_allowed_per_row);
   }
 
   void play::generate_field()

@@ -9,6 +9,7 @@ namespace sites
   std::string options::name_player_a = "Player A";
   std::string options::name_player_b = "Player B";
   std::vector<int> options::field_structure = { 1,2,3,4 };
+  int options::max_allowed_per_row = 3;
 
   void options::draw()
   {

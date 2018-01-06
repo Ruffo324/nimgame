@@ -10,9 +10,11 @@ namespace console_handler
   public:
     std::string caption;
     std::string item_background;
+    std::string selected_color_background;
 
     std::string icon_file;
     std::string icon_foreground_color_code;
+    std::string selected_icon_foreground_color_code;
 
     char border_char;
     std::string border_color_code;
@@ -28,6 +30,8 @@ namespace console_handler
      * \brief Is this item selectable
      */
     bool visible = true;
+
+    bool selected = false;
 
     int length;
     int width;

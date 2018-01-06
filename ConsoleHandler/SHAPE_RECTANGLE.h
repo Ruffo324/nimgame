@@ -13,6 +13,9 @@ namespace console_handler
 
     // constructor
     shape_rectangle(_COORD left, _COORD right, std::string color_string, const char text_char);
+
+    // funcs
+    void change_color_string(const std::string new_color_string);
   private:
     _COORD left_;
     _COORD right_;

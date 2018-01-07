@@ -50,12 +50,12 @@ namespace sites
         current_session_field_.disable_item(selected_by_current_user[i], "{_#757575}", "{_#9E9E9E}");
 
       // draw picked
-      current_picked_ += selected_by_current_user.size();
-      draw_picked(current_picked_, current_picked_ - selected_by_current_user.size());
+      current_picked_ += int(selected_by_current_user.size());
+      draw_picked(current_picked_, current_picked_ - int(selected_by_current_user.size()));
 
       // draw remaining
-      current_remaining_ -= selected_by_current_user.size();
-      draw_remaining(current_remaining_, current_remaining_ + selected_by_current_user.size());
+      current_remaining_ -= int(selected_by_current_user.size());
+      draw_remaining(current_remaining_, current_remaining_ + int(selected_by_current_user.size()));
 
 
     } while (!current_session_field_.all_items_disabled());

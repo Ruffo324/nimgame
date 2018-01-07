@@ -11,7 +11,7 @@ namespace sites
   // static variables
   console_handler::dynamic_grid play::current_session_field_;
   std::string play::background_color_ = "{_#FFFFFF}";
-  std::string play::text_value_color_ = "{#E91E63}";
+  std::string play::text_value_color_ = "{#4CAF50}";
   std::string play::caption_color_ = "{#424242}";
   bool play::player_a_is_ = false;
   int play::current_selected_ = 0;
@@ -128,7 +128,7 @@ namespace sites
         field_items.push_back(new_field_item);
       }
     }
-    current_session_field_ = console_handler::dynamic_grid("Good luck!", 30, field_items, options::window_margin, 5, max_items_per_row);
+    current_session_field_ = console_handler::dynamic_grid("{#43A047}Good {#2E7D32}luck!", 30, field_items, options::window_margin, 5, max_items_per_row);
   }
 
   void play::draw_statistics()
@@ -245,11 +245,11 @@ namespace sites
     std::vector<console_handler::grid_item> new_game_main_menu_items;
 
     // Change names
-    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { new_game(); }, "{#FFFFFF}New Game", "{_#8c9eff}",
+    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { new_game(); }, "{#FFFFFF}New Game", "{_#66BB6A}",
       "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
     // Continue
-    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { main::draw(); }, "{#FFFFFF}Main Menu", "{_#8c9eff}",
+    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { main::draw(); }, "{#FFFFFF}Main Menu", "{_#388E3C}",
       "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
 
     // Draw question grid

@@ -72,7 +72,7 @@ namespace console_handler
   SIZE dynamic_grid::get_full_size() const
   {
     const short x = (boxes_per_row_ * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
-    const short y = ((items_.size() / boxes_per_row_)  * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
+    const short y = ((short(items_.size()) / boxes_per_row_)  * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
     return { x, y };
   }
 
@@ -89,7 +89,7 @@ namespace console_handler
     while (input != '\r' || current_selected_index == -1)
     {
       // Space allowed -> break;
-      if (space_forces_return && input == ' ')
+      if (space_forces_return && input == ' ' && current_selected_index != -1)
         break;
 
       
@@ -144,7 +144,7 @@ namespace console_handler
             current_selected_index--;
             if (current_selected_index < 0)
             {
-              current_selected_index = items_.size() - 1;
+              current_selected_index = int(items_.size()) - 1;
               while (items_[current_selected_index].grid_item.disabled)
                 current_selected_index--;
             }
@@ -156,13 +156,13 @@ namespace console_handler
           current_selected_index -= boxes_per_row_;
 
           if (current_selected_index < 0)
-            current_selected_index = items_.size() - abs(current_selected_index);
+            current_selected_index = int(items_.size()) - abs(current_selected_index);
 
           while (items_[current_selected_index].grid_item.disabled)
           {
             current_selected_index--;
             if (current_selected_index < 0)
-              current_selected_index = items_.size() - 1;
+              current_selected_index = int(items_.size()) - 1;
           }
           break;
           //  arrow down
@@ -177,7 +177,7 @@ namespace console_handler
             {
               current_selected_index--;
               if (current_selected_index < 0)
-                current_selected_index = items_.size() - 1;
+                current_selected_index = int(items_.size()) - 1;
             }
           }
           else

@@ -3,6 +3,8 @@
 #include "console_output.h"
 #include "ascii_block_list.h"
 #include "console_utils.h"
+#include "dynamic_grid.h"
+#include "main.h"
 
 namespace sites
 {
@@ -14,6 +16,26 @@ namespace sites
 
   void options::draw()
   {
+    const std::string site_background = "{_#FFFFFF}";
+    console_handler::console_output::fill_background(site_background);
+
+    std::vector<console_handler::grid_item> options_items;
+
+    // Change names
+    options_items.push_back(console_handler::grid_item([](bool selected) { options::change_player_names(); options::draw(); }, "{#FFFFFF}Change Names", "{_#66BB6A}",
+      "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+
+    // Continue
+    options_items.push_back(console_handler::grid_item([](bool selected) {main::draw(); }, "{#FFFFFF}Main menu", "{_#388E3C}",
+      "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+
+    // Draw question grid
+    console_handler::dynamic_grid change_name_question =
+      console_handler::dynamic_grid("{#43A047}Options", 20, options_items, 10, 5);
+    change_name_question.set_size_multiplicator(0.5);
+    change_name_question.recalculate_item_size();
+    change_name_question.draw();
+    change_name_question.select();
   }
 
   void options::change_player_names()

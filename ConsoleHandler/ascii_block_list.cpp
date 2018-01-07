@@ -62,7 +62,7 @@ namespace console_handler
     char input_char = char(0);
 
     // Get input until enter
-    while (input_char != '\r')
+    while (input_char != '\r' || input.size() == 0)
     {
       _COORD console_pos = console_utils::get_console_cursor_position();
       input_char = _getch();

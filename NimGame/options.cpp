@@ -72,12 +72,12 @@ namespace sites
     {
       select_row_count_items.push_back(console_handler::grid_item(
         [i](bool selected) mutable -> void { options::change_field_size_step_cols(i); }, "{#FFFFFF}" + std::to_string(i), "{_#43A047}", ' ',
-        item_border_color, border_size / 2));
+        item_border_color, 2));
     }
 
     console_handler::dynamic_grid row_count_selection =
       console_handler::dynamic_grid(grid_caption_color + "Select number of rows:",
-                                    grid_caption_font_size, select_row_count_items, window_margin, 5);
+                                    grid_caption_font_size, select_row_count_items, window_margin, 5, max_rows);
     row_count_selection.draw();
     row_count_selection.select();
   }
@@ -123,7 +123,7 @@ namespace sites
           grid_field_structure.disable_item(i, "{#424242}", "{#BDBDBD}");
         }
       }, true, max_cols_copy * (row -1)) % max_cols;
-      field_structure.push_back(amount);
+      field_structure.push_back(amount + 1);
     }
     
     options::draw();

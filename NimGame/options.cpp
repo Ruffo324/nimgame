@@ -118,9 +118,10 @@ namespace sites
     {
       int amount = grid_field_structure.select(true, false, [row, max_cols_copy, &grid_field_structure]()
       {
+        // Disable isn't working currently
         for (int i = row -1 + (max_cols_copy * row); i < row * max_cols_copy; i++)
         {
-          grid_field_structure.disable_item(i, "{#424242}", "{#BDBDBD}");
+          grid_field_structure.disable_item(i, "{_#424242}", "{_#BDBDBD}");
         }
       }, true, max_cols_copy * (row -1)) % max_cols;
       field_structure.push_back(amount + 1);
@@ -134,7 +135,7 @@ namespace sites
     const int font_size = 20;
     console_handler::console_output::fill_background(site_background);
     console_handler::console_utils::set_console_cursor_pos({10, 10});
-    _COORD console_cursor = console_handler::console_utils::get_console_cursor_position();
+    const _COORD console_cursor = console_handler::console_utils::get_console_cursor_position();
 
     // Player A
     console_handler::ascii_block_list text_a = console_handler::ascii_block_list("{#43A047}Name Player A", font_size);

@@ -25,7 +25,7 @@ namespace console_handler
     {
       if (item.grid_item.caption != "")
       {
-        text_width = int(round((item_side_length_ - (offset * 2)) / (longest_caption_length_)));
+        text_width = int(round((item_side_length_ ) / (longest_caption_length_)));
 
         // print text
         console_utils::set_console_cursor_pos({
@@ -37,9 +37,9 @@ namespace console_handler
         caption_blocks.draw();
       }
 
-      //print icon or text only as icon
+      //print icon
       console_utils::set_console_cursor_pos({
-        item.item_rectangle.get_left().X + short(offset),
+        item.item_rectangle.get_left().X + short(offset) + short(text_width / 2),
         item.item_rectangle.get_left().Y + short(offset)
         });
 
@@ -187,6 +187,9 @@ namespace console_handler
           if (current_selected_index < 0)
             current_selected_index = int(items_.size()) - abs(current_selected_index);
 
+          if (current_selected_index < 0 || current_selected_index >= int(items_.size()))
+            current_selected_index = 0;
+
           while (items_[current_selected_index].grid_item.disabled)
           {
             current_selected_index--;
@@ -200,6 +203,7 @@ namespace console_handler
 
           if (current_selected_index >= items_.size())
           {
+            // Undo
             current_selected_index -= boxes_per_row_;
             current_selected_index = current_selected_index % boxes_per_row_;
             while (items_[current_selected_index].grid_item.disabled)

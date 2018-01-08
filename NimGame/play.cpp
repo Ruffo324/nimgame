@@ -246,11 +246,11 @@ namespace sites
 
     // Change names
     new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { new_game(); }, "{#FFFFFF}New Game", "{_#66BB6A}",
-      "../Icons/Check.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+      "../Icons/Play.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 5));
 
-    // Continue
-    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { main::draw(); }, "{#FFFFFF}Main Menu", "{_#388E3C}",
-      "../Icons/Cancle.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 10));
+    // Main Menu
+    new_game_main_menu_items.push_back(console_handler::grid_item([](bool selected) { main::draw(); }, "{#FFFFFF}Main Menu", "{_#757575}",
+      "../Icons/Home.bmp", "{#FFFFFF}", ' ', "{_#03b7a5}", 5));
 
     // Draw question grid
     console_handler::dynamic_grid change_name_question =

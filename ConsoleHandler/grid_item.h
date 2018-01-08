@@ -33,14 +33,19 @@ namespace console_handler
 
     bool selected = false;
 
-    int length;
-    int width;
+    //TODO: Remove comments if comment is okay
+   // int length;
+    //int width;
     void run() const;
 
     CONSOLE_HANDLER_API grid_item(std::function<void(bool selected)> run_function_value, const std::string caption_value,
                                   const std::string item_background_value, const std::string icon_file_value,
                                   const std::string icon_foreground_color_code_value, const char border_char_value,
                                   const std::string border_color_code_value, const int border_size_value);
+
+    CONSOLE_HANDLER_API grid_item(std::function<void(bool selected)> run_function_value, const std::string caption_value,
+      const std::string item_background_value, const char border_char_value,
+      const std::string border_color_code_value, const int border_size_value);
   private:
     std::function<void(bool selected)> run_function;
   };

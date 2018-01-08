@@ -19,36 +19,61 @@ namespace console_handler
 
     // Calculate text width
     int text_width = 0;
-    if (item.grid_item.caption != "")
-    {
-      text_width = int(round((item_side_length_ - (offset * 2)) / (longest_caption_length_)));
 
-      // print text
+    // no icon setten -> text is icon
+    if (item.grid_item.icon_file != "")
+    {
+      if (item.grid_item.caption != "")
+      {
+        text_width = int(round((item_side_length_ - (offset * 2)) / (longest_caption_length_)));
+
+        // print text
+        console_utils::set_console_cursor_pos({
+          item.item_rectangle.get_left().X + short(item.grid_item.border_size * 2),
+          item.item_rectangle.get_right().Y - short(text_width + item.grid_item.border_size * 2)
+          });
+        ascii_block_list caption_blocks = ascii_block_list(item.grid_item.caption, text_width);
+        caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
+        caption_blocks.draw();
+      }
+
+      //print icon or text only as icon
       console_utils::set_console_cursor_pos({
-        item.item_rectangle.get_left().X + short(item.grid_item.border_size * 2),
-        item.item_rectangle.get_right().Y - short(text_width + item.grid_item.border_size * 2)
+        item.item_rectangle.get_left().X + short(offset),
+        item.item_rectangle.get_left().Y + short(offset)
         });
-      ascii_block_list caption_blocks = ascii_block_list(item.grid_item.caption, text_width);
-      caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
-      caption_blocks.draw();
+
+      const SIZE icon_size = {
+        item_side_length_ - ((offset * 2) + text_width * 2),
+        item_side_length_ - ((offset * 2) + text_width * 2)
+      };
+
+      // Icon is icon, if setten, else text
+      ascii_block icon_block = ascii_block(item.grid_item.icon_file, icon_size,
+        COLOR_STRUCT(item.grid_item.selected
+          ? item.grid_item.selected_icon_foreground_color_code
+          : item.grid_item.icon_foreground_color_code));
+      icon_block.add_padding(text_width);
+      icon_block.draw();
+    }
+    // Draw text in center of box
+    else
+    {
+      if (item.grid_item.caption != "")
+      {
+        text_width = item_side_length_ - (((offset * 2) + text_width * 2) / (longest_caption_length_) * 2);
+
+        // print text
+        console_utils::set_console_cursor_pos({
+          item.item_rectangle.get_left().X + short(item.grid_item.border_size * 2),
+          item.item_rectangle.get_right().Y - short((text_width) + item.grid_item.border_size * 2)
+          });
+        ascii_block_list caption_blocks = ascii_block_list(item.grid_item.caption, text_width);
+        //caption_blocks.center_block_list(true, item_side_length_ - offset * 2);
+        caption_blocks.draw();
+      }
     }
 
-    //print icon
-    console_utils::set_console_cursor_pos({
-      item.item_rectangle.get_left().X + short(offset),
-      item.item_rectangle.get_left().Y + short(offset)
-      });
-    const SIZE icon_size = {
-      item_side_length_ - ((offset * 2) + text_width * 2),
-      item_side_length_ - ((offset * 2) + text_width * 2)
-    };
-
-    ascii_block icon_block = ascii_block(item.grid_item.icon_file, icon_size,
-      COLOR_STRUCT(item.grid_item.selected
-        ? item.grid_item.selected_icon_foreground_color_code
-        : item.grid_item.icon_foreground_color_code));
-    icon_block.add_padding(text_width);
-    icon_block.draw();
   }
 
   void dynamic_grid::draw()
@@ -72,12 +97,14 @@ namespace console_handler
   SIZE dynamic_grid::get_full_size() const
   {
     const short x = (boxes_per_row_ * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
-    const short y = ((short(items_.size()) / boxes_per_row_)  * (item_side_length_ + margin_between_boxes_)) - margin_between_boxes_;
+    const short y = ((short(items_.size()) / boxes_per_row_) * (item_side_length_ + margin_between_boxes_)) -
+      margin_between_boxes_;
     return { x, y };
   }
 
   int dynamic_grid::select(const bool run_item_action, const bool space_forces_return,
-    const std::function<void()> optional_enter_action, const bool row_lock, const int start_index)
+    const std::function<void()> optional_enter_action, const bool row_lock,
+    const int start_index)
   {
     int current_selected_index = start_index;
     int last_selected_index = -1;
@@ -92,7 +119,7 @@ namespace console_handler
       if (space_forces_return && input == ' ' && current_selected_index != -1)
         break;
 
-      
+
       if (last_selected_index != current_selected_index)
       {
         // redraw last
@@ -100,8 +127,10 @@ namespace console_handler
         {
           const std::string original_background = items_[last_selected_index].grid_item.border_color_code;
           items_[last_selected_index].grid_item.border_color_code = items_[last_selected_index].grid_item.selected
-            ? items_[last_selected_index].grid_item.selected_color_background
-            : items_[last_selected_index].grid_item.item_background;
+            ? items_[last_selected_index].grid_item.
+            selected_color_background
+            : items_[last_selected_index].grid_item.
+            item_background;
           items_[last_selected_index].draw_border();
           items_[last_selected_index].grid_item.border_color_code = original_background;
         }
@@ -223,7 +252,8 @@ namespace console_handler
   }
 
   std::vector<int> dynamic_grid::mark_and_select(const bool row_lock, const int max_items,
-    const std::string select_color, const std::string selected_color_icon, const bool always_run_item_action)
+    const std::string select_color, const std::string selected_color_icon,
+    const bool always_run_item_action)
   {
     std::vector<int> selected_indexes;
     bool confirmed = false;
@@ -279,7 +309,6 @@ namespace console_handler
             break;
           }
       }
-
     } while (selected_indexes.size() == 0 || !confirmed && selected_indexes.size() < max_items);
 
     // unselect items
@@ -299,7 +328,8 @@ namespace console_handler
     auto_sized_grid_init();
   }
 
-  void dynamic_grid::disable_item(const int index, const std::string disabled_background_color, const std::string disabled_icon_color)
+  void dynamic_grid::disable_item(const int index, const std::string disabled_background_color,
+    const std::string disabled_icon_color)
   {
     items_[index].grid_item.disabled = true;
     items_[index].grid_item.icon_foreground_color_code = disabled_icon_color;
